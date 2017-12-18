@@ -15,4 +15,9 @@ export const incId = (id) => ({
   id: id + 1,
 })
 
+export const reloadTable= (table) => ({
+  type: 'RELOAD_TABLE',
+  table: table
+})
+
 export default addUser
