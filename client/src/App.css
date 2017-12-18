@@ -48,6 +48,24 @@
   animation: rotatein 0.5s linear;
 }
 
+.Connected{
+  display: flex;
+  flex-direction: column;
+}
+.board {
+  display: felx;
+  justify-content: center;
+}
+.board div{
+  width: 2em;
+  height: 2em;
+  border : solid 1px;
+}
+
+.boardFull{
+  display: flex;
+  flex-direction: row;
+}
 @keyframes rotatein {
   from {
     color: white;
