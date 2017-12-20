@@ -5,8 +5,10 @@ import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
 import AddUser from '../containers/AddUser'
 import UserList from '../containers/UserList'
-import {Connected} from './Connected'
+import Connected  from './Connected'
 // import { pushUser } from './actions/index';
+import { newPiece } from '../actions'
+
 
 function Center(props) {
   const isLoggedIn = props.state.users[0] ? 1 : null;
@@ -16,7 +18,17 @@ function Center(props) {
   return <Connected user={props.state.users[0].text}/>;
 }
 
-const App = (state, dispatch) => (
+const App = (state, dispatch) => {
+  if(!state.piece[0]){
+    state.dispatch(newPiece({
+    type: 0,
+    x: 4,
+    y: 0,
+    rotation: 0,
+    className: "color-blue"
+}));}
+  return (
+  
   <div className="App">
     {/* <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -28,7 +40,7 @@ const App = (state, dispatch) => (
       {/* <User actionKey={(value) => pushUser(value)} /> */}
     </div>
   </div>
-)
+)}
 
 /*
 class App extends Component {

@@ -5,8 +5,7 @@ function initialiseElem(elem) {
 }
 
 function isChock(e1, e2){
-    let elem1 = initialiseElem(e1);
-    let elem2 = initialiseElem(e2);
+    
 }
 
 function background(dom) {

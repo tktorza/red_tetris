@@ -53,7 +53,7 @@
   flex-direction: column;
 }
 .board {
-  display: felx;
+  /* display: felx; */
   justify-content: center;
 }
 .board div{
