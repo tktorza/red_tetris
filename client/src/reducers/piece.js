@@ -8,14 +8,6 @@ const piece = (state = [], action) => {
         return [
           action.piece
         ]
-      case 'TO_RIGHT':
-        return [
-          action.piece
-        ]
-      case 'TO_BOTTOM':
-        return [
-          action.piece
-        ]
       default:
         return state
     }
