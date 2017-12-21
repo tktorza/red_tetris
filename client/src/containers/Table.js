@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Column } from './Column'
-import { reloadTable } from '../actions'
-import { toLeft } from '../actions/index';
+import { reloadTable, reloadPiece } from '../actions'
 import { fromJS } from 'immutable'
 
 function initTable(state) {
@@ -66,28 +65,41 @@ function coordsObject(prev, nuevo) {
   function isOk(piece, table) {
     // table.cols[piece.y - 1].lines[piece.x];
     //carre
-    for (let i = piece.y; i < piece.y + 2; i++) {
+    for (let i = piece.x; i < piece.x + 2; i++) {
       if (table.cols[i].lines[piece.x - 1].className != "")
         return (-1);
     }
     return (1);
   }
   
+
+  function isOkRight(piece, table) {
+    // table.cols[piece.y - 1].lines[piece.x];
+    //carre
+    for (let i = piece.x; i < piece.x + 2; i++) {
+      if (table.cols[i].lines[piece.x + 1].className != "")
+        return (-1);
+    }
+    return (1);
+  }
+
   function pieceMove(table, piecePrev, pieceNew) {
       return new Promise((resolve, reject) => {
         let tableNew = table;
         takeCoords(piecePrev).then(response => {
           takeCoords(pieceNew).then(resNew => {
             let coords = coordsObject(response, resNew);
-            console.log("coords");
-            console.log(coords);
+            console.log("coords", coords);
+            console.log("prev table",tableNew);
             for (let i = 0;i < 4;i++){
-                if (coords.del["coord"+i])
-                    tableNew.cols[coords.del["coord"+i].y].lines[coords.del["coord"+i].x].className = pieceNew.className;
+                if (coords.del["coord"+i]){
+                    console.log("data del add", tableNew.cols[coords.del["coord"+i].x].lines[coords.del["coord"+i].y], coords.del["coord"+i], coords.add["coord"+i])
+                    tableNew.cols[coords.del["coord"+i].x].lines[coords.del["coord"+i].y].className = '';
+                }
                 if (coords.add["coord"+i])
-                    tableNew.cols[coords.add["coord"+i].y].lines[coords.add["coord"+i].x].className = '';
+                    tableNew.cols[coords.add["coord"+i].x].lines[coords.add["coord"+i].y].className = pieceNew.className;
             }
-            console.log(tableNew);
+            console.log("tableNew",tableNew);
             resolve(tableNew);
           })
         });
@@ -107,21 +119,57 @@ function coordsObject(prev, nuevo) {
     if (state.piece[0].x > 0 && isOk(state.piece[0], state.table[0])) {
       piece.x = state.piece[0].x - 1;
       pieceMove(state.table[0], state.piece[0], piece).then(table => {
-        state.dispatch(toLeft(piece, table));
+        state.dispatch(reloadPiece(piece));
+        state.dispatch(reloadTable(table));
+      });
+    }
+  }
+
+  function pushToRight(state) {
+    let piece = {};
+    piece.x = state.piece[0].x + 1;
+    piece.y = state.piece[0].y;
+    piece.className = state.piece[0].className;
+    piece.type = state.piece[0].type;
+    piece.rotation = state.piece[0].rotation;
+    let table = state.table[0];
+    console.log("PIECE.XXXX", state.piece[0].x, piece);
+    if (state.piece[0].x + 2 < 10 && isOkRight(state.piece[0], state.table[0])) {
+    //   piece.x = state.piece[0].x + 1;
+      pieceMove(state.table[0], state.piece[0], piece).then(table => {
+        state.dispatch(reloadPiece(piece));
+        state.dispatch(reloadTable(table));
+      });
+    }
+  }
+
+  function pushToBottom(state) {
+    let piece = {};
+    piece.x = state.piece[0].x;
+    piece.y = state.piece[0].y + 1;
+    piece.className = state.piece[0].className;
+    piece.type = state.piece[0].type;
+    piece.rotation = state.piece[0].rotation;
+    let table = state.table[0];
+    console.log("PIECE.XXXX", state.piece[0].x, piece);
+    if (state.piece[0].y + 2 < 20 /*&& isOkDown(state.piece[0], state.table[0])*/) {
+      pieceMove(state.table[0], state.piece[0], piece).then(table => {
+        state.dispatch(reloadPiece(piece));
+        state.dispatch(reloadTable(table));
       });
     }
   }
 
 const KeyDown = (state, dispatch, evt) => {
     if (evt.keyCode == 40){
-      // state.dispatch(toBottom(state));
+        pushToBottom(state);
     }else if (evt.keyCode == 38){
       // toTop
     }else if (evt.keyCode == 37){
         pushToLeft(state);
     //   state.dispatch(toLeft(state));
     }else if (evt.keyCode == 39){
-      // toRight
+        pushToRight(state);
     }
   }
 
