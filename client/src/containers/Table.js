@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Column } from './Column'
 import { reloadTable, reloadPiece } from '../actions'
 import { fromJS } from 'immutable'
+import AddUser from './AddUser';
 
 function initTable(state) {
     let table = {};
@@ -62,28 +63,72 @@ function coordsObject(prev, nuevo) {
    })
   }
   
-  function isOk(piece, table) {
+  function giveCoords(piece){
+    return new Promise((resolve, reject) => {
+        let p = {};
+        /*switch (piece.type){
+            case 'carre':
+                p[0] = {x: piece.x, y: piece.y};
+                p[1] = {x: piece.x + 1, y: piece.y};
+                p[2] = {x: piece.x, y: piece.y+1};
+                p[3] = {x: piece.x+1, y: piece.y+1};
+                resolve(p);
+                break;
+            case 'L':
+                p[0] = {x: piece.x, y: piece.y};
+                p[1] = {x: piece.x , y: piece.y + 1};
+                p[2] = {x: piece.x, y: piece.y+2};
+                p[3] = {x: piece.x+1, y: piece.y+2};
+                resolve(p);
+                break;
+            default:
+                resolve(null);
+                break;
+        }*/
+        if (piece.type == 'carre'){
+            p[0] = {x: piece.x, y: piece.y};
+            p[1] = {x: piece.x + 1, y: piece.y};
+            p[2] = {x: piece.x, y: piece.y+1};
+            p[3] = {x: piece.x+1, y: piece.y+1};
+             resolve(p);
+        }else if (piece.type){
+            resolve(null)
+        }
+    })
+  }
+
+  function notInThisPiece(piece, coords){
+    for (let i= 0;i < 4;i++){
+        if (piece[i].x == coords.x && piece[i].y == coords.y)
+            return -1;
+    }
+    return 1;
+  }
+
+  function isOk(piecePrev, piece, table) {
     // table.cols[piece.y - 1].lines[piece.x];
     //carre
-    for (let i = piece.x; i < piece.x + 2; i++) {
-      if (table.cols[i].lines[piece.x - 1].className != "")
-        return (-1);
-    }
-    return (1);
+    return new Promise((resolve, reject) => {
+        giveCoords(piecePrev).then(prev => {
+            if (prev){
+                giveCoords(piece).then(p => {
+                    if (p){
+                        console.log(p);
+                        for (let i= 0;i < 4;i++){
+                            if (notInThisPiece(prev, p[i]) == 1 && table.cols[p[i].x].lines[p[i].y].className != ""){
+                                    resolve(-1);
+                            }
+                        }
+                        resolve(1);
+                    }
+                    resolve(-1);
+                });
+            }
+        });
+    });
   }
-  
 
-  function isOkRight(piece, table) {
-    // table.cols[piece.y - 1].lines[piece.x];
-    //carre
-    for (let i = piece.x; i < piece.x + 2; i++) {
-      if (table.cols[i].lines[piece.x + 1].className != "")
-        return (-1);
-    }
-    return (1);
-  }
-
-  function pieceMove(table, piecePrev, pieceNew) {
+function pieceMove(table, piecePrev, pieceNew) {
       return new Promise((resolve, reject) => {
         let tableNew = table;
         takeCoords(piecePrev).then(response => {
@@ -110,18 +155,21 @@ function coordsObject(prev, nuevo) {
   
   function pushToLeft(state){
     let piece = {};
-    piece.x = state.piece[0].x + 1;
+    piece.x = state.piece[0].x - 1;
     piece.y = state.piece[0].y;
     piece.className = state.piece[0].className;
     piece.type = state.piece[0].type;
     piece.rotation = state.piece[0].rotation;
     let table = state.table[0];
-    if (state.piece[0].x > 0 && isOk(state.piece[0], state.table[0])) {
-      piece.x = state.piece[0].x - 1;
-      pieceMove(state.table[0], state.piece[0], piece).then(table => {
-        state.dispatch(reloadPiece(piece));
-        state.dispatch(reloadTable(table));
-      });
+    if (state.piece[0].x > 0){
+        isOk(state.piece[0], piece, state.table[0]).then(p => {
+            if (p == 1){
+                pieceMove(state.table[0], state.piece[0], piece).then(table => {
+                    state.dispatch(reloadPiece(piece));
+                    state.dispatch(reloadTable(table));      
+                });
+            }
+        })
     }
   }
 
@@ -133,13 +181,15 @@ function coordsObject(prev, nuevo) {
     piece.type = state.piece[0].type;
     piece.rotation = state.piece[0].rotation;
     let table = state.table[0];
-    console.log("PIECE.XXXX", state.piece[0].x, piece);
-    if (state.piece[0].x + 2 < 10 && isOkRight(state.piece[0], state.table[0])) {
-    //   piece.x = state.piece[0].x + 1;
-      pieceMove(state.table[0], state.piece[0], piece).then(table => {
-        state.dispatch(reloadPiece(piece));
-        state.dispatch(reloadTable(table));
-      });
+    if (state.piece[0].x + 2 < 10) {
+        isOk(state.piece[0], piece, state.table[0]).then(p => {
+            if (p == 1){
+                pieceMove(state.table[0], state.piece[0], piece).then(table => {
+                    state.dispatch(reloadPiece(piece));
+                    state.dispatch(reloadTable(table));      
+                });
+            }
+        });
     }
   }
 
@@ -151,12 +201,15 @@ function coordsObject(prev, nuevo) {
     piece.type = state.piece[0].type;
     piece.rotation = state.piece[0].rotation;
     let table = state.table[0];
-    console.log("PIECE.XXXX", state.piece[0].x, piece);
-    if (state.piece[0].y + 2 < 20 /*&& isOkDown(state.piece[0], state.table[0])*/) {
-      pieceMove(state.table[0], state.piece[0], piece).then(table => {
-        state.dispatch(reloadPiece(piece));
-        state.dispatch(reloadTable(table));
-      });
+    if (state.piece[0].y + 2 < 20) {
+        isOk(state.piece[0], piece, state.table[0]).then(p => {
+            if (p == 1){
+                pieceMove(state.table[0], state.piece[0], piece).then(table => {
+                    state.dispatch(reloadPiece(piece));
+                    state.dispatch(reloadTable(table));      
+                });
+            }
+        })
     }
   }
 

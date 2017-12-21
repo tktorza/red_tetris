@@ -21,7 +21,7 @@ function Center(props) {
 const App = (state, dispatch) => {
   if(!state.piece[0]){
     state.dispatch(newPiece({
-    type: 0,
+    type: 'carre',
     x: 4,
     y: 0,
     rotation: 0,
