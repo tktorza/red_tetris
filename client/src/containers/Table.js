@@ -91,10 +91,73 @@ function coordsObject(prev, nuevo) {
             p[2] = {x: piece.x, y: piece.y+1};
             p[3] = {x: piece.x+1, y: piece.y+1};
              resolve(p);
-        }else if (piece.type){
+        }else if (piece.type == 'L'){
+            p[0] = {x: piece.x, y: piece.y};
+            p[1] = {x: piece.x, y: piece.y - 1};
+            p[2] = {x: piece.x, y: piece.y - 2};
+            p[3] = {x: piece.x + 1, y: piece.y};
+             resolve(p);
+            }
+        else if (piece.type){
             resolve(null)
         }
     })
+  }
+
+  function whichPosition(coords, piece){
+    switch (coords) {
+        case {x: piece.x, y: piece.y + 1}:
+            return 'bottom';
+        case {x: piece.x, y: piece.y - 1}: 
+            return 'top';
+        case {x: piece.x + 1, y: piece.y}: 
+            return 'right';
+        case {x: piece.x - 1, y: piece.y}: 
+            return 'left';
+        case {x: piece.x - 1, y: piece.y + 1}: 
+            return 'BL';
+        case {x: piece.x + 1, y: piece.y + 1}: 
+            return 'BR';
+        case {x: piece.x + 1, y: piece.y - 1}: 
+            return 'TR';
+        case {x: piece.x - 1, y: piece.y - 1}: 
+            return 'TL';
+        default: 
+            return '';
+    }
+  }
+
+  function makeRotation (piece) {
+    //return de coords...
+    return new Promise((resolve, reject) => {
+        giveCoords(piece).then(coords => {
+            piece.x, piece.y
+            let newPiece = {};
+            for (let i = 0;i < 4;i++){
+                switch (whichPosition(coords[i], piece)) {
+                    case 'bottom':
+                        newPiece[i] = {x: piece.x + 1, y: piece.y + 1};
+                    case 'top': 
+                        newPiece[i] = {x: piece.x - 1, y: piece.y - 1};
+                    case 'right': 
+                        newPiece[i] = {x: piece.x + 1, y: piece.y - 1};
+                    case 'left': 
+                        newPiece[i] = {x: piece.x - 1, y: piece.y + 1};
+                    case 'BL': 
+                        newPiece[i] = {x: piece.x + 2, y: piece.y};
+                    case 'BR': 
+                        newPiece[i] = {x: piece.x, y: piece.y + 2};
+                    case 'TR': 
+                        newPiece[i] = {x: piece.x - 2, y: piece.y};
+                    case 'TL': 
+                        newPiece[i] = {x: piece.x, y: piece.y - 2};
+                    default: 
+                        newPiece[i] = {x: piece.x, y: piece.y};
+                }
+            }
+            resolve(newPiece);
+        });
+    });
   }
 
   function notInThisPiece(piece, coords){
