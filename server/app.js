@@ -11,8 +11,8 @@ app.use(express.static('public'));
 
 
 io.on('connection', (socket) => {
-	console.log("la")
-	console.log(socket.id)
+	// console.log("la")
+	// console.log(socket.id)
 	socket.on('test', (la) => {
 		socket.emit('ok', la)
 	})

@@ -8,6 +8,7 @@ import UserList from '../containers/UserList'
 import Connected  from './Connected'
 // import { pushUser } from './actions/index';
 import { newPiece } from '../actions'
+import { giveCoords } from './Coords'
 
 
 function Center(props) {
@@ -20,13 +21,19 @@ function Center(props) {
 
 const App = (state, dispatch) => {
   if(!state.piece[0]){
-    state.dispatch(newPiece({
-    type: 'L',
-    x: 4,
-    y: 2,
-    rotation: 0,
-    className: "color-blue"
-}));}
+    let piece = {
+      type: 'L',
+      x: 4,
+      y: 2,
+      rotation: 0,
+      className: "color-blue"
+  }
+    giveCoords(piece).then(p => {
+      piece.coords = p;
+      console.log(piece);
+      state.dispatch(newPiece(piece));
+    }); 
+  }
   return (
   
   <div className="App">

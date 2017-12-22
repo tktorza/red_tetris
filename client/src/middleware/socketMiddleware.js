@@ -4,11 +4,11 @@ import socket from 'socket.io-client'
 const io = socket('http://localhost:9000')
 
 const socketMiddleware = ({dispatch, getState}) => {
-	console.log("la")
+	// console.log("la")
 	return next => action => {
-		console.log("iokokokok ")
-		console.log(action)
-		console.log(getState)
+		// console.log("iokokokok ")
+		// console.log(action)
+		// console.log(getState)
 		switch(action.type){
 			case 'ADD_USER' :
 				io.emit('test', action)
