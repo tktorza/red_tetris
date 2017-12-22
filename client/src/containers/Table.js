@@ -28,27 +28,28 @@ function initTable(state) {
         });
 }
 
+
 function coordsObject(prev, nuevo) {
     let coords = [];
-    console.log(prev);
+    // console.log(prev);
     coords.del = prev;
     coords.add = nuevo;
-    console.log("coordsObject", coords);
+    // console.log("coordsObject", coords);
     
     for (let i = 0; i < 4; i++) {
       for (let y = 0; y < 4; y++) {
-          console.log("boucle::: ", prev.i, nuevo.y);
-        if (prev["coord"+i] && nuevo["coord"+y] 
-            && (prev["coord"+i].x == nuevo["coord"+y].x && prev["coord"+i].y == nuevo["coord"+y].y)) {
-          console.log(prev["coord"+i].x, prev["coord"+i].y, " == ", nuevo["coord"+y].x, nuevo["coord"+y].y);
+        //   console.log("boucle::: ", prev.i, nuevo.y);
+        if (prev[i] && nuevo[y] 
+            && (prev[i].x == nuevo[y].x && prev[i].y == nuevo[y].y)) {
+        //   console.log(prev[i].x, prev[i].y, " == ", nuevo[y].x, nuevo[y].y);
           
-                coords.del["coord"+i] = null;
-          coords.add["coord"+y] = null;
-          console.log("if");
+          coords.del[i] = null;
+          coords.add[y] = null;
+        //   console.log("if");
         }
       }
     }
-    console.log("final: ", coords);
+    // console.log("final: ", coords);
     //add --> to delete | del --> to add
     return coords;
   }
@@ -57,13 +58,13 @@ function coordsObject(prev, nuevo) {
     return new Promise((resolve, reject) => {
         let incx = piece.x + 1;
         let incy = piece.y + 1;
-      let tab ={
-        coord0:{x: piece.x, y:piece.y},
-        coord1:{x: piece.x + 1, y:piece.y},
-        coord2:{x:piece.x, y:piece.y + 1},
-        coord3:{x:piece.x + 1, y:piece.y + 1}
-    };
-    console.log("EXACT:::::", piece, tab);
+      let tab = [
+        {x: piece.x, y: piece.y},
+        {x: piece.x + 1, y: piece.y},
+        {x:piece.x, y: piece.y + 1},
+        {x:piece.x + 1, y: piece.y + 1}
+    ];
+    console.log("take coords", tab);
         resolve(tab);
    })
   }
@@ -181,7 +182,7 @@ function coordsObject(prev, nuevo) {
             if (prev){
                 giveCoords(piece).then(p => {
                     if (p){
-                        console.log(p);
+                        // console.log(p);
                         for (let i= 0;i < 4;i++){
                             if (notInThisPiece(prev, p[i]) == 1 && table.cols[p[i].x].lines[p[i].y].className != ""){
                                     resolve(-1);
@@ -201,13 +202,14 @@ function pieceMove(table, piecePrev, pieceNew) {
         let tableNew = table;
         takeCoords(piecePrev).then(response => {
           takeCoords(pieceNew).then(resNew => {
+              console.log("coords prev, new, coords", response, resNew);
             let coords = coordsObject(response, resNew);
             console.log("coords prev, new, coords", response, resNew, coords);
             for (let i = 0;i < 4;i++){
-                if (coords.del["coord"+i])
-                    tableNew.cols[coords.del["coord"+i].x].lines[coords.del["coord"+i].y].className = '';
-                if (coords.add["coord"+i])
-                    tableNew.cols[coords.add["coord"+i].x].lines[coords.add["coord"+i].y].className = pieceNew.className;
+                if (coords[0][i])
+                    tableNew.cols[coords[0][i].x].lines[coords[0][i].y].className = '';
+                if (coords[1][i])
+                    tableNew.cols[coords[1][i].x].lines[coords[1][i].y].className = pieceNew.className;
             }
             console.log("tableNew",tableNew);
             resolve(tableNew);
