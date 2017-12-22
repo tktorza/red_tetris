@@ -8,19 +8,24 @@ import AddUser from './AddUser';
 
 function initTable(state) {
     let table = {};
+    let className = '';
     table.cols = [];
-    for (let x = 0; x < 10; x++) {
-        table.cols[x] = { lines: [], key: x };
-        for (let y = 0; y < 20; y++) {
-            if ( (y == state.piece[0].y && (x == state.piece[0].x + 1 || x == state.piece[0].x) ) || (y == state.piece[0].y + 1 && (x == state.piece[0].x + 1 || x == state.piece[0].x) ) ) {
-                table.cols[x].lines[y] = { className: "color-blue", key: y };
-            } else {
-                table.cols[x].lines[y] = { className: "", key: y };
+        giveCoords(state.piece[0]).then(p => {
+            for (let x = 0; x < 10; x++) {
+                table.cols[x] = { lines: [], key: x };
+                for (let y = 0; y < 20; y++) {
+                    for (let i=0;i<4;i++){
+                        if (p[i].x == x && p[i].y == y){
+                            className = "color-blue";
+                        }
+                    }
+                        table.cols[x].lines[y] = { className: className, key: y };
+                        className = "";
+                }
             }
-        }
-    }
-    state.dispatch(reloadTable(table));
-    return table;
+            state.dispatch(reloadTable(table));
+            return (table);
+        });
 }
 
 function coordsObject(prev, nuevo) {
@@ -54,11 +59,11 @@ function coordsObject(prev, nuevo) {
         let incy = piece.y + 1;
       let tab ={
         coord0:{x: piece.x, y:piece.y},
-        coord1:{x: incx, y:piece.y},
-        coord2:{x:piece.x, y:incy},
-        coord3:{x:incx, y:incy}
+        coord1:{x: piece.x + 1, y:piece.y},
+        coord2:{x:piece.x, y:piece.y + 1},
+        coord3:{x:piece.x + 1, y:piece.y + 1}
     };
-    console.log("EXACT:::::", tab);
+    console.log("EXACT:::::", piece, tab);
         resolve(tab);
    })
   }
@@ -197,13 +202,10 @@ function pieceMove(table, piecePrev, pieceNew) {
         takeCoords(piecePrev).then(response => {
           takeCoords(pieceNew).then(resNew => {
             let coords = coordsObject(response, resNew);
-            console.log("coords", coords);
-            console.log("prev table",tableNew);
+            console.log("coords prev, new, coords", response, resNew, coords);
             for (let i = 0;i < 4;i++){
-                if (coords.del["coord"+i]){
-                    console.log("data del add", tableNew.cols[coords.del["coord"+i].x].lines[coords.del["coord"+i].y], coords.del["coord"+i], coords.add["coord"+i])
+                if (coords.del["coord"+i])
                     tableNew.cols[coords.del["coord"+i].x].lines[coords.del["coord"+i].y].className = '';
-                }
                 if (coords.add["coord"+i])
                     tableNew.cols[coords.add["coord"+i].x].lines[coords.add["coord"+i].y].className = pieceNew.className;
             }

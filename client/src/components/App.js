@@ -21,9 +21,9 @@ function Center(props) {
 const App = (state, dispatch) => {
   if(!state.piece[0]){
     state.dispatch(newPiece({
-    type: 'carre',
+    type: 'L',
     x: 4,
-    y: 0,
+    y: 2,
     rotation: 0,
     className: "color-blue"
 }));}
