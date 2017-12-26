@@ -24,7 +24,7 @@ const App = (state, dispatch) => {
     let piece = {
       type: 'L',
       x: 4,
-      y: 2,
+      y: 1,
       rotation: 0,
       className: "color-blue"
   }
