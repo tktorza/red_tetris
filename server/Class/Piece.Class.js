@@ -20,7 +20,7 @@ const type = [
 	},
 	{
 		type : 3,
-		cord : [
+		coord : [
 					{ x : 4, y : 0 },
 					{ x : 4, y : 1 },
 					{ x : 4, y : 2 },
@@ -65,14 +65,15 @@ const type = [
 	}
 ]
 
-class Piece {
+
+module.exports = class Piece {
 	constructor (){
 		// this.piece = type[1]
-		this.piece = type[Math.floor(Math.random() * 7)]
+		this.piece = type[Math.floor(Math.random() * 6)]
 		this.calculeRotate(Math.floor(Math.random() * 3)) 
 	}
 
-	get getPiece (){
+	get Piece (){
 		return this.piece
 	}
 
@@ -97,10 +98,10 @@ class Piece {
 	async moveLeft(){
 		let j = 0
 		for (let i = 0; i < this.piece.coord.lenght; i++){
-			if (this.piece.coord[i].x - 1 < 0)
+			if (this.piece.coord[i].x - 1 < 0){
 				j = 1
 				break;
-			else{
+			}else{
 				this.piece.coord[i].x -= 1
 			}
 		}
@@ -110,9 +111,10 @@ class Piece {
 	async moveRight(){
 		let j = 0
 		for (let i = 0; i < this.piece.coord.lenght; i++){
-			if (this.piece.coord[i].x + 1 > 9)
+			if (this.piece.coord[i].x + 1 > 9){
 				j = 1
 				break;
+			}
 			else{
 				this.piece.coord[i].x += 1
 			}
@@ -123,10 +125,10 @@ class Piece {
 	async moveDown(){
 		let j = 0
 		for (let i = 0; i < this.piece.coord.lenght; i++){
-			if (this.piece.coord[i].y + 1 > 19)
+			if (this.piece.coord[i].y + 1 > 19){
 				j = 1
 				break;
-			else{
+			}else{
 				this.piece.coord[i].y += 1
 			}
 		}
@@ -134,7 +136,6 @@ class Piece {
 	}
 }
 
-const test = new Piece()
-console.log(test.getPiece)
-exports.default = Piece
+// const test = new Piece()
+// console.log(test.Piece)
 
