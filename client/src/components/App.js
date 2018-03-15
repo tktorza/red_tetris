@@ -19,6 +19,37 @@ function Center(props) {
   return <Connected user={props.state.users[0].text}/>;
 }
 
+const Display = ({ count }) => (
+  <div>
+    { count }
+  </div>
+)
+
+const Inc = ({ onClick, state = 0 }) => {
+  setTimeout(() => onClick( state + 1 ), 1500)
+  return (null)
+}
+
+class Store extends Component {
+  state = {}
+
+  handleClick = count => {
+    this.setState({ count })
+  }
+
+  render(){
+    const { count } = this.state
+    console.log('count:', count)
+
+    return (
+      <div>
+        <Inc onClick={ this.handleClick } state={ count }/>
+        <Display count={ count } />
+      </div>
+    )
+  }
+}
+
 const App = (state, dispatch) => {
   if(!state.piece[0]){
     let piece = {
@@ -42,6 +73,7 @@ const App = (state, dispatch) => {
       <h1 className="App-title">Welcome to React</h1>
     </header> */}
     <div className="App-center">
+    {/* <Store /> */}
     <Center state={state} />
     {/* <UserList /> */}
       {/* <User actionKey={(value) => pushUser(value)} /> */}
