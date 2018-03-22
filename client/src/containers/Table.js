@@ -2,10 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Column } from './Column'
-import { reloadTable, reloadPiece, movePieceFDP } from '../actions'
+import { reloadTable, reloadPiece, movePieceFDP,henri } from '../actions'
 import { fromJS } from 'immutable'
+// import {createReactClass} from 'create-react-class' 
+import functional from 'react-functional'
 import AddUser from './AddUser';
 import { coordsObject, giveCoords, makeRotation, notInThisPiece, isOk, pieceMove } from '../components/Coords'
+// import { timeOutSolutionConnected} from "./TimeOutSolution";
 
 function initTable(state) {
     let table = {};
@@ -24,14 +27,13 @@ function initTable(state) {
         }
     }
     state.dispatch(reloadTable(table));
-    
     return (table);
 }
 
-function pushPieceToTable(piece, state){
+export function pushPieceToTable(piece, state){
     let ok = 1;
     giveCoords(piece).then(c => {
-        console.log(piece);
+        // console.log("pushPieceToTable", piece);
         
         for (let i = 0; i < 4; i++) {
             if (c[i] && c[i].x >= 0 && c[i].x < 10 && c[i].y >= 0 && c[i].y < 20)
@@ -40,11 +42,15 @@ function pushPieceToTable(piece, state){
                 ok = 0;
         }
         if (ok == 1) {
+        // console.log("pushPieceToTable--->2", state.table[0], state.piece[0], c);
+     console.log('DIFFFFFFF--->', state.piece[0], piece)
             pieceMove(state.table[0], state.piece[0], c).then(table => {
-
+                console.log("TABLEEEEEEEEE---->", c)
                 if (table != null) {
-                    state.dispatch(reloadPiece(piece));
-                    state.dispatch(reloadTable(table));
+        console.log("pushPieceToTable--->3", piece);
+        
+                    state.dispatch(reloadPiece(piece, table));
+                    // state.dispatch(reloadTable(table));
                 }
             });
         }
@@ -52,11 +58,10 @@ function pushPieceToTable(piece, state){
 }
 
 let i = 0;
-let oki = 0;
-
 function keyDownDown(state){
-    console.log('keyDonwDown', state)
+    console.log('keyDownDown', state)
     if (state && state.table && state.table[0]){
+        console.log('guten tag')
         let piece = {};
         piece.x = state.piece[0].x;
         piece.y = state.piece[0].y;
@@ -69,13 +74,20 @@ function keyDownDown(state){
     }
 }
 
+// cons/*t timeOutSolut*/ ionConnected = (state) => {
+//     console.log('ENTERRRRRRRRRRRRRR');
+//     keyDownDown(state);
+// }
+
+// const timeOutSolutionConnected = connect(ma/*pStateToProps)*/ (timeOutSolutionConnected);
+
+
 const IntervalDown = ({evt, state}) => {
-    console.log("IntervalDown -->", state);
+    console.log("IntervalDown -->");
     setTimeout(evt, 1000)
     return (null)
 }
 
-// const IntervalDownConnected = connect(mapStateToProps)(IntervalDown)
 
 const KeyDown = (state, dispatch, evt) => {
     let typeTable = ['carre', 'L', 'ReverseL', 'Line', 'ReverseZ', 'Z', 'T'];
@@ -86,21 +98,11 @@ const KeyDown = (state, dispatch, evt) => {
     piece.type = state.piece[0].type;
     piece.rotation = state.piece[0].rotation;
     piece.coords = [];
-    // console.log(evt.keyCode);
-    // if (evt.keyCode == 83 && oki == 0){
-    //     setInterval(() => {
-    //         console.log('Hi kiss');
-    //         IntervalDownConnected()
-    //     }, 1000);
-    //     oki = 1;
-    // }
     if (evt.keyCode == 80){
         piece.type = typeTable[i++ % 7];
         pushPieceToTable(piece, state);
     }
     if (evt.keyCode == 40) {
-        // goDown(state, dispatch);
-
         piece.y = state.piece[0].y + 1;
         pushPieceToTable(piece, state);
     } else if (evt.keyCode == 38) {
@@ -114,46 +116,48 @@ const KeyDown = (state, dispatch, evt) => {
         pushPieceToTable(piece, state);
     }
 }
-const Table = (state, dispatch) => {
 
+const timeOutSolution = (state, dispatch) => {
+    console.log('ENTERRRRRRRRRRRRRR');
+    keyDownDown(state);
+    return(null)
+}
+
+const timeOutSolutionConnected = connect(mapStateToProps, mapDispatchToProps)(timeOutSolution)
+
+const Table = (state, dispatch) => {
     console.log('update Table component')
     
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         KeyDown(state, dispatch, evt);
     }
-
-    let table = {};
     if (!state.table[0])
-        table = initTable(state);
-    else {
-        table = state.table[0];
-    }
-    // let i = 0;
+        initTable(state);
     return (
         <div className="boardFull">
-   
-        <IntervalDown evt={ () => keyDownDown(state) } state={state}/>
-            {table ? table.cols.map((col, key) => {
-            //   if (i == 0){
-            //     setTimeout(()=>{
-            //         if (!state.table[0])
-            //             keyDownDown(state);
-            //         }, 1000);
-            //         i = 1;
-            //   }  
+        {/* <IntervalDown evt={()=> {}}state={state}/> */}
+            {state.table[0] ? state.table[0].cols.map((col, key) => {
                 return (<Column key={key} col={col} />)
             }) : 0}
         </div>
     )
-    
 }
-let start = false
-const mapStateToProps = (state) => {
-    console.log('STAET +>',state)
-    if(state.piece && !start) {
 
-    }
+Table.componentWillMount = (state) => {
+    if (!state.table[0])
+        initTable(state);
+}
+
+Table.componentDidMount = (props) => {
+    // console.log("HELOOOOOOOOOOOO, ", props);
+    // setInterval(() => {
+    //     console.log('PIECEEEEEE', props.piece);
+    //    props.dispatch(henri(props.piece[0], props.table[0]))
+    //  }, 1000);
+}
+
+const mapStateToProps = (state) => {
     return state
 }
 
@@ -161,4 +165,4 @@ const mapDispatchToProps = (dispatch) => {
     return { dispatch }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Table)
+export default connect(mapStateToProps, mapDispatchToProps)(functional(Table))

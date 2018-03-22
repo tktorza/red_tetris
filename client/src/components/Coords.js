@@ -34,6 +34,7 @@ export function giveCoords(piece) {
 			p[3] = { x: piece.x + 1, y: piece.y + 1 };
 			resolve(p);
 		} else if (piece.type === 'L') {
+			// console.log('PIECE TYPE L')			
 			p[0] = { x: piece.x, y: piece.y };
 			p[1] = { x: piece.x, y: piece.y - 1 };
 			p[2] = { x: piece.x, y: piece.y + 1 };
@@ -86,6 +87,7 @@ export function giveCoords(piece) {
 			});
 		}
 		else if (piece.type) {
+			// console.log('PIECE TYPE ERROR')
 			resolve(null)
 		}
 	})
@@ -158,29 +160,33 @@ export function isOk(toAdd, table) {
 			for (let i = 0; i < 4; i++) {
 				if (toAdd[i] != null){
 					if (toAdd[i].x < 0 || toAdd[i].x > 9 || toAdd[i].y < 0 || toAdd[i].y > 19){
-						resolve(-1);
+						resolve(-2);
 					}else if (table.cols[toAdd[i].x].lines[toAdd[i].y].className !== ""){
-						resolve(-1);
+						console.log('ISOKKOKOKOKOKOKOKOK%#$^$#^#$^#$^$#^#$^#$------->', table.cols[toAdd[i].x].lines[toAdd[i].y].className);
+						resolve(-3);
 					}
 				}
 			}
 			resolve(1);
 		}
-		resolve(-1);
+		resolve(-4);
 	});
 }
 
 export function pieceMove(table, piecePrev, pieceNew) {
 	return new Promise((resolve, reject) => {
 		let tableNew = Object.assign({}, table);
+		// console.log("Piece Moved --->", tableNew);
 		// console.log("piecessssssss:", pieceNew, piecePrev)
 		// console.log(piecePrev.coords, pieceNew);
 		coordsObject(piecePrev.coords, pieceNew).then(coords => {
 			// console.log("ENDDD:::", coords);
 			isOk(coords[1], table).then(ok => {
-				if (ok == -1) {
+				if (ok != 1) {
+					console.log("okkkkkkkkk---->", ok)
 					resolve(null);
 				} else {
+					console.log('isOKRESSORTISSANT---------------------->', coords);
 					for (let i = 0; i < 4; i++) {
 						if (coords[0][i])
 							tableNew.cols[coords[0][i].x].lines[coords[0][i].y].className = '';
@@ -188,6 +194,8 @@ export function pieceMove(table, piecePrev, pieceNew) {
 							tableNew.cols[coords[1][i].x].lines[coords[1][i].y].className = piecePrev.className;
 					}
 					// console.log("tableNew",tableNew);
+		// console.log("Piece Moved --->", tableNew);
+		
 					resolve(tableNew);
 				}
 
