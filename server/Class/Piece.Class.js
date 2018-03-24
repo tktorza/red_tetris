@@ -70,15 +70,15 @@ module.exports = class Piece {
 	constructor (){
 		// this.piece = type[1]
 		this.piece = type[Math.floor(Math.random() * 6)]
-		this.calculeRotate(Math.floor(Math.random() * 3)) 
+		//this.calculeRotate(Math.floor(Math.random() * 3)) 
 	}
 
 	get Piece (){
 		return this.piece
 	}
 
-	calculeRotate(nb){
-		for (let j = 0; j <= nb; j++){
+	calculeRotate(){
+		// for (let j = 0; j <= nb; j++){
 			if (this.piece.type != 1){
 				for (let i = 0; i < this.piece.coord.length; i++){
 					if (i != 1){
@@ -90,9 +90,7 @@ module.exports = class Piece {
 		 				this.piece.coord[i].y = Y
 		 			}	
 				}
-			}
 		}
-	
 	}
 
 	async moveLeft(){
@@ -122,9 +120,10 @@ module.exports = class Piece {
 		return j
 	}
 
-	async moveDown(){
+	moveDown(){
 		let j = 0
-		for (let i = 0; i < this.piece.coord.lenght; i++){
+		console.log("A :", this.piece.coord[0])
+		for (let i = 0; i < this.piece.coord.length; i++){
 			if (this.piece.coord[i].y + 1 > 19){
 				j = 1
 				break;
@@ -132,6 +131,7 @@ module.exports = class Piece {
 				this.piece.coord[i].y += 1
 			}
 		}
+		console.log("B = ", this.piece.coord[0])
 		return j
 	}
 }

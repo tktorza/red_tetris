@@ -1,13 +1,15 @@
 const Game = require('./Game.Class')
 
 module.exports = class Player {
-	constructor(id, socket){
-		this.player = {id : [], currentPiece : {}, nextPiece : [], socketId : ""}
-		this.player.id = id
-		this.player.socketId = socket
+	constructor(id, socket, isVisit){
+		this.player = {id : id, currentPiece : {}, nextPiece : [], socketId : socket}
+		this.player.isVisit = isVisit
 		// this.player.nextPiece = 
 		// this.Player.id = GetNewPlayerId()
 	}
+	// get player(){
+	// 	return this.player
+	// }
 	addPiece (tab){
 		let i = 0
 		tab.forEach(item => {
@@ -18,5 +20,15 @@ module.exports = class Player {
 				this.player.nextPiece.push(item)
 			}
 		})
+		this.goDown()
+	}
+	goDown (){
+		console.log(this.player.currentPiece.piece.coord[0])
+		let result = this.player.currentPiece.moveDown()
+		console.log(this.player.currentPiece.piece.coord[0])
+		// console.log(result)
+	}
+	reloadPiece (tab){
+
 	}
 }
