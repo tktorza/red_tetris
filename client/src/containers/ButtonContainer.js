@@ -50,7 +50,7 @@ const isPossible = (piece, move) => {
                 y = 0
                 endLine.forEach(item => {
                     piece.forEach(p => {
-                        if (item.x > p.x - 1 && item.y == p.y || p.y === 19)
+                        if (item.x == p.x && item.y == p.y || p.y === 19)
                             i++
                         if (p.x < 0 || p.x > 9)
                             i++
@@ -62,7 +62,7 @@ const isPossible = (piece, move) => {
                 y = 0
                 endLine.forEach(item => {
                     piece.forEach(p => {
-                        if (item.x < p.x + 1 && item.y == p.y || p.y === 19){
+                        if (item.x == p.x  && item.y == p.y || p.y === 19){
                             console.log("px.x ==", p.x, "item.x ===", item.x )
                             console.log("px.y ==", p.y, "item.y ===", item.y )
                             i++

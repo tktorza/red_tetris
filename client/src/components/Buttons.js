@@ -37,7 +37,18 @@ const Button = (props) => {
 
     document.onkeydown = (evt) => {
         evt = evt || window.event;
-        KeyDown(evt);
+        switch (evt.key){
+            case "ArrowRight" :
+                KeyDown(evt);
+                break;
+            case "ArrowLeft" :
+                KeyDown(evt);
+                break
+            case "ArrowUp" :
+                KeyDown(evt);
+                break;
+        }
+        // if (evt.key.localCompare("ArrowRight") == 0 || evt.key.localCompare("ArrowLeft") == 0 || evt.key.localCompare("ArrowUp") == 0)
     }
     const onClick = (event) => {
         createTable()
