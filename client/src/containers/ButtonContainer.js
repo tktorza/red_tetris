@@ -3,7 +3,59 @@ import { connect } from 'react-redux'
 import { createTableX, createTableY, startMove, toggleTodoX, toggleTodoY, reverseToggleX, reverseToggleY, getPiece, move, getEndLine} from '../action/action'
 import  store  from '../index'
 
-//REVOIR IS POSSIBLE
+const delLine = (table, cmp) => {
+
+}
+
+const getNewEndLine = (table) => {
+    // let tmptab = table.slice()
+    // let tmptab_2 = []
+    // for (let i = 0; i < table.length; i++){
+    // for (let i = 0; i < table.length; i++){
+
+        // for (let j = 0; j < tmptab.length; j++){
+    //         if (table[i].y == tmptab[j].y){
+    //             tmptab_2.push(tmptab[j])
+    //             tmptab = tmptab.splice(j, 1)
+    //             j = -1
+    //         }
+    //     }
+    //     if (tmptab_2.lenght == 9){
+    //         console.log("LALALALA")
+    //     }else{
+    //         tmptab = table.slice()
+    //         tmptab_2 = []
+    //     }
+    // } 
+    let tmptab = []
+    for (let i = 0; i < table.length; i++){
+        tmptab = table.filter(filtre => {
+            return (filtre.y == table[i].y) })
+        if (tmptab.length == 10){
+
+            table = table.filter(remove => {
+                return (remove.y != tmptab[0].y)
+            })
+            table.forEach(item => {
+                if (item.y < tmptab[0].y){
+                    item.y += 1
+                }
+          })
+            //descendre la ligne
+            console.log(table)
+            tmptab = []
+        }
+    }
+    // let tmptab = table.filter(item => {
+    //     return (item.y == 18) })
+    // if (tmptab.length == 10){
+    //     // remove from end LIne et faire ca en boule et voila ;)
+
+    // }
+    console.log("DEDANS  == ", table)
+    return (table)
+}
+
 
 const calculeRotate = (piece) =>{
     // regarder le type de la piece si carre => rien faire + rajouter un x, y 
@@ -45,7 +97,7 @@ const isPossible = (piece, move) => {
                     })
                 })
                 break
-            case 'left' :
+           /* case 'left' :
                 x = -1
                 y = 0
                 endLine.forEach(item => {
@@ -71,7 +123,7 @@ const isPossible = (piece, move) => {
                             i++
                     })
                 })
-                break
+                break*/
             default :
                 x = 0
                 y = 0
@@ -131,7 +183,6 @@ const mapDispatchToProps = (dispatch) => {
                 let refreshIntervalId = setInterval(() => {
                     let currentPiece = store.getState().toJS().piece.slice()
                     let newPose = []
-                    i++
                     if (isPossible(currentPiece, 'down') === 0){
                         currentPiece.map(p => {
                             newPose.push({x : p.x, y : p.y+ 1})
@@ -145,11 +196,17 @@ const mapDispatchToProps = (dispatch) => {
                             {x : 4, y : 2},
                             {x : 5, y : 2}
                         ]
-                        dispatch(getEndLine(newEndLine))
+                         // i++
+                            let FinalLine = getNewEndLine(newEndLine.slice())
+                        
+                        // if (i >= 4){
+                        //     clearInterval(refreshIntervalId)
+                        // }
+                        dispatch(getEndLine(FinalLine))
                         dispatch(getPiece(newPiece))
                         //  quand line .y == < 0 => clearInterval(refreshIntervalId)
                     }
-                },500)
+                },100)
             },
             KeyDown : (key ) => {
                 let newPose = []
