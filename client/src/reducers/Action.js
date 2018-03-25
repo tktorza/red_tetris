@@ -23,9 +23,9 @@ export default function (tab = init, action){
         case "CREATE_TAB_X":
             return tab.update('column', List([]), column => column.push(Map(action.payload)))
         case "GET_PIECE":
-            return tab.update('piece', List([]), piece => piece = action.payload.slice())
+            return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
         case "MOVE" :
-            return tab.update('piece', List([]), piece => piece = action.payload.slice())
+            return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
         case "GET_LINE" : 
             return tab.update('endLine', List([]), endLine => endLine = action.payload.slice())
         default :

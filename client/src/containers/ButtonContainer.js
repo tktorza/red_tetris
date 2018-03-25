@@ -8,25 +8,6 @@ const delLine = (table, cmp) => {
 }
 
 const getNewEndLine = (table) => {
-    // let tmptab = table.slice()
-    // let tmptab_2 = []
-    // for (let i = 0; i < table.length; i++){
-    // for (let i = 0; i < table.length; i++){
-
-        // for (let j = 0; j < tmptab.length; j++){
-    //         if (table[i].y == tmptab[j].y){
-    //             tmptab_2.push(tmptab[j])
-    //             tmptab = tmptab.splice(j, 1)
-    //             j = -1
-    //         }
-    //     }
-    //     if (tmptab_2.lenght == 9){
-    //         console.log("LALALALA")
-    //     }else{
-    //         tmptab = table.slice()
-    //         tmptab_2 = []
-    //     }
-    // } 
     let tmptab = []
     for (let i = 0; i < table.length; i++){
         tmptab = table.filter(filtre => {
@@ -41,18 +22,9 @@ const getNewEndLine = (table) => {
                     item.y += 1
                 }
           })
-            //descendre la ligne
-            console.log(table)
             tmptab = []
         }
     }
-    // let tmptab = table.filter(item => {
-    //     return (item.y == 18) })
-    // if (tmptab.length == 10){
-    //     // remove from end LIne et faire ca en boule et voila ;)
-
-    // }
-    console.log("DEDANS  == ", table)
     return (table)
 }
 
@@ -60,25 +32,29 @@ const getNewEndLine = (table) => {
 const calculeRotate = (piece) =>{
     // regarder le type de la piece si carre => rien faire + rajouter un x, y 
     //(peut etre que 1 meme) si il est prsent on remonte la piece de ce quq'il faut pour que la rotation se passe mibe            
-            let newPiece = []
-            let tmp_pos = {}
-        for (let i = 0; i < piece.length; i++){
-            if (i != 1){
-                let new_x =(piece[i].x - piece[1].x)
-                let new_y =(piece[i].y - piece[1].y)
-                let X = Math.round(new_x * Math.cos(Math.PI / 2) - new_y * Math.sin(Math.PI / 2) + piece[1].x)
-                let Y = Math.round(new_x * Math.sin(Math.PI / 2) + new_y * Math.cos(Math.PI / 2) + piece[1].y)
-                tmp_pos = { x : X, y : Y }
-            }else{
-                tmp_pos = { x : piece[i].x, y : piece[i].y}
+        if (piece.type != 1){
+                let newPiece = {type : piece.type, coord : []}
+                let tmp_pos = {}
+
+            for (let i = 0; i < piece.coord.length; i++){
+                if (i != 1){
+                    let new_x =(piece.coord[i].x - piece.coord[1].x)
+                    let new_y =(piece.coord[i].y - piece.coord[1].y)
+                    let X = Math.round(new_x * Math.cos(Math.PI / 2) - new_y * Math.sin(Math.PI / 2) + piece.coord[1].x)
+                    let Y = Math.round(new_x * Math.sin(Math.PI / 2) + new_y * Math.cos(Math.PI / 2) + piece.coord[1].y)
+                    tmp_pos = { x : X, y : Y }
+                }else{
+                    tmp_pos = { x : piece.coord[i].x, y : piece.coord[i].y}
+                }
+                newPiece.coord.push(tmp_pos)
+                tmp_pos = {} 
             }
-            newPiece.push(tmp_pos)
-            tmp_pos = {} 
+            return newPiece
+        }else{
+            return piece
         }
-    return newPiece
 }
 const isPossible = (piece, move) => {
-    // la revoir pour doirte ou gauche
     let endLine = store.getState().toJS().endLine.slice()
     let i = 0
     let x, y
@@ -89,7 +65,7 @@ const isPossible = (piece, move) => {
                 x = 0
                 y = 1
                 endLine.forEach(item => {
-                    piece.forEach(p => {
+                    piece.coord.forEach(p => {
                         if (item.x == p.x && item.y == p.y + 1 || p.y === 19)
                             i++
                         if (p.x < 0 || p.x > 9)
@@ -128,7 +104,7 @@ const isPossible = (piece, move) => {
                 x = 0
                 y = 0
                 endLine.forEach(item => {
-                    piece.forEach(p => {
+                    piece.coord.forEach(p => {
                         if (item.x == p.x + x && item.y == p.y + y || p.y === 19)
                             i++
                         if (p.x < 0 || p.x > 9)
@@ -140,7 +116,7 @@ const isPossible = (piece, move) => {
         }
         
     }else{
-        piece.forEach(p => {
+        piece.coord.forEach(p => {
                 if (19 === p.y)
                     i++
                 if (p.x < 0 || p.x > 9)
@@ -160,12 +136,15 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const piece = [
-        {x : 3, y : 0},
-        {x : 4, y : 0},
-        {x : 5, y : 0},
-        {x : 4, y : 1}
-    ]
+    const piece = {
+        type : 6,
+        coord : [
+                    { x : 4, y : 0 },
+                    { x : 4, y : 1 },
+                    { x : 4, y : 2 },
+                    { x : 4, y : 3 }
+                ]
+    }
         return {
             createTable : () => {
                 let i = 0
@@ -181,27 +160,31 @@ const mapDispatchToProps = (dispatch) => {
             startMove : () => {
                 let i = 0
                 let refreshIntervalId = setInterval(() => {
-                    let currentPiece = store.getState().toJS().piece.slice()
-                    let newPose = []
+                    let currentPiece = Object.assign({}, store.getState().toJS().piece)
+                    let newPose = {type : currentPiece.type, coord : []}
                     if (isPossible(currentPiece, 'down') === 0){
-                        currentPiece.map(p => {
-                            newPose.push({x : p.x, y : p.y+ 1})
+                        currentPiece.coord.map(p => {
+                            newPose.coord.push({x : p.x, y : p.y+ 1})
                         })
                             dispatch(move(newPose))
                     }else{
-                        let newEndLine = store.getState().toJS().endLine.slice().concat(currentPiece)
-                        const newPiece = [
-                            {x : 4, y : 0},
-                            {x : 4, y : 1},
-                            {x : 4, y : 2},
-                            {x : 5, y : 2}
-                        ]
-                         // i++
+                        let newEndLine = store.getState().toJS().endLine.slice().concat(currentPiece.coord)
+                        const newPiece = {
+                            type : 3,
+                            coord : [
+                                        { x : 4, y : 0 },
+                                        { x : 4, y : 1 },
+                                        { x : 4, y : 2 },
+                                        { x : 4, y : 3 }
+                                    ]
+                        }
+                        console.log(newEndLine)
+                         i++
                             let FinalLine = getNewEndLine(newEndLine.slice())
                         
-                        // if (i >= 4){
-                        //     clearInterval(refreshIntervalId)
-                        // }
+                        if (i >= 4){
+                            clearInterval(refreshIntervalId)
+                        }
                         dispatch(getEndLine(FinalLine))
                         dispatch(getPiece(newPiece))
                         //  quand line .y == < 0 => clearInterval(refreshIntervalId)
@@ -209,26 +192,26 @@ const mapDispatchToProps = (dispatch) => {
                 },100)
             },
             KeyDown : (key ) => {
-                let newPose = []
-                let currentPiece = store.getState().toJS().piece.slice()
+                let currentPiece = Object.assign({}, store.getState().toJS().piece)
+                let newPose = {type : currentPiece.type, coord : []}
                 let i = 0
                 let mve = ""
                 switch (key.key) {
                     case "ArrowLeft":
                             mve = "left"
-                            currentPiece.map(p => {
-                                newPose.push({x : p.x - 1, y : p.y})
+                            currentPiece.coord.map(p => {
+                                newPose.coord.push({x : p.x - 1, y : p.y})
                             })
                         break
                     case "ArrowRight" : 
                         mve = "right"
-                        currentPiece.map(p => {
-                            newPose.push({x : p.x +1, y : p.y})
+                        currentPiece.coord.map(p => {
+                            newPose.coord.push({x : p.x +1, y : p.y})
                         })
                         break
                     case "ArrowUp":
                         mve = "up"
-                        newPose = calculeRotate(currentPiece).slice()
+                        newPose = Object.assign({}, calculeRotate(currentPiece))
                         break
 
                 }
