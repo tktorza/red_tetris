@@ -3,7 +3,8 @@ import {List, Map, fromJS} from 'immutable'
 const init = fromJS({
         column : [],
         line : [],
-        piece : []
+        piece : [],
+        endLine : []
     })
 
 export default function (tab = init, action){
@@ -25,6 +26,8 @@ export default function (tab = init, action){
             return tab.update('piece', List([]), piece => piece = action.payload.slice())
         case "MOVE" :
             return tab.update('piece', List([]), piece => piece = action.payload.slice())
+        case "GET_LINE" : 
+            return tab.update('endLine', List([]), endLine => endLine = action.payload.slice())
         default :
             return tab;
     }

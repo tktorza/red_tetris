@@ -1,3 +1,9 @@
+export const getEndLine = (endLine) => {
+    return {
+        type : 'GET_LINE',
+        payload : endLine
+    }
+}
 
 export const createTableX = (id) =>{
     return {

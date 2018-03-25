@@ -1,14 +1,15 @@
 import Button from '../components/Buttons'
 import { connect } from 'react-redux'
-import { createTableX, createTableY, startMove, toggleTodoX, toggleTodoY, reverseToggleX, reverseToggleY, getPiece, move} from '../action/action'
+import { createTableX, createTableY, startMove, toggleTodoX, toggleTodoY, reverseToggleX, reverseToggleY, getPiece, move, getEndLine} from '../action/action'
 import  store  from '../index'
+
+//REVOIR IS POSSIBLE
 
 const calculeRotate = (piece) =>{
     // regarder le type de la piece si carre => rien faire + rajouter un x, y 
     //(peut etre que 1 meme) si il est prsent on remonte la piece de ce quq'il faut pour que la rotation se passe mibe            
             let newPiece = []
             let tmp_pos = {}
-            console.log("lalalal = ", piece)
         for (let i = 0; i < piece.length; i++){
             if (i != 1){
                 let new_x =(piece[i].x - piece[1].x)
@@ -22,13 +23,88 @@ const calculeRotate = (piece) =>{
             newPiece.push(tmp_pos)
             tmp_pos = {} 
         }
-        console.log("result = ", newPiece )
     return newPiece
 }
+const isPossible = (piece, move) => {
+    // la revoir pour doirte ou gauche
+    let endLine = store.getState().toJS().endLine.slice()
+    let i = 0
+    let x, y
+    if (endLine.length > 0){
 
+        switch (move){
+            case 'down' :
+                x = 0
+                y = 1
+                endLine.forEach(item => {
+                    piece.forEach(p => {
+                        if (item.x == p.x && item.y == p.y + 1 || p.y === 19)
+                            i++
+                        if (p.x < 0 || p.x > 9)
+                            i++
+                    })
+                })
+                break
+            case 'left' :
+                x = -1
+                y = 0
+                endLine.forEach(item => {
+                    piece.forEach(p => {
+                        if (item.x > p.x - 1 && item.y == p.y || p.y === 19)
+                            i++
+                        if (p.x < 0 || p.x > 9)
+                            i++
+                    })
+                })
+                break
+            case 'right' :
+                x = 1
+                y = 0
+                endLine.forEach(item => {
+                    piece.forEach(p => {
+                        if (item.x < p.x + 1 && item.y == p.y || p.y === 19){
+                            console.log("px.x ==", p.x, "item.x ===", item.x )
+                            console.log("px.y ==", p.y, "item.y ===", item.y )
+                            i++
+                        }
+                        if (p.x < 0 || p.x > 9)
+                            i++
+                    })
+                })
+                break
+            default :
+                x = 0
+                y = 0
+                endLine.forEach(item => {
+                    piece.forEach(p => {
+                        if (item.x == p.x + x && item.y == p.y + y || p.y === 19)
+                            i++
+                        if (p.x < 0 || p.x > 9)
+                            i++
+                    })
+                })
+                break
+
+        }
+        
+    }else{
+        piece.forEach(p => {
+                if (19 === p.y)
+                    i++
+                if (p.x < 0 || p.x > 9)
+                    i++
+            })
+    }
+    console.log(i)
+    return i 
+}
 
 const mapStateToProps = (state) => {
-        return  { tab : state.get('line'), column : state.get('column'), piece : state.get('piece') }
+        return  {   tab : state.get('line'),
+                    column : state.get('column'), 
+                    piece : state.get('piece'),
+                    endLine : state.get('endLine')
+                }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -49,53 +125,57 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(createTableY(y))
                 }
                 dispatch(getPiece(piece))
-
             },
             startMove : () => {
                 let i = 0
-                setInterval(() => {
+                let refreshIntervalId = setInterval(() => {
                     let currentPiece = store.getState().toJS().piece.slice()
-
                     let newPose = []
                     i++
-                    currentPiece.map(p => {
-                        if (p.y + 1 <= 19){
+                    if (isPossible(currentPiece, 'down') === 0){
+                        currentPiece.map(p => {
                             newPose.push({x : p.x, y : p.y+ 1})
-                        }
-                    })
-                    if (newPose.length === 4){
-                        dispatch(move(newPose))
+                        })
+                            dispatch(move(newPose))
+                    }else{
+                        let newEndLine = store.getState().toJS().endLine.slice().concat(currentPiece)
+                        const newPiece = [
+                            {x : 4, y : 0},
+                            {x : 4, y : 1},
+                            {x : 4, y : 2},
+                            {x : 5, y : 2}
+                        ]
+                        dispatch(getEndLine(newEndLine))
+                        dispatch(getPiece(newPiece))
+                        //  quand line .y == < 0 => clearInterval(refreshIntervalId)
                     }
                 },500)
             },
-            KeyDown : (key, ) => {
-                console.log(key)
+            KeyDown : (key ) => {
                 let newPose = []
                 let currentPiece = store.getState().toJS().piece.slice()
                 let i = 0
+                let mve = ""
                 switch (key.key) {
                     case "ArrowLeft":
-                        currentPiece.map(p => {
-                            if (p.x - 1 >= 0){
+                            mve = "left"
+                            currentPiece.map(p => {
                                 newPose.push({x : p.x - 1, y : p.y})
-                            }
-                        })
+                            })
                         break
                     case "ArrowRight" : 
+                        mve = "right"
                         currentPiece.map(p => {
-                            if (p.x + 1 <= 9){
-                                newPose.push({x : p.x +1, y : p.y})
-                            }
+                            newPose.push({x : p.x +1, y : p.y})
                         })
                         break
                     case "ArrowUp":
+                        mve = "up"
                         newPose = calculeRotate(currentPiece).slice()
                         break
-                    default:
-                        break;
 
                 }
-                if (newPose.length === 4 && i ==0){
+                if (isPossible(newPose, mve) === 0){
                     dispatch(move(newPose))
                 }
                 console.log(key.key)
