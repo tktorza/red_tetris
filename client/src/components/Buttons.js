@@ -6,12 +6,14 @@ const Cell = (props) => {
    let test = []
    let color = false
    let end = false
-   piece.coord.map(p => {
-        if (tab.id === p.y && column.id == p.x){
-            color = true
-        }
-    
-   })
+   if (typeof(piece.coord) != 'undefined'){
+        piece.coord.map(p => {
+            if (tab.id === p.y && column.id == p.x){
+                color = true
+            }
+
+        })
+    }
    let backgroundPiece = ""
 
    switch(piece.type){
@@ -62,7 +64,6 @@ const Cell = (props) => {
 //
 const Button = (props) => {
     const {createTable, tab, column, piece, startMove, KeyDown, endLine} = props
-
 
     document.onkeydown = (evt) => {
         evt = evt || window.event;

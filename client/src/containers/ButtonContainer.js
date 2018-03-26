@@ -128,6 +128,7 @@ const isPossible = (piece, move) => {
 }
 
 const mapStateToProps = (state) => {
+    console.log("state = ",state.get('piece'))
         return  {   tab : state.get('line'),
                     column : state.get('column'), 
                     piece : state.get('piece'),
@@ -155,7 +156,8 @@ const mapDispatchToProps = (dispatch) => {
                 for (let y = 0; y < 20; y++){
                     dispatch(createTableY(y))
                 }
-                dispatch(getPiece(piece))
+                console.log("la")
+                dispatch(getPiece())
             },
             startMove : () => {
                 let i = 0
@@ -186,7 +188,7 @@ const mapDispatchToProps = (dispatch) => {
                             clearInterval(refreshIntervalId)
                         }
                         dispatch(getEndLine(FinalLine))
-                        dispatch(getPiece(newPiece))
+                        dispatch(getPiece())
                         //  quand line .y == < 0 => clearInterval(refreshIntervalId)
                     }
                 },100)
@@ -196,27 +198,29 @@ const mapDispatchToProps = (dispatch) => {
                 let newPose = {type : currentPiece.type, coord : []}
                 let i = 0
                 let mve = ""
-                switch (key.key) {
-                    case "ArrowLeft":
-                            mve = "left"
+                if (typeof(currentPiece.coord) != 'undefined'){
+                    switch (key.key) {
+                        case "ArrowLeft":
+                                mve = "left"
+                                currentPiece.coord.map(p => {
+                                    newPose.coord.push({x : p.x - 1, y : p.y})
+                                })
+                            break
+                        case "ArrowRight" : 
+                            mve = "right"
                             currentPiece.coord.map(p => {
-                                newPose.coord.push({x : p.x - 1, y : p.y})
+                                newPose.coord.push({x : p.x +1, y : p.y})
                             })
-                        break
-                    case "ArrowRight" : 
-                        mve = "right"
-                        currentPiece.coord.map(p => {
-                            newPose.coord.push({x : p.x +1, y : p.y})
-                        })
-                        break
-                    case "ArrowUp":
-                        mve = "up"
-                        newPose = Object.assign({}, calculeRotate(currentPiece))
-                        break
+                            break
+                        case "ArrowUp":
+                            mve = "up"
+                            newPose = Object.assign({}, calculeRotate(currentPiece))
+                            break
 
-                }
-                if (isPossible(newPose, mve) === 0){
-                    dispatch(move(newPose))
+                    }
+                    if (isPossible(newPose, mve) === 0){
+                        dispatch(move(newPose))
+                    }
                 }
                 console.log(key.key)
             }

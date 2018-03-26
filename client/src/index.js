@@ -6,6 +6,7 @@ import reducer from './reducers/Action'
 import React from 'react';
 import './index.css';
 import thunk from 'redux-thunk'
+import socketMiddleware from './middleware/socketMiddleware'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -14,7 +15,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(reducer,
     composeEnhancers(
         applyMiddleware(
-            thunk
+            thunk,
+            socketMiddleware
         )))
 
 render(

@@ -92,48 +92,6 @@ module.exports = class Piece {
 				}
 		}
 	}
-
-	async moveLeft(){
-		let j = 0
-		for (let i = 0; i < this.piece.coord.lenght; i++){
-			if (this.piece.coord[i].x - 1 < 0){
-				j = 1
-				break;
-			}else{
-				this.piece.coord[i].x -= 1
-			}
-		}
-		return j
-	}
-
-	async moveRight(){
-		let j = 0
-		for (let i = 0; i < this.piece.coord.lenght; i++){
-			if (this.piece.coord[i].x + 1 > 9){
-				j = 1
-				break;
-			}
-			else{
-				this.piece.coord[i].x += 1
-			}
-		}
-		return j
-	}
-
-	moveDown(){
-		let j = 0
-		console.log("A :", this.piece.coord[0])
-		for (let i = 0; i < this.piece.coord.length; i++){
-			if (this.piece.coord[i].y + 1 > 19){
-				j = 1
-				break;
-			}else{
-				this.piece.coord[i].y += 1
-			}
-		}
-		console.log("B = ", this.piece.coord[0])
-		return j
-	}
 }
 
 // const test = new Piece()

@@ -25,7 +25,7 @@ export const createTableY = (id) =>{
     }
 }
 
-export const getPiece = (piece) =>{
+export const getPiece = (piece = []) =>{
 	return {
 		type : 'GET_PIECE',
 		payload : piece

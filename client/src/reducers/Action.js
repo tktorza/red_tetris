@@ -23,6 +23,7 @@ export default function (tab = init, action){
         case "CREATE_TAB_X":
             return tab.update('column', List([]), column => column.push(Map(action.payload)))
         case "GET_PIECE":
+            console.log("action " , action.payload)
             return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
         case "MOVE" :
             return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
