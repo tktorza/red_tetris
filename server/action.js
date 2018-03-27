@@ -24,8 +24,8 @@ const startNewGame = (data, socket) => {
 	
 		let id = game.length
 		game.push(new Game(id, socket.id))
-		console.log("staertNewFame")
-		io.emit('action', {
+		console.log(game[0].Game)
+		io.to(socket.id).emit('action', {
 			type : 'CREATE_GAME',
 			payload : game[0].Game
 		})
@@ -38,7 +38,7 @@ const refreshGamePiece = (socket, data) => {
 	game.forEach((elem) => {
 			if (elem.game.id == data){
 				elem.getPiece()
-				io.emit('action', {
+				io.to(elem.game.player[0].player.socketId).emit('action', {
 					type : "GET_NEXT_PIECE",
 					payload : elem.game.piece
 				})

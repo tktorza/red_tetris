@@ -199,7 +199,7 @@ const mapDispatchToProps = (dispatch) => {
                             dispatch(getEndLine(FinalLine))
                         }
                     }
-                },200)
+                },150)
             },
             KeyDown : (key ) => {
                 let currentPiece = Object.assign({}, store.getState().toJS().currentPiece)

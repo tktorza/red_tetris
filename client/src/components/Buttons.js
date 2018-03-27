@@ -38,6 +38,8 @@ const Cell = (props) => {
         case 7 : 
             backgroundPiece = '#FF69B4'
             break
+        case 9 : 
+            backgroundPiece = "green"
         default :
             break
 
@@ -93,7 +95,6 @@ const Button = (props) => {
         visib = 'hidden'
         visib_2 = 'visible'
     }
-        
     return (
         <div>
             <button onClick={onClick} style={{visibility:visib}}>Click for start</button>

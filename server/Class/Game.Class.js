@@ -30,7 +30,7 @@ module.exports = class Game {
 	}
 	getPiece(){
 		this.game.piece = []
-		for (let i = 0; i < 10; i++){
+		for (let i = 0; i < 5; i++){
 			this.game.piece[i] = new Piece()
 		}
 	}
