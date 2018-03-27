@@ -3,11 +3,10 @@ const Player = require('./Players.Class')
 
 module.exports = class Game {
 	constructor(id, socketId){
-		this.game = {id : id, piece : [], player : []}
-		for (let i = 0; i < 10; i++){
-			this.game.piece[i] = new Piece()
-		}
+		this.game = {id : id, piece : [], player : [], start: false}
+		this.getPiece()
 		this.addPlayer(socketId)
+		// PEUT ETRE RAJOUTER UNE SOCKET ROOM
 	}
 	get Game(){
 		return this.game
@@ -22,12 +21,18 @@ module.exports = class Game {
 
 	}
 	startGame(){
-		thime.game.start = true
+		this.game.start = true
 		setInterval(() => {
 			for (let i = 0; i < this.game.player.length; i++){
 				this.game.player[i].goDown()
 			}
 		}, 10000)
+	}
+	getPiece(){
+		this.game.piece = []
+		for (let i = 0; i < 10; i++){
+			this.game.piece[i] = new Piece()
+		}
 	}
 }
 

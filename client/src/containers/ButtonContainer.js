@@ -1,10 +1,28 @@
 import Button from '../components/Buttons'
 import { connect } from 'react-redux'
-import { createTableX, createTableY, startMove, toggleTodoX, toggleTodoY, reverseToggleX, reverseToggleY, getPiece, move, getEndLine} from '../action/action'
+import { createTableX, createTableY,
+         startMove, toggleTodoX,
+         toggleTodoY, reverseToggleX,
+         reverseToggleY, getCurrentPiece,
+         move, getEndLine, createGame,
+         getMorePiece, getNextPiece } from '../action/action'
 import  store  from '../index'
 
-const delLine = (table, cmp) => {
-
+const isLoose = (table) => {
+    let i = 0
+    // regarder si possible quadn on pose la piece sur le tabelau
+    table.forEach( function(elem) {
+        // statements
+        console.log("elem = ", elem)
+        if (elem.y < 0){
+            i++
+        }
+    });
+    if (i  == 0)
+        return false
+    else{
+        return true
+    }
 }
 
 const getNewEndLine = (table) => {
@@ -73,39 +91,10 @@ const isPossible = (piece, move) => {
                     })
                 })
                 break
-           /* case 'left' :
-                x = -1
-                y = 0
-                endLine.forEach(item => {
-                    piece.forEach(p => {
-                        if (item.x == p.x && item.y == p.y || p.y === 19)
-                            i++
-                        if (p.x < 0 || p.x > 9)
-                            i++
-                    })
-                })
-                break
-            case 'right' :
-                x = 1
-                y = 0
-                endLine.forEach(item => {
-                    piece.forEach(p => {
-                        if (item.x == p.x  && item.y == p.y || p.y === 19){
-                            console.log("px.x ==", p.x, "item.x ===", item.x )
-                            console.log("px.y ==", p.y, "item.y ===", item.y )
-                            i++
-                        }
-                        if (p.x < 0 || p.x > 9)
-                            i++
-                    })
-                })
-                break*/
             default :
-                x = 0
-                y = 0
                 endLine.forEach(item => {
                     piece.coord.forEach(p => {
-                        if (item.x == p.x + x && item.y == p.y + y || p.y === 19)
+                        if (item.x == p.x  && item.y == p.y)
                             i++
                         if (p.x < 0 || p.x > 9)
                             i++
@@ -127,12 +116,34 @@ const isPossible = (piece, move) => {
     return i 
 }
 
+const getNewPiece = (dispatch) => {
+    let nextPiece = store.getState().toJS().nextPiece.slice()
+    console.log("getNewPiece Next piece = ",nextPiece)
+    
+    let gameId = store.getState().toJS().game.id
+    let newPiece = nextPiece.shift()
+    if (nextPiece.length == 0){
+        console.log("LALOL")
+        console.log("PIECE === ", newPiece)
+        dispatch(getMorePiece(gameId))
+    }
+    else{
+        dispatch(getNextPiece(nextPiece))
+    }
+    dispatch(getCurrentPiece(newPiece.piece))
+    // nouvelle piece
+    //dispatch (update game)
+}
+
 const mapStateToProps = (state) => {
-    console.log("state = ",state.get('piece'))
-        return  {   tab : state.get('line'),
+    console.log("NEXT PIECE : ",state.get('nextPiece') )
+        return  {   
+                    tab : state.get('line'),
                     column : state.get('column'), 
-                    piece : state.get('piece'),
-                    endLine : state.get('endLine')
+                    currentPiece : state.get('currentPiece'),
+                    endLine : state.get('endLine'),
+                    game : state.get('game'),
+                    nextPiece : state.get('nextPiece')
                 }
 }
 
@@ -149,6 +160,7 @@ const mapDispatchToProps = (dispatch) => {
         return {
             createTable : () => {
                 let i = 0
+                dispatch(createGame())
                 for(let x = 0; x < 10; x++) {
                     dispatch(createTableX(x))
                    
@@ -156,13 +168,11 @@ const mapDispatchToProps = (dispatch) => {
                 for (let y = 0; y < 20; y++){
                     dispatch(createTableY(y))
                 }
-                console.log("la")
-                dispatch(getPiece())
             },
             startMove : () => {
                 let i = 0
                 let refreshIntervalId = setInterval(() => {
-                    let currentPiece = Object.assign({}, store.getState().toJS().piece)
+                    let currentPiece = Object.assign({}, store.getState().toJS().currentPiece)
                     let newPose = {type : currentPiece.type, coord : []}
                     if (isPossible(currentPiece, 'down') === 0){
                         currentPiece.coord.map(p => {
@@ -171,30 +181,28 @@ const mapDispatchToProps = (dispatch) => {
                             dispatch(move(newPose))
                     }else{
                         let newEndLine = store.getState().toJS().endLine.slice().concat(currentPiece.coord)
-                        const newPiece = {
-                            type : 3,
-                            coord : [
-                                        { x : 4, y : 0 },
-                                        { x : 4, y : 1 },
-                                        { x : 4, y : 2 },
-                                        { x : 4, y : 3 }
-                                    ]
-                        }
-                        console.log(newEndLine)
-                         i++
-                            let FinalLine = getNewEndLine(newEndLine.slice())
-                        
-                        if (i >= 4){
+                        let FinalLine = getNewEndLine(newEndLine.slice())
+                        if (isLoose(FinalLine) == true){
+                            // dispatch(getEndLine(FinalLine))
                             clearInterval(refreshIntervalId)
+                            console.log("C PERDU")
                         }
-                        dispatch(getEndLine(FinalLine))
-                        dispatch(getPiece())
-                        //  quand line .y == < 0 => clearInterval(refreshIntervalId)
+                        else{
+                        //  i++
+
+                        
+                        // if (i >= 10){
+                            // clearInterval(refreshIntervalId)
+                        //     // si le player loose
+                        // }
+                            getNewPiece(dispatch)
+                            dispatch(getEndLine(FinalLine))
+                        }
                     }
-                },100)
+                },200)
             },
             KeyDown : (key ) => {
-                let currentPiece = Object.assign({}, store.getState().toJS().piece)
+                let currentPiece = Object.assign({}, store.getState().toJS().currentPiece)
                 let newPose = {type : currentPiece.type, coord : []}
                 let i = 0
                 let mve = ""
@@ -223,6 +231,11 @@ const mapDispatchToProps = (dispatch) => {
                     }
                 }
                 console.log(key.key)
+            },
+            createPiece : () => {
+                let game = Object.assign({}, store.getState().toJS().game)
+                dispatch(getCurrentPiece(game.player[0].player.currentPiece.piece))
+                dispatch(getNextPiece(game.player[0].player.nextPiece))
             }
         }
 }

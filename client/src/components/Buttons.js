@@ -2,12 +2,12 @@ import React from 'react'
 import {List, Map} from 'immutable'
 let i = 0
 const Cell = (props) => {
-   const { tab, column, piece, KeyDown, endLine} = props
+   const { tab, column, currentPiece, KeyDown, endLine} = props
    let test = []
    let color = false
    let end = false
-   if (typeof(piece.coord) != 'undefined'){
-        piece.coord.map(p => {
+   if (typeof(currentPiece.coord) != 'undefined'){
+        currentPiece.coord.map(p => {
             if (tab.id === p.y && column.id == p.x){
                 color = true
             }
@@ -16,7 +16,7 @@ const Cell = (props) => {
     }
    let backgroundPiece = ""
 
-   switch(piece.type){
+   switch(currentPiece.type){
         case 1 : 
             backgroundPiece = "yellow"
             break
@@ -51,7 +51,6 @@ const Cell = (props) => {
     if(end === true){
         test.push(<div style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
     }else if (color === true){
-        console.log("ici")
         test.push(<div style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
     
     }else{
@@ -59,11 +58,10 @@ const Cell = (props) => {
         
     }
     return test
-    console.log("CEll ==", tab)
 }
 //
 const Button = (props) => {
-    const {createTable, tab, column, piece, startMove, KeyDown, endLine} = props
+    const {createTable, tab, column, currentPiece, startMove, KeyDown, endLine, game, getPiece, createPiece} = props
 
     document.onkeydown = (evt) => {
         evt = evt || window.event;
@@ -80,18 +78,21 @@ const Button = (props) => {
         }
         // if (evt.key.localCompare("ArrowRight") == 0 || evt.key.localCompare("ArrowLeft") == 0 || evt.key.localCompare("ArrowUp") == 0)
     }
+    // comprendre pq cette ligne met un warning
+    if (typeof(game.player) != 'undefined' && typeof(currentPiece.coord) == 'undefined')
+        createPiece()
     const onClick = (event) => {
         createTable()
     }
     const start = () => event => {
         startMove()
     }
-        let visib = "visible"
-        let visib_2 = "hidden"
-        if (tab.toJS().length > 0){
-            visib = 'hidden'
-            visib_2 = 'visible'
-        }
+    let visib = "visible"
+    let visib_2 = "hidden"
+    if (tab.toJS().length > 0){
+        visib = 'hidden'
+        visib_2 = 'visible'
+    }
         
     return (
         <div>
@@ -101,7 +102,7 @@ const Button = (props) => {
                {column.map(c => (
                     <div key={c.get('id')} id={c.get('id')}>
                         {tab.map(t => (
-                            <Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} piece={piece} endLine={endLine}/>
+                            <Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} currentPiece={currentPiece} endLine={endLine}/>
                         ))}
                     </div>
                ))}

@@ -3,8 +3,10 @@ import {List, Map, fromJS} from 'immutable'
 const init = fromJS({
         column : [],
         line : [],
-        piece : [],
-        endLine : []
+        currentPiece : [],
+        endLine : [],
+        nextPiece : [],
+        game : {}
     })
 
 export default function (tab = init, action){
@@ -22,13 +24,17 @@ export default function (tab = init, action){
             return tab.update('line', List([]), line => line.push(Map(action.payload)))
         case "CREATE_TAB_X":
             return tab.update('column', List([]), column => column.push(Map(action.payload)))
-        case "GET_PIECE":
-            console.log("action " , action.payload)
-            return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
+        case "GET_CURRENT_PIECE":
+            return tab.update('currentPiece', List([]), currentPiece => currentPiece = action.payload)
         case "MOVE" :
-            return tab.update('piece', List([]), piece => piece = Object.assign({}, action.payload))
+            return tab.update('currentPiece', List([]), currentPiece => currentPiece =action.payload)
         case "GET_LINE" : 
-            return tab.update('endLine', List([]), endLine => endLine = action.payload.slice())
+            return tab.update('endLine', List([]), endLine => endLine = action.payload)
+        case "CREATE_GAME" :
+            return tab.update('game', List([]), game => game = Object.assign({}, action.payload))
+        case "GET_NEXT_PIECE" :
+            console.log("GET_NEXT_PIECE", action.payload)
+            return tab.update('nextPiece', List([]), nextPiece => nextPiece = action.payload)
         default :
             return tab;
     }

@@ -25,11 +25,32 @@ export const createTableY = (id) =>{
     }
 }
 
-export const getPiece = (piece = []) =>{
+export const getCurrentPiece = (piece = []) =>{
 	return {
-		type : 'GET_PIECE',
+		type : 'GET_CURRENT_PIECE',
 		payload : piece
 	}
+}
+
+export const createGame = (game) => {
+    return {
+        type : 'server/CREATE_GAME',
+        payload : game
+    }
+}
+
+export const getMorePiece = (id) => {
+    return {
+        type : 'server/GET_MORE_PIECE',
+        payload : id
+    }
+}
+
+export const getNextPiece = (piece) =>{
+    return {
+        type : "GET_NEXT_PIECE",
+        payload : piece
+    }
 }
 
 export const move = (piece) => {

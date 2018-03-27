@@ -9,34 +9,43 @@ const piece = {
                     { x : 5, y : 2 }
                 ]
     }
-exports.default=(socket) => {
-	socket.on('startNewGame', (data) => {
-		console.log("on est la dedans")
-		console.log(socket.id)
+exports.default = (socket) => {
+	socket.on('CREATE_GAME', (data) => {
 		startNewGame(data, socket)
 		//get game id
 		
 	})
+	socket.on('GET_MORE_PIECE', data => {
+		refreshGamePiece(socket, data)
+	})
 }
 
 const startNewGame = (data, socket) => {
-	// const PiecesForStart = snew Piece.default
 	
-	// PiecesForStart.createPiece().then(result => {
-	// 	console.log(result + "1111")
-	console.log("on mais pq pas la ?")
-		data.payload = piece
 		let id = game.length
 		game.push(new Game(id, socket.id))
-		console.log(game[0].Game)
-		console.log(game[0].Game.player[0].player)
-		console.log("lalalalalala")
-		console.log(data)
-		io.emit('piece', data)
-	// })
-	// PiecesForStart.createPiece().then(response => {
-	// 	console.log(response + "2222")
-	// 	io.emit('New_Piece', response)
-	// })
+		console.log("staertNewFame")
+		io.emit('action', {
+			type : 'CREATE_GAME',
+			payload : game[0].Game
+		})
 }
 
+const refreshGamePiece = (socket, data) => {
+	console.log("isisisissi")
+	console.log("data = ", data)
+	console.log(game)
+	game.forEach((elem) => {
+			if (elem.game.id == data){
+				elem.getPiece()
+				io.emit('action', {
+					type : "GET_NEXT_PIECE",
+					payload : elem.game.piece
+				})
+				io.emit('action', {
+					type : "CREATE_GAME",
+					payload : elem.game
+				})
+			}
+	});
+}
