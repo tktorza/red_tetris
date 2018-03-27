@@ -51,12 +51,12 @@ const Cell = (props) => {
         }
    }
     if(end === true){
-        test.push(<div style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
+        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
     }else if (color === true){
-        test.push(<div style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
+        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
     
     }else{
-        test.push(<div style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
+        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
         
     }
     return test
@@ -95,6 +95,23 @@ const Button = (props) => {
         visib = 'hidden'
         visib_2 = 'visible'
     }
+    console.log()
+    let test = window.location.href.split('/')
+   /*
+        recupere l'url l'envoie a startgame le game et le name 1qui recupere l'objet game pour ce jeux
+    if (test.length == 5 && tab.toJS().length == 0){
+        createTable()
+        console.log(test)
+    }*/
+    /*
+    detect quand l'utilisateur quitte la page
+    window.addEventListener("beforeunload", (ev) => 
+    {
+        console.log("ici")
+        createTable() 
+        ev.preventDefault();
+        return
+    });*/
     return (
         <div>
             <button onClick={onClick} style={{visibility:visib}}>Click for start</button>

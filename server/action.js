@@ -11,6 +11,7 @@ const piece = {
     }
 exports.default = (socket) => {
 	socket.on('CREATE_GAME', (data) => {
+		console.log("iciciciciciciciciicicic")
 		startNewGame(data, socket)
 		//get game id
 		
