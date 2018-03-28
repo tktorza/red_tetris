@@ -224,6 +224,12 @@ const mapDispatchToProps = (dispatch) => {
                             mve = "up"
                             newPose = Object.assign({}, calculeRotate(currentPiece))
                             break
+                        case "ArrowDown":
+                            mve = "down"
+                            currentPiece.coord.map(p => {
+                                newPose.coord.push({x : p.x, y : p.y + 1})
+                            })
+                            break
 
                     }
                     if (isPossible(newPose, mve) === 0){

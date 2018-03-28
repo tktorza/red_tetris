@@ -77,6 +77,9 @@ const Button = (props) => {
             case "ArrowUp" :
                 KeyDown(evt);
                 break;
+            case "ArrowDown" :
+                KeyDown(evt);
+                break;
         }
         // if (evt.key.localCompare("ArrowRight") == 0 || evt.key.localCompare("ArrowLeft") == 0 || evt.key.localCompare("ArrowUp") == 0)
     }
