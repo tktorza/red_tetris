@@ -7,10 +7,8 @@ const socketMiddleware = socket => ({dispatch, getState}) => {
   	return next => action => {
 	    if (socket && action.type && action.type.indexOf('server/') === 0) {
 	      const serverAction = action.type.split('/')[1]
-	      console.log("MIDELWARE = ",action)
-	      socket.emit(serverAction, action.payload)
+	      socket.emit(serverAction, action)
 	    }
-
     	return next(action)
   	}
 	// return next => action => {

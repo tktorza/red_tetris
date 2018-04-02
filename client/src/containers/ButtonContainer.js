@@ -5,7 +5,9 @@ import { createTableX, createTableY,
          toggleTodoY, reverseToggleX,
          reverseToggleY, getCurrentPiece,
          move, getEndLine, createGame,
-         getMorePiece, getNextPiece } from '../action/action'
+         getMorePiece, getNextPiece,
+         startGameServer, startGameClient,
+         shareEndLine, initOtherTab } from '../action/action'
 import  store  from '../index'
 
 const isLoose = (table) => {
@@ -13,7 +15,6 @@ const isLoose = (table) => {
     // regarder si possible quadn on pose la piece sur le tabelau
     table.forEach( function(elem) {
         // statements
-        console.log("elem = ", elem)
         if (elem.y < 0){
             i++
         }
@@ -73,7 +74,7 @@ const calculeRotate = (piece) =>{
         }
 }
 const isPossible = (piece, move) => {
-    let endLine = store.getState().toJS().endLine.slice()
+    let endLine = store.getState().buttonReducer.toJS().endLine.slice()
     let i = 0
     let x, y
     if (endLine.length > 0){
@@ -106,7 +107,7 @@ const isPossible = (piece, move) => {
         
     }else{
         piece.coord.forEach(p => {
-                if (19 === p.y)
+                if (19 <= p.y)
                     i++
                 if (p.x < 0 || p.x > 9)
                     i++
@@ -117,33 +118,35 @@ const isPossible = (piece, move) => {
 }
 
 const getNewPiece = (dispatch) => {
-    let nextPiece = store.getState().toJS().nextPiece.slice()
+    let nextPiece = store.getState().buttonReducer.toJS().nextPiece.slice()
     console.log("getNewPiece Next piece = ",nextPiece)
-    
-    let gameId = store.getState().toJS().game.id
+            
+    let gameId = store.getState().buttonReducer.toJS().gameId
     let newPiece = nextPiece.shift()
     if (nextPiece.length == 0){
-        console.log("LALOL")
-        console.log("PIECE === ", newPiece)
         dispatch(getMorePiece(gameId))
     }
     else{
         dispatch(getNextPiece(nextPiece))
     }
-    dispatch(getCurrentPiece(newPiece.piece))
+    dispatch(getCurrentPiece(newPiece))
     // nouvelle piece
     //dispatch (update game)
 }
 
 const mapStateToProps = (state) => {
-    console.log("NEXT PIECE : ",state.get('nextPiece') )
+    console.log(state)
         return  {   
-                    tab : state.get('line'),
-                    column : state.get('column'), 
-                    currentPiece : state.get('currentPiece'),
-                    endLine : state.get('endLine'),
-                    game : state.get('game'),
-                    nextPiece : state.get('nextPiece')
+                    tab : state.buttonReducer.get('line'),
+                    column : state.buttonReducer.get('column'), 
+                    currentPiece : state.buttonReducer.get('currentPiece'),
+                    endLine : state.buttonReducer.get('endLine'),
+                    gameId : state.buttonReducer.get('gameId'),
+                    gameStart : state.buttonReducer.get('gameStart'),
+                    nextPiece : state.buttonReducer.get('nextPiece'),
+                    isFirst : state.buttonReducer.get('isFirst'),
+                    start : state.buttonReducer.get('start'),
+                    playerInfo : state.buttonReducer.get('playerInfo')
                 }
 }
 
@@ -158,9 +161,9 @@ const mapDispatchToProps = (dispatch) => {
                 ]
     }
         return {
-            createTable : () => {
+            createGame : (info) => {
                 let i = 0
-                dispatch(createGame())
+                dispatch(createGame(info[0], info[1]))
                 for(let x = 0; x < 10; x++) {
                     dispatch(createTableX(x))
                    
@@ -171,8 +174,11 @@ const mapDispatchToProps = (dispatch) => {
             },
             startMove : () => {
                 let i = 0
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                dispatch(initOtherTab(gameId, playerInfo))
                 let refreshIntervalId = setInterval(() => {
-                    let currentPiece = Object.assign({}, store.getState().toJS().currentPiece)
+                    let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
                     let newPose = {type : currentPiece.type, coord : []}
                     if (isPossible(currentPiece, 'down') === 0){
                         currentPiece.coord.map(p => {
@@ -180,10 +186,10 @@ const mapDispatchToProps = (dispatch) => {
                         })
                             dispatch(move(newPose))
                     }else{
-                        let newEndLine = store.getState().toJS().endLine.slice().concat(currentPiece.coord)
+                        let newEndLine = store.getState().buttonReducer.toJS().endLine.slice().concat(currentPiece.coord)
                         let FinalLine = getNewEndLine(newEndLine.slice())
                         if (isLoose(FinalLine) == true){
-                            // dispatch(getEndLine(FinalLine))
+                            dispatch(getEndLine(FinalLine, gameId, playerInfo))
                             clearInterval(refreshIntervalId)
                             console.log("C PERDU")
                         }
@@ -196,13 +202,18 @@ const mapDispatchToProps = (dispatch) => {
                         //     // si le player loose
                         // }
                             getNewPiece(dispatch)
-                            dispatch(getEndLine(FinalLine))
+                            dispatch(getEndLine(FinalLine, gameId, playerInfo))
                         }
                     }
-                },150)
+                },900)
+            },
+            startMove_2 : () => {
+                let gameId =  store.getState().buttonReducer.toJS().gameId
+                // il me faut l'id du game
+                dispatch(startGameServer(gameId))
             },
             KeyDown : (key ) => {
-                let currentPiece = Object.assign({}, store.getState().toJS().currentPiece)
+                let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
                 let newPose = {type : currentPiece.type, coord : []}
                 let i = 0
                 let mve = ""
@@ -236,10 +247,9 @@ const mapDispatchToProps = (dispatch) => {
                         dispatch(move(newPose))
                     }
                 }
-                console.log(key.key)
             },
             createPiece : () => {
-                let game = Object.assign({}, store.getState().toJS().game)
+                let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
                 dispatch(getCurrentPiece(game.player[0].player.currentPiece.piece))
                 dispatch(getNextPiece(game.player[0].player.nextPiece))
             }

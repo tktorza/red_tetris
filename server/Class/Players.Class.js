@@ -1,8 +1,16 @@
 const Game = require('./Game.Class')
 
 module.exports = class Player {
-	constructor(id, socket, isVisitor){
-		this.player = {id : id, currentPiece : {}, nextPiece : [], socketId : socket, isVisitor : isVisitor}
+	constructor(id, socket, playerName, isVisitor, isFirst){
+		this.player = {
+			id : id, 
+			currentPiece : {}, 
+			nextPiece : [], 
+			socketId : socket, 
+			isVisitor : isVisitor, 
+			playerName : playerName,
+			isFirst : isFirst
+		}
 		// this.player.nextPiece = 
 		// this.Player.id = GetNewPlayerId()
 	}

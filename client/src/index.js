@@ -30,4 +30,5 @@ render(
     document.getElementById('root')
 )
 
+console.log("Sssssss ====", store.getState().buttonReducer)
 export default store

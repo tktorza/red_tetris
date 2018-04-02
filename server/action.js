@@ -11,7 +11,6 @@ const piece = {
     }
 exports.default = (socket) => {
 	socket.on('CREATE_GAME', (data) => {
-		console.log("iciciciciciciciciicicic")
 		startNewGame(data, socket)
 		//get game id
 		
@@ -19,34 +18,131 @@ exports.default = (socket) => {
 	socket.on('GET_MORE_PIECE', data => {
 		refreshGamePiece(socket, data)
 	})
+	socket.on('START_GAME', data => {
+		startGame(socket, data)
+	})
+	socket.on('GET_LINE', data => {
+		console.log("ddd = ", data)
+		let i = getGameId(data.id)
+		io.to(socket.id).emit('action',
+		{
+			type : 'GET_LINE',
+			payload : data.payload
+		})
+		socket.broadcast.to(game[i].Game.id).emit('action',
+		{
+			type : 'SHARE_END_LINE',
+			payload : {playerInfo : data.playerInfo, endLine : data.payload}
+		})
+	})
+	socket.on('INIT_OTHER_TAB', data => {
+		let i = getGameId(data.id) - 1
+		socket.broadcast.to(game[i].Game.id).emit('action',
+		{
+			type : 'INIT_OTHER_TAB',
+			payload : { player : data.playerInfo, endLine : [] }
+		})
+	})
+}
+
+const getGameId = (id) => {
+	let i = 1
+	let j = 0
+	game.forEach(item => {
+		if (item.Game.id == id)
+			j = i
+		i++
+	})
+	return j
+}
+
+const startGame = (socket, data) => {
+	console.log("data = ", data.id)
+	let i = getGameId(data.id) - 1
+	game[i].startGame()
+	io.to(game[i].Game.id).emit('action',{
+		type : "START_GAME"
+	})
+
+}
+
+const getPersonneById = (tab, playerName) => {
+	console.log("tab : ", tab[0])
+	let i = 0
+	let j = 0
+	tab.forEach( function(element, index) {
+		if (element.player.playerName.localeCompare(playerName) == 0)
+			j = i
+		i++
+	});
+	return j
 }
 
 const startNewGame = (data, socket) => {
-	
-		let id = game.length
-		game.push(new Game(id, socket.id))
-		console.log(game[0].Game)
+		console.log("data = ", data)
+		let id = data.room
+		let i = getGameId(id)
+		let j = i - 1
+		let piece = []
+		if (i > 0){
+			game[i - 1].addPlayer(socket.id, data.playerName)
+		}
+		else{
+			game.push(new Game(id, socket.id, data.playerName))
+			j = game.length - 1
+
+		}
+		let personne = getPersonneById(game[j].Game.player, data.playerName)
+		console.log("lalAL =" , game[j].Game.player[personne])
+		game[j].Game.piece.forEach( function(element, index) {
+			piece.push(element.piece)
+		});	
+		socket.join(id, ()=> {
+			console.log('join room')
+		})
+		io.to(socket.id).emit('action', {
+			type : 'GET_CURRENT_PIECE',
+			payload : game[j].Game.piece[0].piece
+		})
+		io.to(socket.id).emit('action', {
+			type : 'GET_NEXT_PIECE',
+			payload : piece.slice(1)
+		})
 		io.to(socket.id).emit('action', {
 			type : 'CREATE_GAME',
-			payload : game[0].Game
+			id : game[j].Game.id,
+			isFirst : game[j].Game.player[personne].player.isFirst,
+			playerInfo : {name : data.playerName, id : personne}
 		})
+			// .broadcast socket..broadcast -> tt le monde sauf soit !
+		
 }
 
 const refreshGamePiece = (socket, data) => {
-	console.log("isisisissi")
-	console.log("data = ", data)
-	console.log(game)
-	game.forEach((elem) => {
-			if (elem.game.id == data){
-				elem.getPiece()
-				io.to(elem.game.player[0].player.socketId).emit('action', {
-					type : "GET_NEXT_PIECE",
-					payload : elem.game.piece
-				})
-				io.emit('action', {
-					type : "CREATE_GAME",
-					payload : elem.game
-				})
-			}
-	});
+let i = getGameId(data.payload) - 1
+let piece =[]
+	game[i].addPiece()
+	game[i].Game.piece.forEach( function(element, index) {
+			piece.push(element.piece)
+		});	
+	io.to(game[i].Game.id).emit('action' , {
+		type : 'GET_NEXT_PIECE',
+		payload : piece
+	})
+	// console.log("isisisissi")
+	// console.log("data = ", data)
+	// console.log(game)
+	// game.forEach((elem) => {
+	// 		if (elem.game.id == data){
+	// 			elem.getPiece()
+	// 			io.to(elem.game.player[0].player.socketId).emit('action', {
+	// 				type : "GET_NEXT_PIECE",
+	// 				payload : elem.game.piece
+	// 			})
+	// 			io.emit('action', {
+	// 				type : "CREATE_GAME",
+	// 				payload : elem.game
+	// 			})
+	// 		}
+	// });
 }

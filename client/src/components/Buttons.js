@@ -1,70 +1,13 @@
 import React from 'react'
 import {List, Map} from 'immutable'
-let i = 0
-const Cell = (props) => {
-   const { tab, column, currentPiece, KeyDown, endLine} = props
-   let test = []
-   let color = false
-   let end = false
-   if (typeof(currentPiece.coord) != 'undefined'){
-        currentPiece.coord.map(p => {
-            if (tab.id === p.y && column.id == p.x){
-                color = true
-            }
+import functional from 'react-functional-lifecycle'
+import Cell from './Cell'
+import OtherTabContainer from '../containers/OtherTabContainer'
 
-        })
-    }
-   let backgroundPiece = ""
 
-   switch(currentPiece.type){
-        case 1 : 
-            backgroundPiece = "yellow"
-            break
-        case 2 :
-            backgroundPiece = "#00FFFF"
-            break
-        case 3 :
-            backgroundPiece = "#EEE8AA"
-            break
-        case 4 : 
-            backgroundPiece = '#CD853F'
-            break
-        case 5: 
-            backgroundPiece = '#DDA0DD'
-            break;
-        case 6 : 
-            backgroundPiece = '#66CDAA'
-            break
-        case 7 : 
-            backgroundPiece = '#FF69B4'
-            break
-        case 9 : 
-            backgroundPiece = "green"
-        default :
-            break
-
-    }
-   // console.log(endLine)
-   for (let i = 0; i < endLine.length; i++){
-        if (endLine[i].y === tab.id && endLine[i].x === column.id){
-            end = true
-        }
-   }
-    if(end === true){
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
-    }else if (color === true){
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
-    
-    }else{
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
-        
-    }
-    return test
-}
 //
 const Button = (props) => {
-    const {createTable, tab, column, currentPiece, startMove, KeyDown, endLine, game, getPiece, createPiece} = props
-
+    const {createGame, tab, column, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         switch (evt.key){
@@ -84,26 +27,36 @@ const Button = (props) => {
         // if (evt.key.localCompare("ArrowRight") == 0 || evt.key.localCompare("ArrowLeft") == 0 || evt.key.localCompare("ArrowUp") == 0)
     }
     // comprendre pq cette ligne met un warning
-    if (typeof(game.player) != 'undefined' && typeof(currentPiece.coord) == 'undefined')
-        createPiece()
-    const onClick = (event) => {
-        createTable()
-    }
+    // if (typeof(game.player) != 'undefined' && typeof(currentPiece.coord) == 'undefined')
+    //     createPiece()
+
     const start = () => event => {
-        startMove()
+        startMove_2()
     }
-    let visib = "visible"
     let visib_2 = "hidden"
-    if (tab.toJS().length > 0){
-        visib = 'hidden'
+    if (tab.toJS().length > 0 && isFirst){
         visib_2 = 'visible'
     }
-    console.log()
-    let test = window.location.href.split('/')
+    let infoParti = window.location.href.split('/')
+    console.log(infoParti)
+    if (infoParti.length == 4 && tab.toJS().length == 0){
+        let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
+        console.log("I = ",info)
+        if (info.length == 2)
+           createGame(info)
+    }
+    // if (gameStart == true){
+    //     console.log("...../////", gameStart)
+    //     startMove()
+    // }
+
+    // if (gameStart == true){
+    //     startMove()
+    // }
    /*
         recupere l'url l'envoie a startgame le game et le name 1qui recupere l'objet game pour ce jeux
     if (test.length == 5 && tab.toJS().length == 0){
-        createTable()
+        createGame()
         console.log(test)
     }*/
     /*
@@ -111,13 +64,12 @@ const Button = (props) => {
     window.addEventListener("beforeunload", (ev) => 
     {
         console.log("ici")
-        createTable() 
+        createGame() 
         ev.preventDefault();
         return
     });*/
     return (
-        <div>
-            <button onClick={onClick} style={{visibility:visib}}>Click for start</button>
+        <div  style={{display:'flex', justifyContent : 'space-between'}}>
             <button onClick={start()} style={{visibility : visib_2}}>Start</button>
             <div className="board" style={{display:'flex'}}>
                {column.map(c => (
@@ -128,8 +80,24 @@ const Button = (props) => {
                     </div>
                ))}
             </div>
+            <OtherTabContainer />
+            
         </div>
         )
 }
-
-export default Button
+//
+export default functional(Button, {
+ 
+    componentWillMount: (props) => {
+        // do something.. 
+        console.log("MOUNT", props)
+    },
+ 
+    shouldComponentUpdate: (props, nextProps) => {
+        if (props.gameStart == false && nextProps.gameStart == true)
+            props.startMove()
+        return true
+        // do something... 
+    }
+ 
+});

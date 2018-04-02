@@ -1,7 +1,9 @@
-export const getEndLine = (endLine) => {
+export const getEndLine = (endLine, gameId, playerInfo) => {
     return {
-        type : 'GET_LINE',
-        payload : endLine
+        type : 'server/GET_LINE',
+        payload : endLine,
+        gameId : gameId,
+        playerInfo : playerInfo
     }
 }
 
@@ -32,10 +34,11 @@ export const getCurrentPiece = (piece = []) =>{
 	}
 }
 
-export const createGame = (game) => {
+export const createGame = (room, playerName) => {
     return {
         type : 'server/CREATE_GAME',
-        payload : game
+        room : room,
+        playerName : playerName
     }
 }
 
@@ -60,7 +63,28 @@ export const move = (piece) => {
 	}
 }
 
+export const startGameServer = (id) => {
+    return {
+        type : 'server/START_GAME',
+        id : id
+    }
+}
 
+export const initOtherTab = (id, playerInfo) => {
+    return {
+        type : 'server/INIT_OTHER_TAB',
+        id : id,
+        playerInfo : playerInfo
+    }
+
+}
+
+// export const shareEndLine = (endLine) => {
+//     return {
+//         type : 'server/SHARE_END_LINE',
+//         payload : endLine
+//     }
+// }
 
 /*
 let nextTodoId = 0

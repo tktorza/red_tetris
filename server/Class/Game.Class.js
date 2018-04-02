@@ -2,36 +2,35 @@ const Piece = require('./Piece.Class')
 const Player = require('./Players.Class')
 
 module.exports = class Game {
-	constructor(id, socketId){
+	constructor(id, socketId, playerName){
 		this.game = {id : id, piece : [], player : [], start: false}
-		this.getPiece()
-		this.addPlayer(socketId)
+		this.addPiece()
+		this.addFirstPlayer(socketId, playerName)
 		// PEUT ETRE RAJOUTER UNE SOCKET ROOM
 	}
 	get Game(){
 		return this.game
 	}
-	addPlayer(socketId, isVisitor){
+	addPlayer(socketId, playerName){
 		if (this.game.start){
-			this.game.player.push(new Player(1, socketId, true))
+			this.game.player.push(new Player(this.game.player.length, socketId, playerName, true, false))
 		}else{
-			this.game.player.push(new Player(1, socketId, false))
+			this.game.player.push(new Player(this.game.player.length, socketId, playerName, false, false))
 			this.game.player[this.game.player.length -1].addPiece(this.game.piece)
 		}
 
 	}
+	addFirstPlayer(socketId, playerName){
+		this.game.player.push(new Player(0, socketId, playerName, false, true))
+		this.game.player[this.game.player.length -1].addPiece(this.game.piece)
+	}
 	startGame(){
 		this.game.start = true
-		setInterval(() => {
-			for (let i = 0; i < this.game.player.length; i++){
-				this.game.player[i].goDown()
-			}
-		}, 10000)
 	}
-	getPiece(){
+	addPiece(){
 		this.game.piece = []
 		for (let i = 0; i < 5; i++){
-			this.game.piece[i] = new Piece()
+			this.game.piece[i] =  new Piece()
 		}
 	}
 }
