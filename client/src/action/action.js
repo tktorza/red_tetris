@@ -7,6 +7,13 @@ export const getEndLine = (endLine, gameId, playerInfo) => {
     }
 }
 
+export const sendMalus = (id) =>{
+    return {
+        type: 'server/MALUS',
+        id : id
+    }
+}
+
 export const createTableX = (id) =>{
     return {
         type : 'CREATE_TAB_X',
@@ -24,6 +31,14 @@ export const createTableY = (id) =>{
             id : id,
             isDone : false
         }
+    }
+}
+
+export const disconnected = (gameId, playerInfo) => {
+    return {
+        type : 'server/DISCONNECTED',
+        gameId : gameId,
+        playerInfo : playerInfo
     }
 }
 

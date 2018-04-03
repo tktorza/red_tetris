@@ -1,7 +1,6 @@
 
 const socketMiddleware = socket => ({dispatch, getState}) => {
 	if(socket){
-		console.log("ON EST DANS LE MIDDLEWARE")
 	 	socket.on('action', dispatch)
   	}
   	return next => action => {

@@ -22,7 +22,6 @@ const Cell = (props) => {
 //
 const OtherTable = (props) => {
 	const { player } = props
-	console.log("OTHER TAB PLAYER == ", player)
       let line = []
         let column = []
         for (let x = 0; x < 10; x++){
@@ -31,13 +30,11 @@ const OtherTable = (props) => {
         for (let y = 0; y < 20; y++){
         	line.push({ id : y})
         }
-        player.map(p => { console.log("PPP = ", p)})
-
 	return (
 		<div>
 			{player.map(p => (
-
-				<div className="board" style={{display:'flex'}}>
+        <div key={p.player.id}>
+				  <div className="board" style={{display:'flex'}}>
 	            {column.map(c => (
 	                    <div key={c.id} id={c.id}>
 	                    	{line.map(l => (
@@ -45,7 +42,10 @@ const OtherTable = (props) => {
 	                    	))}
 	                    </div>
 	            ))}
-				</div>
+				  </div>
+          <p>{p.player.name}</p>
+        </div>
+
 			))}
 		</div>
             

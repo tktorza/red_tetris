@@ -7,7 +7,8 @@ import { createTableX, createTableY,
          move, getEndLine, createGame,
          getMorePiece, getNextPiece,
          startGameServer, startGameClient,
-         shareEndLine, initOtherTab } from '../action/action'
+         shareEndLine, initOtherTab,
+         sendMalus, disconnected } from '../action/action'
 import  store  from '../index'
 
 const isLoose = (table) => {
@@ -26,13 +27,15 @@ const isLoose = (table) => {
     }
 }
 
-const getNewEndLine = (table) => {
+const getNewEndLine = (table, dispatch, gameId, malus) => {
     let tmptab = []
     for (let i = 0; i < table.length; i++){
         tmptab = table.filter(filtre => {
-            return (filtre.y == table[i].y) })
+            if (filtre.y < 20 - malus)
+                return (filtre.y == table[i].y)
+        })
         if (tmptab.length == 10){
-
+            dispatch(sendMalus(gameId))
             table = table.filter(remove => {
                 return (remove.y != tmptab[0].y)
             })
@@ -113,13 +116,11 @@ const isPossible = (piece, move) => {
                     i++
             })
     }
-    console.log(i)
     return i 
 }
 
 const getNewPiece = (dispatch) => {
     let nextPiece = store.getState().buttonReducer.toJS().nextPiece.slice()
-    console.log("getNewPiece Next piece = ",nextPiece)
             
     let gameId = store.getState().buttonReducer.toJS().gameId
     let newPiece = nextPiece.shift()
@@ -130,12 +131,9 @@ const getNewPiece = (dispatch) => {
         dispatch(getNextPiece(nextPiece))
     }
     dispatch(getCurrentPiece(newPiece))
-    // nouvelle piece
-    //dispatch (update game)
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
         return  {   
                     tab : state.buttonReducer.get('line'),
                     column : state.buttonReducer.get('column'), 
@@ -146,7 +144,8 @@ const mapStateToProps = (state) => {
                     nextPiece : state.buttonReducer.get('nextPiece'),
                     isFirst : state.buttonReducer.get('isFirst'),
                     start : state.buttonReducer.get('start'),
-                    playerInfo : state.buttonReducer.get('playerInfo')
+                    playerInfo : state.buttonReducer.get('playerInfo'),
+                    malusLength : state.buttonReducer.get('malusLength')
                 }
 }
 
@@ -179,6 +178,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(initOtherTab(gameId, playerInfo))
                 let refreshIntervalId = setInterval(() => {
                     let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
+                    let malus = store.getState().buttonReducer.toJS().malusLength
                     let newPose = {type : currentPiece.type, coord : []}
                     if (isPossible(currentPiece, 'down') === 0){
                         currentPiece.coord.map(p => {
@@ -187,11 +187,10 @@ const mapDispatchToProps = (dispatch) => {
                             dispatch(move(newPose))
                     }else{
                         let newEndLine = store.getState().buttonReducer.toJS().endLine.slice().concat(currentPiece.coord)
-                        let FinalLine = getNewEndLine(newEndLine.slice())
+                        let FinalLine = getNewEndLine(newEndLine.slice(), dispatch, gameId, malus)
                         if (isLoose(FinalLine) == true){
                             dispatch(getEndLine(FinalLine, gameId, playerInfo))
                             clearInterval(refreshIntervalId)
-                            console.log("C PERDU")
                         }
                         else{
                         //  i++
@@ -252,6 +251,18 @@ const mapDispatchToProps = (dispatch) => {
                 let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
                 dispatch(getCurrentPiece(game.player[0].player.currentPiece.piece))
                 dispatch(getNextPiece(game.player[0].player.nextPiece))
+            },
+            shareEndLine : () => {
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+                dispatch(getEndLine(endLine, gameId, playerInfo))
+
+            },
+            disconnected : () => {
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                dispatch(disconnected(gameId, playerInfo))
             }
         }
 }

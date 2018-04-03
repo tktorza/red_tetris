@@ -22,7 +22,6 @@ exports.default = (socket) => {
 		startGame(socket, data)
 	})
 	socket.on('GET_LINE', data => {
-		console.log("ddd = ", data)
 		let i = getGameId(data.id)
 		io.to(socket.id).emit('action',
 		{
@@ -43,6 +42,24 @@ exports.default = (socket) => {
 			payload : { player : data.playerInfo, endLine : [] }
 		})
 	})
+	socket.on("MALUS", data => {
+		let i = getGameId(data.id) - 1
+		socket.broadcast.to(game[i].Game.id).emit('action',
+		{
+			type : 'MALUS'
+		})
+	})
+	socket.on('DISCONNECTED', data =>{
+		let i = getGameId(data.gameId) - 1
+		if (game[i]){
+			game[i].removePlayer(data.playerInfo.id)
+			socket.broadcast.to(game[i].Game.id).emit('action',
+			{
+				type : 'REMOVE_USER',
+				payload : data.playerInfo.id
+			})
+		}
+	})
 }
 
 const getGameId = (id) => {
@@ -57,7 +74,6 @@ const getGameId = (id) => {
 }
 
 const startGame = (socket, data) => {
-	console.log("data = ", data.id)
 	let i = getGameId(data.id) - 1
 	game[i].startGame()
 	io.to(game[i].Game.id).emit('action',{
@@ -67,7 +83,6 @@ const startGame = (socket, data) => {
 }
 
 const getPersonneById = (tab, playerName) => {
-	console.log("tab : ", tab[0])
 	let i = 0
 	let j = 0
 	tab.forEach( function(element, index) {
@@ -79,7 +94,6 @@ const getPersonneById = (tab, playerName) => {
 }
 
 const startNewGame = (data, socket) => {
-		console.log("data = ", data)
 		let id = data.room
 		let i = getGameId(id)
 		let j = i - 1
@@ -93,7 +107,6 @@ const startNewGame = (data, socket) => {
 
 		}
 		let personne = getPersonneById(game[j].Game.player, data.playerName)
-		console.log("lalAL =" , game[j].Game.player[personne])
 		game[j].Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
@@ -129,20 +142,4 @@ let piece =[]
 		type : 'GET_NEXT_PIECE',
 		payload : piece
 	})
-	// console.log("isisisissi")
-	// console.log("data = ", data)
-	// console.log(game)
-	// game.forEach((elem) => {
-	// 		if (elem.game.id == data){
-	// 			elem.getPiece()
-	// 			io.to(elem.game.player[0].player.socketId).emit('action', {
-	// 				type : "GET_NEXT_PIECE",
-	// 				payload : elem.game.piece
-	// 			})
-	// 			io.emit('action', {
-	// 				type : "CREATE_GAME",
-	// 				payload : elem.game
-	// 			})
-	// 		}
-	// });
 }
