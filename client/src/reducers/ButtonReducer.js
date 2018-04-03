@@ -53,6 +53,9 @@ export default function (tab = init, action){
             }).update('malusLength', malusLength => {
                 return malusLength += 1
             })
+        case "REFRESH_USER_FIRST" :
+            console.log("LALALALAL")
+            return tab.update('isFirst', isFirst => isFirst = true)
         default :
             return tab;
     }

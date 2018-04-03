@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { } from '../action/action'
 
 const mapStateToProps = (state) => {
-		console.log(state.otherTableReducer.toJS())
         return  { 
         	player : state.otherTableReducer.toJS()
         }

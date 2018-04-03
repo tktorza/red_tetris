@@ -1,5 +1,8 @@
 const Game = require('./Class/Game.Class.js')
 let game = []
+
+
+
 const piece = {
         type : 5,
         coord : [
@@ -9,6 +12,8 @@ const piece = {
                     { x : 5, y : 2 }
                 ]
     }
+
+
 exports.default = (socket) => {
 	socket.on('CREATE_GAME', (data) => {
 		startNewGame(data, socket)
@@ -52,12 +57,23 @@ exports.default = (socket) => {
 	socket.on('DISCONNECTED', data =>{
 		let i = getGameId(data.gameId) - 1
 		if (game[i]){
+			let j = getPlayerById(game[i].Game.player, data.playerInfo.id)
 			game[i].removePlayer(data.playerInfo.id)
 			socket.broadcast.to(game[i].Game.id).emit('action',
 			{
 				type : 'REMOVE_USER',
 				payload : data.playerInfo.id
 			})
+			if (j === 0){
+				if (typeof(game[i].Game.player[0]) != 'undefined'){
+					io.to(game[i].Game.player[0].player.socketId).emit('action',{
+						type : "REFRESH_USER_FIRST"
+					})
+				}
+				else{
+					game = game.splice(i, 1)
+				}
+			}
 		}
 	})
 }
@@ -87,6 +103,17 @@ const getPersonneById = (tab, playerName) => {
 	let j = 0
 	tab.forEach( function(element, index) {
 		if (element.player.playerName.localeCompare(playerName) == 0)
+			j = i
+		i++
+	});
+	return j
+}
+
+const getPlayerById = (tab, id) => {
+	let i = 0
+	let j = 0
+	tab.forEach( function(element, index) {
+		if (element.player.id === id)
 			j = i
 		i++
 	});

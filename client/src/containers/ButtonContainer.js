@@ -262,6 +262,7 @@ const mapDispatchToProps = (dispatch) => {
             disconnected : () => {
                 let gameId = store.getState().buttonReducer.toJS().gameId
                 let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                console.log("PI == ", playerInfo)
                 dispatch(disconnected(gameId, playerInfo))
             }
         }

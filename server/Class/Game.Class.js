@@ -35,10 +35,12 @@ module.exports = class Game {
 		this.game.player.push(new Player(0, socketId, playerName, false, true))
 		this.game.player[this.game.player.length -1].addPiece(this.game.piece)
 	}
-	removePlayer(playerId){
+	removePlayer(i){
 		// regarder si c'est le premie si oui on vire et remplace le 0
 		// remplacer les id ? 
-		let i = getPersonneById(this.game.player, playerId)
+		if (i == 0 && this.game.player.length > 1){
+			this.game.player[1].player.isFirst = true
+		}
 		this.game.player.splice(i, 1)
 	}
 	startGame(){
