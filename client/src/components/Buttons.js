@@ -7,7 +7,7 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 
 //
 const Button = (props) => {
-    const {createGame, tab, column, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected} = props
+    const {createGame, tab, column, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         switch (evt.key){
@@ -44,32 +44,37 @@ const Button = (props) => {
         //        createGame(info)
         // }
     // })
-   
-    return (
-        <div  style={{display:'flex', justifyContent : 'space-between'}}>
-            <button onClick={start()} style={{visibility : visib_2}}>Start</button>
-            <div className="board" style={{display:'flex'}}>
-               {column.map(c => (
-                    <div key={c.get('id')} id={c.get('id')}>
-                        {tab.map(t => (
-                            <Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} currentPiece={currentPiece} endLine={endLine}/>
-                        ))}
-                    </div>
-               ))}
+    if (playerInfo.isVisitor == true){
+        return (
+            <div  style={{display:'flex', justifyContent : 'space-between'}}>
+                <OtherTabContainer />
             </div>
-            <OtherTabContainer />
-            
-        </div>
-        )
+            )
+    }
+    else{
+        return (
+            <div  style={{display:'flex', justifyContent : 'space-between'}}>
+                <button onClick={start()} style={{visibility : visib_2}}>Start</button>
+                <div className="board" style={{display:'flex'}}>
+                   {column.map(c => (
+                        <div key={c.get('id')} id={c.get('id')}>
+                            {tab.map(t => (
+                                <Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} currentPiece={currentPiece} endLine={endLine}/>
+                            ))}
+                        </div>
+                   ))}
+                </div>
+                <OtherTabContainer />
+                
+            </div>
+            )
+    }
 }
 //
 export default functional(Button, {
  
     componentWillMount: (props) => {
-        console.log("PP == ", props.playerInfo.name)
-        console.log("TEST L:", window.location.href)
         if (typeof(props.playerInfo.name) == 'undefined'){
-            console.log("La")
             let infoParti = window.location.href.split('/')
             if (infoParti.length == 4){
                 let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
@@ -80,13 +85,25 @@ export default functional(Button, {
     },
  
     shouldComponentUpdate: (props, nextProps) => {
+        console.log("props = ", props.playerInfo)
+        console.log("NProps = ", nextProps.playerInfo)
+        console.log(typeof(props.playerInfo.isVisitor))
+        console.log(typeof(nextProps.playerInfo.isVisitor))
         if (props.gameStart == false && nextProps.gameStart == true)
             props.startMove()
+        if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){
+            // envoyer au server que l'on rejoin le game et qu'il envoit au autre client de partager les endLine 
+            console.log("1")
+            props.getUserInGame()
+        }
+        if (props.ifUserVisitor == false && nextProps.ifUserVisitor === true){
+            console.log("2")
+            props.initOtherTab()
+        }
         if (props.malusLength < nextProps.malusLength){
             props.shareEndLine()
         }
         return true
-        // do something... 
     }
  
 });

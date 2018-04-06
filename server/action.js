@@ -16,16 +16,20 @@ const piece = {
 
 exports.default = (socket) => {
 	socket.on('CREATE_GAME', (data) => {
+		console.log("GAME START  + = ", game)
 		startNewGame(data, socket)
 		//get game id
 		
 	})
+
 	socket.on('GET_MORE_PIECE', data => {
 		refreshGamePiece(socket, data)
 	})
+	
 	socket.on('START_GAME', data => {
 		startGame(socket, data)
 	})
+	
 	socket.on('GET_LINE', data => {
 		let i = getGameId(data.id)
 		io.to(socket.id).emit('action',
@@ -39,6 +43,7 @@ exports.default = (socket) => {
 			payload : {playerInfo : data.playerInfo, endLine : data.payload}
 		})
 	})
+	
 	socket.on('INIT_OTHER_TAB', data => {
 		let i = getGameId(data.id) - 1
 		socket.broadcast.to(game[i].Game.id).emit('action',
@@ -47,6 +52,21 @@ exports.default = (socket) => {
 			payload : { player : data.playerInfo, endLine : [] }
 		})
 	})
+	
+	socket.on('initOtherTabForVisitor', data => {
+		let i = getGameId(data.id) - 1
+		console.log(game[i].Game.player)
+		game[i].Game.player.forEach(element => {
+			console.log("elem -=== ", element.player.isVisitor)
+			if (element.player.isVisitor == true){
+				io.to(element.player.socketId).emit('action', {
+					type : 'INIT_OTHER_TAB',
+					payload : { player : data.playerInfo, endLine : []}
+				})
+			}
+		})
+	})
+	
 	socket.on("MALUS", data => {
 		let i = getGameId(data.id) - 1
 		socket.broadcast.to(game[i].Game.id).emit('action',
@@ -54,6 +74,7 @@ exports.default = (socket) => {
 			type : 'MALUS'
 		})
 	})
+	
 	socket.on('DISCONNECTED', data =>{
 		let i = getGameId(data.gameId) - 1
 		if (game[i]){
@@ -71,10 +92,23 @@ exports.default = (socket) => {
 					})
 				}
 				else{
-					game = game.splice(i, 1)
+					if (game.length == 1){
+						game = []
+					}
+					else
+						game = game.splice(i, 1)
+					console.log("GAME  == ", game.length)
 				}
 			}
 		}
+	})
+	
+	socket.on('GET_USER_IN_GAME', data => {
+		let i = getGameId(data.id) - 1
+		console.log("LA")
+		socket.broadcast.to(game[i].Game.id).emit('action',{
+			type : 'USER_GAME'
+		})
 	})
 }
 
@@ -152,7 +186,7 @@ const startNewGame = (data, socket) => {
 			type : 'CREATE_GAME',
 			id : game[j].Game.id,
 			isFirst : game[j].Game.player[personne].player.isFirst,
-			playerInfo : {name : data.playerName, id : personne}
+			playerInfo : {name : data.playerName, id : personne, isVisitor : game[j].Game.player[personne].player.isVisitor}
 		})
 			// .broadcast socket..broadcast -> tt le monde sauf soit !
 		

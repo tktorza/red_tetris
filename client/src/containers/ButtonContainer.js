@@ -8,7 +8,8 @@ import { createTableX, createTableY,
          getMorePiece, getNextPiece,
          startGameServer, startGameClient,
          shareEndLine, initOtherTab,
-         sendMalus, disconnected } from '../action/action'
+         sendMalus, disconnected,
+            initOtherTabForVisitor} from '../action/action'
 import  store  from '../index'
 
 const isLoose = (table) => {
@@ -145,7 +146,8 @@ const mapStateToProps = (state) => {
                     isFirst : state.buttonReducer.get('isFirst'),
                     start : state.buttonReducer.get('start'),
                     playerInfo : state.buttonReducer.get('playerInfo'),
-                    malusLength : state.buttonReducer.get('malusLength')
+                    malusLength : state.buttonReducer.get('malusLength'),
+                    ifUserVisitor : state.buttonReducer.get('ifUserVisitor')
                 }
 }
 
@@ -264,6 +266,17 @@ const mapDispatchToProps = (dispatch) => {
                 let playerInfo = store.getState().buttonReducer.toJS().playerInfo
                 console.log("PI == ", playerInfo)
                 dispatch(disconnected(gameId, playerInfo))
+            },
+            getUserInGame : () => {
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                dispatch({type : 'server/GET_USER_IN_GAME', id : gameId})
+            },
+            initOtherTab : () => {
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                dispatch(initOtherTabForVisitor(gameId, playerInfo))
+                dispatch({type : 'USER_GAME'})
+
             }
         }
 }

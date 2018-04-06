@@ -94,6 +94,13 @@ export const initOtherTab = (id, playerInfo) => {
 
 }
 
+export const initOtherTabForVisitor = (id, playerInfo) => {
+    return {
+        type : 'server/initOtherTabForVisitor',
+        id : id,
+        playerInfo : playerInfo
+    }
+}
 // export const shareEndLine = (endLine) => {
 //     return {
 //         type : 'server/SHARE_END_LINE',
