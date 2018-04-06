@@ -3,3 +3,42 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+
+.App-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.input-arrondi {
+  border-radius: 10px;
+  width: 100%;
+  height: 20px;
+  border: solid 0.1px;
+  padding: 15px;
+}
+
+.Connected-rotate {
+  display: flex;
+  justify-content: center;
+  animation: rotatein 0.5s linear;
+}
+
+.space {
+  margin-right: 0.5em;
+}
+
+@keyframes rotatein {
+  from {
+    color: white;
+    transform: rotate(180deg);
+  }
+
+  to {
+    color: black;
+    transform: rotate(360deg);
+  }
+}

@@ -1,3 +1,16 @@
+export const addUser = (user) => {
+    return {
+        type: 'ADD_USER', 
+        payload: user
+    }
+}
+
+export const getAllRooms = () =>{
+    return {
+        type : 'server/GET_CURRENT_ROOMS'
+    }
+}
+
 export const getEndLine = (endLine, gameId, playerInfo) => {
     return {
         type : 'server/GET_LINE',

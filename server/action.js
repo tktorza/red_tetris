@@ -15,6 +15,13 @@ const piece = {
 
 
 exports.default = (socket) => {
+	socket.on("GET_CURRENT_ROOMS", data => {
+		let rooms = [1, 2, 3, 4, 5, 6]
+		io.to(socket.id).emit('action', {
+			type : 'GET_CURRENT_ROOMS',
+			payload : game
+		})
+	})
 	socket.on('CREATE_GAME', (data) => {
 		console.log("GAME START  + = ", game)
 		startNewGame(data, socket)
