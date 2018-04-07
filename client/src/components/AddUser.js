@@ -26,6 +26,7 @@ const  Center = (props) => {
                   input = node
                 }} />
               </form>
+              <p className="gravity-enter">Press * keyword to reverse gravity.</p>
             </div>
           )
     }
@@ -37,7 +38,7 @@ const  Center = (props) => {
                 <p>Number of players: {Game.game.player.length} </p>
                 
                 <p>started: {Game.game.start == true ? 'yes' : 'no'} </p>
-                <JoinGame room={Game.game} createGame={createGame} user={name} />            
+                <JoinGame key={Game.game.id} room={Game.game} createGame={createGame} user={name} />            
                 </div>
             ))}
             <StartNewGame room={rooms.length} user={name}  createGame={createGame}/>

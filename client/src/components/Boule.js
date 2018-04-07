@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const table = [
+export const tableColor = [
 "#F0F8FF",
 "#FAEBD7",
 "#00FFFF",
@@ -151,14 +151,9 @@ const table = [
 ];
 
 const Boule = (props) => {
-    const {size, margin, marginTop} = props
-    const ok = "boule "+marginTop
+    const {style} = props
     return (
-        <div onClick={()=>{
-            // console.log(document.getElementsByClassName('boule')).forEach(element => {
-            //     element.style.marginTop = "initial";
-            // });
-        }} className={ok} style={{width: size, height: size, marginLeft: margin, backgroundColor: table[size % 147]}}></div>
+        <div className={'boule'} style={style}></div>
     )
 }
 
