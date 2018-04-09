@@ -8,7 +8,8 @@ import { } from '../action/action'
 const mapStateToProps = (state) => {
         return  {
             username: state.UserReducer.get('user'),
-            rooms: state.UserReducer.get('rooms')
+            rooms: state.UserReducer.get('rooms'),
+            playerInfo : state.buttonReducer.get('playerInfo'),            
         }
 }
 

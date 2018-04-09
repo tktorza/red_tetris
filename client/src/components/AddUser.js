@@ -5,7 +5,7 @@ import StartNewGame from './StartNewGame'
 
 //ne pas oublier le pb de l'id de la room lors de la creation de la nouvelle room
 const  Center = (props) => {
-    const {name, addUser, rooms, createGame} = props
+    const {name, addUser, rooms, createGame, playerInfo} = props
     const isLoggedIn = name != '' ? 1 : null;
     {rooms.map(Game => (
        console.log("GGG = ", Game.game.player)
@@ -29,8 +29,8 @@ const  Center = (props) => {
               <p className="gravity-enter">Press * keyword to reverse gravity.</p>
             </div>
           )
-    }
-    return ( 
+    } else if (!playerInfo || (playerInfo && !playerInfo.id)){
+      return ( 
         <div>
             {rooms.map(Game => (
                 <div key={Game.game.id}>
@@ -48,13 +48,16 @@ const  Center = (props) => {
             </div>
             </div>
             );
+    }
+    
   }
 
 
 const AddUser = ( props ) => {
-  const {addUser, username, rooms, createGame} = props 
+  const {addUser, username, rooms, createGame, playerInfo} = props 
+  console.log("player: ", playerInfo)
   return (
-    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame}/>
+    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo}/>
   )
 }
 
