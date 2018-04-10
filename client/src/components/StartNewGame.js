@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 const StartNewGame = ( props ) => {
     const {createGame, room, user} = props 
     return (
-        <a className="" value="Join game" href="" onClick={()=>{
+        <div className="" onClick={()=>{
             createGame(room, user)
-        }}/>
+        }}>Start New Game</div>
     )
   }
   

@@ -69,7 +69,6 @@ class App extends Component {
       <div className="App-center">
         <AddUserContainer />
       </div>
-       <Button path="/home" />
        <div className={"App-center-background"}>
        {this.state.table.map((object, key) =>
           (

@@ -5,6 +5,12 @@ export const addUser = (user) => {
     }
 }
 
+export const inGame = () => {
+    return {
+        type : "IN_GAME"
+    }
+}
+
 export const getAllRooms = () =>{
     return {
         type : 'server/GET_CURRENT_ROOMS'

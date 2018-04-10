@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import JoinGame from './JoinGame'
 import StartNewGame from './StartNewGame'
-
+import Button from '../containers/ButtonContainer'
 //ne pas oublier le pb de l'id de la room lors de la creation de la nouvelle room
 const  Center = (props) => {
-    const {name, addUser, rooms, createGame, playerInfo} = props
+    const {name, addUser, rooms, createGame, playerInfo, inGame} = props
     const isLoggedIn = name != '' ? 1 : null;
     {rooms.map(Game => (
        console.log("GGG = ", Game.game.player)
@@ -29,7 +29,8 @@ const  Center = (props) => {
               <p className="gravity-enter">Press * keyword to reverse gravity.</p>
             </div>
           )
-    } else if (!playerInfo || (playerInfo && !playerInfo.id)){
+    } else if (!inGame){
+      console.log("GG == ", inGame)
       return ( 
         <div>
             {rooms.map(Game => (
@@ -48,16 +49,19 @@ const  Center = (props) => {
             </div>
             </div>
             );
+    }else{
+      console.log("LA")
+      return (<Button />)
     }
     
   }
 
 
 const AddUser = ( props ) => {
-  const {addUser, username, rooms, createGame, playerInfo} = props 
+  const {addUser, username, rooms, createGame, playerInfo, inGame} = props 
   console.log("player: ", playerInfo)
   return (
-    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo}/>
+    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo} inGame={inGame}/>
   )
 }
 
