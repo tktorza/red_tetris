@@ -6,7 +6,7 @@ const StartNewGame = ( props ) => {
     return (
         <div className="" onClick={()=>{
             createGame(room, user)
-        }}>Start New Game</div>
+        }} style={{cursor : 'pointer'}}>Start New Game</div>
     )
   }
   

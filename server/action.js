@@ -162,6 +162,7 @@ const getPlayerById = (tab, id) => {
 }
 
 const startNewGame = (data, socket) => {
+		console.log("DATA === ", data)
 		let id = data.room
 		let i = getGameId(id)
 		let j = i - 1

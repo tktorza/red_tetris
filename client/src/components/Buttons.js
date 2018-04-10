@@ -36,14 +36,6 @@ const Button = (props) => {
      window.onbeforeunload = (e) => {
         disconnected()
     };
-    // window.onload(e => {
-        // let infoParti = window.location.href.split('/')
-        // if (infoParti.length == 4 && tab.toJS().length == 0){
-        //     let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
-        //     if (info.length == 2)
-        //        createGame(info)
-        // }
-    // })
     if (playerInfo.isVisitor == true){
         return (
             <div  style={{display:'flex', justifyContent : 'space-between'}}>
