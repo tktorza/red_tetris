@@ -2,19 +2,6 @@ const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
 let RoomId = []
 
-let game = []
-
-const piece = {
-        type : 5,
-        coord : [
-                    { x : 4, y : 0 },
-                    { x : 4, y : 1 },
-                    { x : 4, y : 2 },
-                    { x : 5, y : 2 }
-                ]
-    }
-
-
 exports.default = (socket) => {
 	socket.on("GET_CURRENT_ROOMS", data => {
 		let rooms = []
@@ -83,6 +70,7 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('DISCONNECTED', data =>{
+		// revoir la logique : si qlq se deconnect mais quil y un un visituer => game restart ? ave lui en first
 		let currentGame = cache.get(data.gameId)
 		let j = getPlayerById(currentGame.Game.player, data.playerInfo.id)
 		currentGame.removePlayer(data.playerInfo.id)
@@ -102,9 +90,12 @@ exports.default = (socket) => {
 				})
 			}
 			else{
+				RoomId = RoomId.filter(elemt => elemt != data.gameId)
 				cache.del(data.gameId)
 				// remove // updAte room from addUserContainer
 			}
+		}else if (typeof(currentGame.Game.player[0]) == 'undefined'){
+			cache.del(data.gameId)
 		}
 	})
 	socket.on('GET_USER_IN_GAME', data => {
@@ -146,10 +137,13 @@ const getPlayerById = (tab, id) => {
 }
 
 const idAvailable = (id) => {
+	console.log("id")
+	console.log("CAHCHE ", cache.get(id))
 	if (cache.get(id) == null){
 		return id
 	}
-	return idAvailable(id++)
+	id += 1
+	return idAvailable(id)
 }
 
 const startNewGame = (data, socket) => {
