@@ -1,7 +1,7 @@
 import AddUser from '../components/AddUser'
 import  store  from '../index'
 import { connect } from 'react-redux'
-import { addUser, getAllRooms, createGame, createTableX, createTableY, inGame } from '../action/action'
+import { addUser, getAllRooms, createGame, createTableX, createTableY, inGame, joinGame } from '../action/action'
 
 import { } from '../action/action'
 
@@ -23,6 +23,17 @@ const mapDispatchToProps = (dispatch) => {
         createGame: (game, user) => {
             dispatch(inGame())
             dispatch(createGame(game, user))
+            for(let x = 0; x < 10; x++) {
+                dispatch(createTableX(x))
+               
+            }
+            for (let y = 0; y < 20; y++){
+                dispatch(createTableY(y))
+            }
+        },
+        joinGame : (game, user) => {
+            dispatch(inGame())
+            dispatch(joinGame(game, user))
             for(let x = 0; x < 10; x++) {
                 dispatch(createTableX(x))
                

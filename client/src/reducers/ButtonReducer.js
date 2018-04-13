@@ -1,3 +1,4 @@
+
 import {List, Map, fromJS} from 'immutable'
 
 const init = fromJS({
@@ -61,6 +62,8 @@ export default function (tab = init, action){
         case "USER_GAME" :
             console.log("trop coool ============ \n")
             return tab.update('ifUserVisitor', ifUserVisitor => ifUserVisitor = !ifUserVisitor)
+        case "DISCONNECTED" :
+            return init
         default :
             return tab;
     }

@@ -1,7 +1,8 @@
 const Game = require('./Class/Game.Class.js')
+const cache = require('memory-cache')
+let RoomId = []
+
 let game = []
-
-
 
 const piece = {
         type : 5,
@@ -16,19 +17,23 @@ const piece = {
 
 exports.default = (socket) => {
 	socket.on("GET_CURRENT_ROOMS", data => {
-		let rooms = [1, 2, 3, 4, 5, 6]
+		let rooms = []
+		RoomId.forEach( (element) => {
+			rooms.push(cache.get(element))
+		});
 		io.to(socket.id).emit('action', {
 			type : 'GET_CURRENT_ROOMS',
-			payload : game
+			payload : rooms
 		})
 	})
 	socket.on('CREATE_GAME', (data) => {
-		console.log("GAME START  + = ", game)
 		startNewGame(data, socket)
 		//get game id
 		
 	})
-
+	socket.on('JOIN_GAME', (data) => {
+		joinGame(data, socket)
+	})
 	socket.on('GET_MORE_PIECE', data => {
 		refreshGamePiece(socket, data)
 	})
@@ -38,13 +43,12 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('GET_LINE', data => {
-		let i = getGameId(data.id)
 		io.to(socket.id).emit('action',
 		{
 			type : 'GET_LINE',
 			payload : data.payload
 		})
-		socket.broadcast.to(game[i].Game.id).emit('action',
+		socket.broadcast.to(data.gameId).emit('action',
 		{
 			type : 'SHARE_END_LINE',
 			payload : {playerInfo : data.playerInfo, endLine : data.payload}
@@ -52,8 +56,7 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('INIT_OTHER_TAB', data => {
-		let i = getGameId(data.id) - 1
-		socket.broadcast.to(game[i].Game.id).emit('action',
+		socket.broadcast.to(data.id).emit('action',
 		{
 			type : 'INIT_OTHER_TAB',
 			payload : { player : data.playerInfo, endLine : [] }
@@ -61,10 +64,8 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('initOtherTabForVisitor', data => {
-		let i = getGameId(data.id) - 1
-		console.log(game[i].Game.player)
-		game[i].Game.player.forEach(element => {
-			console.log("elem -=== ", element.player.isVisitor)
+		let currentGame = cache.get(data.id)
+		currentGame.Game.player.forEach(element => {
 			if (element.player.isVisitor == true){
 				io.to(element.player.socketId).emit('action', {
 					type : 'INIT_OTHER_TAB',
@@ -75,65 +76,48 @@ exports.default = (socket) => {
 	})
 	
 	socket.on("MALUS", data => {
-		let i = getGameId(data.id) - 1
-		socket.broadcast.to(game[i].Game.id).emit('action',
+		socket.broadcast.to(data.id).emit('action',
 		{
 			type : 'MALUS'
 		})
 	})
 	
 	socket.on('DISCONNECTED', data =>{
-		let i = getGameId(data.gameId) - 1
-		if (game[i]){
-			let j = getPlayerById(game[i].Game.player, data.playerInfo.id)
-			game[i].removePlayer(data.playerInfo.id)
-			socket.broadcast.to(game[i].Game.id).emit('action',
-			{
-				type : 'REMOVE_USER',
-				payload : data.playerInfo.id
-			})
-			if (j === 0){
-				if (typeof(game[i].Game.player[0]) != 'undefined'){
-					io.to(game[i].Game.player[0].player.socketId).emit('action',{
-						type : "REFRESH_USER_FIRST"
-					})
-				}
-				else{
-					if (game.length == 1){
-						game = []
-					}
-					else
-						game = game.splice(i, 1)
-					console.log("GAME  == ", game.length)
-				}
+		let currentGame = cache.get(data.gameId)
+		let j = getPlayerById(currentGame.Game.player, data.playerInfo.id)
+		currentGame.removePlayer(data.playerInfo.id)
+		socket.broadcast.to(data.gameId).emit('action',
+		{
+			type : 'REMOVE_USER',
+			payload : data.playerInfo.id
+		})
+		io.to(socket.id).emit('action', {
+			type : 'DISCONNECTED'
+		})
+		cache.put(data.gameId, currentGame)
+		if (j === 0){
+			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
+					type : "REFRESH_USER_FIRST"
+				})
+			}
+			else{
+				cache.del(data.gameId)
+				// remove // updAte room from addUserContainer
 			}
 		}
 	})
-	
 	socket.on('GET_USER_IN_GAME', data => {
-		let i = getGameId(data.id) - 1
-		console.log("LA")
-		socket.broadcast.to(game[i].Game.id).emit('action',{
+		socket.broadcast.to(data.id).emit('action',{
 			type : 'USER_GAME'
 		})
 	})
 }
 
-const getGameId = (id) => {
-	let i = 1
-	let j = 0
-	game.forEach(item => {
-		if (item.Game.id == id)
-			j = i
-		i++
-	})
-	return j
-}
-
 const startGame = (socket, data) => {
-	let i = getGameId(data.id) - 1
-	game[i].startGame()
-	io.to(game[i].Game.id).emit('action',{
+	let currentGame = cache.get(data.id)
+	currentGame.startGame()
+	io.to(data.id).emit('action',{
 		type : "START_GAME"
 	})
 
@@ -161,30 +145,29 @@ const getPlayerById = (tab, id) => {
 	return j
 }
 
-const startNewGame = (data, socket) => {
-		console.log("DATA === ", data)
-		let id = data.room
-		let i = getGameId(id)
-		let j = i - 1
-		let piece = []
-		if (i > 0){
-			game[i - 1].addPlayer(socket.id, data.playerName)
-		}
-		else{
-			game.push(new Game(id, socket.id, data.playerName))
-			j = game.length - 1
+const idAvailable = (id) => {
+	if (cache.get(id) == null){
+		return id
+	}
+	return idAvailable(id++)
+}
 
-		}
-		let personne = getPersonneById(game[j].Game.player, data.playerName)
-		game[j].Game.piece.forEach( function(element, index) {
+const startNewGame = (data, socket) => {
+		console.log("CREATE GAME")
+		let id = idAvailable(data.room)
+		let piece = []
+		let test = cache.get(id)
+		let currentGame = new Game(id, socket.id, data.playerName)
+		let personne = getPersonneById(currentGame.Game.player, data.playerName)
+		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
 		socket.join(id, ()=> {
-			console.log('join room')
+			console.log('join room :', id)
 		})
 		io.to(socket.id).emit('action', {
 			type : 'GET_CURRENT_PIECE',
-			payload : game[j].Game.piece[0].piece
+			payload : currentGame.Game.piece[0].piece
 		})
 		io.to(socket.id).emit('action', {
 			type : 'GET_NEXT_PIECE',
@@ -192,22 +175,54 @@ const startNewGame = (data, socket) => {
 		})
 		io.to(socket.id).emit('action', {
 			type : 'CREATE_GAME',
-			id : game[j].Game.id,
-			isFirst : game[j].Game.player[personne].player.isFirst,
-			playerInfo : {name : data.playerName, id : personne, isVisitor : game[j].Game.player[personne].player.isVisitor}
+			id : id,
+			isFirst : true,
+			playerInfo : {name : data.playerName, id : personne, isVisitor : false}
 		})
+		cache.put(id, currentGame)
+		RoomId.push(id)
 			// .broadcast socket..broadcast -> tt le monde sauf soit !
 		
 }
 
+const joinGame = (data, socket) => {
+	console.log("JOIN GAME")
+	let id = data.room.id
+	let piece = []
+	let currentGame = cache.get(id)
+	currentGame.addPlayer(socket.id, data.playerName)
+	// game[i].addPlayer(socket.id, data.playerName)
+	let personne = getPersonneById(currentGame.Game.player, data.playerName)
+	currentGame.Game.piece.forEach( function(element, index) {
+		piece.push(element.piece)
+	});	
+	socket.join(id, ()=> {
+			console.log('join room :', id)
+	})
+	io.to(socket.id).emit('action', {
+		type : 'GET_CURRENT_PIECE',
+		payload : currentGame.Game.piece[0].piece
+	})
+	io.to(socket.id).emit('action', {
+		type : 'GET_NEXT_PIECE',
+		payload : piece.slice(1)
+	})
+	io.to(socket.id).emit('action', {
+		type : 'CREATE_GAME',
+		id : id,
+		isFirst : false,
+		playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor}
+	})
+}
+
 const refreshGamePiece = (socket, data) => {
-let i = getGameId(data.payload) - 1
-let piece =[]
-	game[i].addPiece()
-	game[i].Game.piece.forEach( function(element, index) {
+	let piece =[]
+	let currentGame = cache.get(data.payload)
+	currentGame.addPiece()
+	currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
-	io.to(game[i].Game.id).emit('action' , {
+	io.to(data.payload).emit('action' , {
 		type : 'GET_NEXT_PIECE',
 		payload : piece
 	})

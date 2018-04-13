@@ -5,6 +5,14 @@ export const addUser = (user) => {
     }
 }
 
+export const joinGame = (room, playerName) => {
+    return {
+        type : "server/JOIN_GAME",
+        room : room,
+        playerName : playerName
+    }
+}
+
 export const inGame = () => {
     return {
         type : "IN_GAME"

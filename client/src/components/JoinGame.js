@@ -2,13 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const JoinGame = ( props ) => {
-    const {createGame, room, user} = props 
+    const {joinGame, room, user} = props 
     console.log(room)
     return (
         <div className="" href="" onClick={()=>{
-            createGame(room, user)
+            joinGame(room, user)
             
-        }}>Join game
+        }} style={{cursor : 'pointer'}}>Join game
         </div>
     )
   }
