@@ -12,6 +12,39 @@ import { createTableX, createTableY,
             initOtherTabForVisitor} from '../action/action'
 import  store  from '../index'
 
+
+const getLowerCoord = (piece) => {
+    let tmpValue = -1
+    piece.map(p => {
+        if (p.y > tmpValue){
+            tmpValue = p.y
+        }
+    })
+
+    return tmpValue
+}
+const calculDown = (piece, endLine) => {
+    console.log("endLine", endLine)
+    let newEndLine = {type : piece.type, coord : []}
+    let difference = -1 * (-1 - getLowerCoord(piece.coord))
+    let tmp = 20
+    piece.coord.forEach(elem => {
+        endLine.map(e => {
+            if (elem.x == e.x){
+                if (e.y < tmp)
+                    tmp = e.y
+                // newEndLine.cord.push({x : elem.x, y : elem.y + 20 - difference + e.y})
+            }
+
+        })
+        // newEndLine.coord.push({x : elem.x, y : elem.y + tmp - difference  })
+    })
+    piece.coord.forEach(elem => {
+        newEndLine.coord.push({x : elem.x, y : elem.y + tmp - difference  })
+    })
+    return newEndLine
+}
+
 const isLoose = (table) => {
     let i = 0
     // regarder si possible quadn on pose la piece sur le tabelau
@@ -77,6 +110,7 @@ const calculeRotate = (piece) =>{
             return piece
         }
 }
+
 const isPossible = (piece, move) => {
     let endLine = store.getState().buttonReducer.toJS().endLine.slice()
     let i = 0
@@ -242,12 +276,22 @@ const mapDispatchToProps = (dispatch) => {
                                 newPose.coord.push({x : p.x, y : p.y + 1})
                             })
                             break
-
                     }
                     if (isPossible(newPose, mve) === 0){
                         dispatch(move(newPose))
                     }
                 }
+            },
+            SpaceDown : () => {
+                let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
+                let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+                let gameId = store.getState().buttonReducer.toJS().gameId
+                let newPose = Object.assign({}, calculDown(currentPiece, endLine))
+                let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+                        dispatch(move(newPose))
+                // getNewPiece(dispatch)
+                // dispatch(getEndLine(newPose, gameId, playerInfo))
+
             },
             createPiece : () => {
                 let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
@@ -264,7 +308,6 @@ const mapDispatchToProps = (dispatch) => {
             disconnected : () => {
                 let gameId = store.getState().buttonReducer.toJS().gameId
                 let playerInfo = store.getState().buttonReducer.toJS().playerInfo
-                console.log("PI == ", playerInfo)
                 dispatch(disconnected(gameId, playerInfo))
             },
             getUserInGame : () => {

@@ -40,7 +40,6 @@ export default function (tab = init, action){
         case "GET_LINE" : 
             return tab.update('endLine', List([]), endLine => endLine = action.payload)
         case "CREATE_GAME" :
-            console.log(action.playerInfo)
             return tab.update('gameId', gameId => gameId = action.id).update('isFirst', isFirst => isFirst = action.isFirst).update('playerInfo', List([]), playerInfo => playerInfo = action.playerInfo)
         case "START_GAME" : 
             return tab.update('gameStart', gameStart => gameStart = !gameStart)
@@ -57,10 +56,8 @@ export default function (tab = init, action){
                 return malusLength += 1
             })
         case "REFRESH_USER_FIRST" :
-            console.log("LALALALAL")
             return tab.update('isFirst', isFirst => isFirst = true)
         case "USER_GAME" :
-            console.log("trop coool ============ \n")
             return tab.update('ifUserVisitor', ifUserVisitor => ifUserVisitor = !ifUserVisitor)
         case "DISCONNECTED" :
             return init

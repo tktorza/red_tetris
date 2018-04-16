@@ -7,9 +7,10 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 
 //
 const Button = (props) => {
-    const {createGame, tab, column, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
+    const {createGame, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
+        console.log(evt)
         switch (evt.key){
             case "ArrowRight" :
                 KeyDown(evt);
@@ -23,6 +24,9 @@ const Button = (props) => {
             case "ArrowDown" :
                 KeyDown(evt);
                 break;
+            case " " :
+                SpaceDown();
+                break; 
         }
     }
    
@@ -77,10 +81,6 @@ export default functional(Button, {
     },
  
     shouldComponentUpdate: (props, nextProps) => {
-        console.log("props = ", props.playerInfo)
-        console.log("NProps = ", nextProps.playerInfo)
-        console.log(typeof(props.playerInfo.isVisitor))
-        console.log(typeof(nextProps.playerInfo.isVisitor))
         if (props.gameStart == false && nextProps.gameStart == true)
             props.startMove()
         if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){

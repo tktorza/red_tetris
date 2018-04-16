@@ -7,9 +7,6 @@ import Button from '../containers/ButtonContainer'
 const  Center = (props) => {
     const {name, addUser, rooms, createGame, playerInfo, inGame, joinGame} = props
     const isLoggedIn = name != '' ? 1 : null;
-    {rooms.map(Game => (
-       console.log("GGG = ", Game.game.player)
-    ))}
     if (!isLoggedIn) {
         let input
         return (
@@ -30,7 +27,6 @@ const  Center = (props) => {
             </div>
           )
     } else if (!inGame){
-      console.log("GG == ", inGame)
       return ( 
         <div>
             {rooms.map(Game => (
@@ -51,7 +47,6 @@ const  Center = (props) => {
             </div>
             );
     }else{
-      console.log("LA")
       return (<Button />)
     }
     
@@ -60,7 +55,6 @@ const  Center = (props) => {
 
 const AddUser = ( props ) => {
   const {addUser, username, rooms, createGame, playerInfo, inGame, joinGame} = props 
-  console.log("player: ", playerInfo)
   return (
     <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo} inGame={inGame} joinGame={joinGame}/>
   )
