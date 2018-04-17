@@ -12,7 +12,9 @@ const init = fromJS({
         gameId : 0 , 
         gameStart : false,
         isFirst : false,
-        ifUserVisitor : false
+        ifUserVisitor : false,
+        isLooser : false,
+        isWinner : false
     })
 
 let addEnd = [
@@ -36,7 +38,7 @@ export default function (tab = init, action){
         case "GET_CURRENT_PIECE":
             return tab.update('currentPiece', List([]), currentPiece => currentPiece = action.payload)
         case "MOVE" :
-            return tab.update('currentPiece', List([]), currentPiece => currentPiece =action.payload)
+            return tab.update('currentPiece', List([]), currentPiece => currentPiece = action.payload)
         case "GET_LINE" : 
             return tab.update('endLine', List([]), endLine => endLine = action.payload)
         case "CREATE_GAME" :
@@ -61,6 +63,12 @@ export default function (tab = init, action){
             return tab.update('ifUserVisitor', ifUserVisitor => ifUserVisitor = !ifUserVisitor)
         case "DISCONNECTED" :
             return init
+        case "LOOSE" : 
+            return tab.update('isLooser', isLooser => isLooser = true)
+        case "WINNER" : 
+            return tab.update('isWinner', isWinner => isWinner = true)
+        case "RESTART_GAME": 
+            return tab.update('isLooser', isLooser => isLooser = false).update('isWinner', isWinner => isWinner = false).update('endLine', List([]), endLine => endLine = [])
         default :
             return tab;
     }

@@ -20,6 +20,8 @@ export default function (tab = init, action){
                     return player.get('player').id != action.payload
                 })
             })
+        case "RESTART" : 
+            return init
         case "INIT_OTHER_TAB" :
             return tab.push(Map(action.payload))
         default :

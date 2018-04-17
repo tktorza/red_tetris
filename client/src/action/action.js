@@ -5,6 +5,20 @@ export const addUser = (user) => {
     }
 }
 
+export const loose = (gameId, playerInfo) => {
+    return {
+        type : "server/IS_LOOSE",
+        gameId : gameId,
+        playerInfo : playerInfo
+    }
+}
+
+export const restartGame = (gameId) => {
+    return {
+        type : "server/RESTART_GAME",
+        gameId : gameId
+    }
+}
 export const joinGame = (room, playerName) => {
     return {
         type : "server/JOIN_GAME",

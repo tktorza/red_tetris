@@ -7,7 +7,7 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 
 //
 const Button = (props) => {
-    const {createGame, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
+    const {createGame, refreshInterval, restartGame, tab, column, isLooser, isWinner, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         console.log(evt)
@@ -33,21 +33,36 @@ const Button = (props) => {
     const start = () => event => {
         startMove_2()
     }
-    let visib_2 = "hidden"
-    if (tab.toJS().length > 0 && isFirst){
-        visib_2 = 'visible'
+    const Restart = () => event => {
+        restartGame()
+    }
+    console.log("is winner, " , isWinner)
+    let visib_2
+    if (gameStart == false && isFirst)
+        visib_2 = "visible"
+    else{
+         visib_2 = 'hidden'
     }
      window.onbeforeunload = (e) => {
         disconnected()
-    };
+    }
     if (playerInfo.isVisitor == true){
         return (
             <div  style={{display:'flex', justifyContent : 'space-between'}}>
                 <OtherTabContainer />
             </div>
             )
+    }else if (isWinner == true){
+        refreshInterval()
+        return (
+            <div style={{display:'flex', justifyContent : 'space-between'}}>
+            <div>WINNER</div>
+                <OtherTabContainer />
+                <button style={{visibility : visib_2}} onClick={Restart()}>RestartGame</button>
+            </div>
+        )
     }
-    else{
+    else if (isLooser == false){
         return (
             <div  style={{display:'flex', justifyContent : 'space-between'}}>
                 <button onClick={start()} style={{visibility : visib_2}}>Start</button>
@@ -64,6 +79,14 @@ const Button = (props) => {
                 
             </div>
             )
+    }else{
+        return(
+            <div style={{display:'flex', justifyContent : 'space-between'}}>
+            <div>LOOSER</div>
+            <OtherTabContainer />
+                <button style={{visibility : visib_2}} onClick={Restart()}>RestartGame</button>
+            </div>
+        )
     }
 }
 //

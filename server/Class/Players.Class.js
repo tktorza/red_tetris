@@ -9,7 +9,8 @@ module.exports = class Player {
 			socketId : socket, 
 			isVisitor : isVisitor, 
 			playerName : playerName,
-			isFirst : isFirst
+			isFirst : isFirst,
+			isLooser : false
 		}
 		// this.player.nextPiece = 
 		// this.Player.id = GetNewPlayerId()

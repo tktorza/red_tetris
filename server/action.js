@@ -13,6 +13,56 @@ exports.default = (socket) => {
 			payload : rooms
 		})
 	})
+	socket.on("RESTART_GAME", data => {
+		let currentGame = cache.get(data.gameId)
+		let piece = []
+		
+		currentGame.addPiece()
+		currentGame.game.player.forEach(element => {
+			element.player.isLooser = false
+			element.player.isVisitor = false
+			io.to(element.player.socketId).emit('action', {
+				type : 'CREATE_GAME',
+				id : data.gameId,
+				isFirst : element.player.isFirst,
+				playerInfo : {name : element.player.playerName, id : element.player.id, isVisitor : false}
+			})
+			// socket.broadcast.to(data.gameId).emit('action',
+			// {
+			// 	type : 'INIT_OTHER_TAB',
+			// 	payload : { player : {name : element.player.playerName, id : element.player.id, isVisitor : false}, endLine : [] }
+			// })
+		})
+		currentGame.Game.piece.forEach( function(element, index) {
+			piece.push(element.piece)
+		});
+		io.to(data.gameId).emit('action', {
+			type : 'GET_CURRENT_PIECE',
+			payload : currentGame.Game.piece[0].piece
+		}).emit('action',
+			{
+				type : 'RESTART',
+			})
+		io.to(socket.id).emit('action', {
+			type : 'GET_NEXT_PIECE',
+			payload : piece.slice(1)
+		})
+		cache.put(data.gameId, currentGame)
+		io.to(data.gameId).emit("action", {
+			type : "RESTART_GAME"
+		})
+	})
+	socket.on("IS_LOOSE", data => {
+		let currentGame = cache.get(data.gameId)
+		currentGame.game.player[data.playerInfo.id].player.isLooser = true
+		cache.put(data.gameId, currentGame)
+		let isLast = checkIfLastLooser(currentGame.game.player)
+		if (isLast.i == 1){
+			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "WINNER"})
+			io.to(data.gameId).emit('action', {type : "START_GAME"})
+		}
+		io.to(socket.id).emit("action", {type : "LOOSE"})
+	})
 	socket.on('CREATE_GAME', (data) => {
 		startNewGame(data, socket)
 		//get game id
@@ -103,6 +153,18 @@ exports.default = (socket) => {
 			type : 'USER_GAME'
 		})
 	})
+}
+
+const checkIfLastLooser = (tab) =>{
+	let i = 0
+	let j = 0
+	for (let k = 0; k < tab.length; k++){
+		if (tab[k].player.isLooser == false){
+			i++
+			j = k
+		}
+	}
+	return ({i, j})
 }
 
 const startGame = (socket, data) => {
