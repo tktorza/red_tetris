@@ -42,15 +42,21 @@ exports.default = (socket) => {
 		}).emit('action',
 			{
 				type : 'RESTART',
-			})
-		io.to(socket.id).emit('action', {
+			}).emit('action', {
 			type : 'GET_NEXT_PIECE',
 			payload : piece.slice(1)
-		})
-		cache.put(data.gameId, currentGame)
-		io.to(data.gameId).emit("action", {
+		}).emit("action", {
 			type : "RESTART_GAME"
 		})
+
+		// io.to(socket.id).emit('action', {
+		// 	type : 'GET_NEXT_PIECE',
+		// 	payload : piece.slice(1)
+		// })
+		cache.put(data.gameId, currentGame)
+		// io.to(data.gameId).emit("action", {
+		// 	type : "RESTART_GAME"
+		// })
 	})
 	socket.on("IS_LOOSE", data => {
 		let currentGame = cache.get(data.gameId)
@@ -159,7 +165,7 @@ const checkIfLastLooser = (tab) =>{
 	let i = 0
 	let j = 0
 	for (let k = 0; k < tab.length; k++){
-		if (tab[k].player.isLooser == false){
+		if (tab[k].player.isLooser == false && tab[k].player.isVisitor == false){
 			i++
 			j = k
 		}

@@ -104,7 +104,7 @@ export default functional(Button, {
     },
  
     shouldComponentUpdate: (props, nextProps) => {
-        if (props.gameStart == false && nextProps.gameStart == true)
+        if (props.gameStart == false && nextProps.gameStart == true && nextProps.playerInfo.isVisitor == false)
             props.startMove()
         if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){
             // envoyer au server que l'on rejoin le game et qu'il envoit au autre client de partager les endLine 
