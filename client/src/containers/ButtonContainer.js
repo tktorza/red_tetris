@@ -8,7 +8,7 @@ import { createTableX, createTableY,
          getMorePiece, getNextPiece,
          startGameServer, startGameClient,
          shareEndLine, initOtherTab,
-         sendMalus, disconnected,
+         sendMalus, disconnected, upScore,
             initOtherTabForVisitor, loose, restartGame, shareWinner} from '../action/action'
 import  store  from '../index'
 
@@ -72,6 +72,7 @@ const getNewEndLine = (table, dispatch, gameId, malus) => {
         })
         if (tmptab.length == 10){
             dispatch(sendMalus(gameId))
+            dispatch(upScore())
             table = table.filter(remove => {
                 return (remove.y != tmptab[0].y)
             })
@@ -184,7 +185,8 @@ const mapStateToProps = (state) => {
                 malusLength : state.buttonReducer.get('malusLength'),
                 ifUserVisitor : state.buttonReducer.get('ifUserVisitor'),
                 isLooser : state.buttonReducer.get('isLooser'),
-                isWinner : state.buttonReducer.get('isWinner')
+                isWinner : state.buttonReducer.get('isWinner'),
+                score : state.buttonReducer.get('score')
             }
 }
 

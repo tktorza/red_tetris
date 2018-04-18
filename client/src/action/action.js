@@ -150,6 +150,12 @@ export const initOtherTabForVisitor = (id, playerInfo) => {
         playerInfo : playerInfo
     }
 }
+
+export const upScore = () => {
+    return {
+        type : "UP_SCORE"
+    }
+}
 // export const shareEndLine = (endLine) => {
 //     return {
 //         type : 'server/SHARE_END_LINE',

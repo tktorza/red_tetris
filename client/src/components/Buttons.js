@@ -7,7 +7,7 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 
 //
 const Button = (props) => {
-    const {createGame, restartGame, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
+    const {createGame, restartGame, score, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         console.log(evt)
@@ -75,6 +75,7 @@ const Button = (props) => {
                         </div>
                    ))}
                 </div>
+                <div>{score}</div>
                 <OtherTabContainer />
                 
             </div>

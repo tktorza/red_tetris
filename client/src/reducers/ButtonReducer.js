@@ -14,7 +14,8 @@ const init = fromJS({
         isFirst : false,
         ifUserVisitor : false,
         isLooser : false,
-        isWinner : false
+        isWinner : false,
+        score : 0
     })
 
 let addEnd = [
@@ -71,7 +72,9 @@ export default function (tab = init, action){
             // return tab.update('isWinner', isWinner => isWinner = true)
         case "RESTART_GAME": 
         //update player info
-            return tab.update('isLooser', isLooser => isLooser = false).update('isWinner', isWinner => isWinner = false).update('endLine', List([]), endLine => endLine = [])
+            return tab.update('endLine', List([]), endLine => endLine = [])
+        case "UP_SCORE" :
+            return tab.update('score', score => score += 10)
         default :
             return tab;
     }
