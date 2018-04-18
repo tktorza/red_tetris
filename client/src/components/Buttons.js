@@ -3,6 +3,7 @@ import {List, Map} from 'immutable'
 import functional from 'react-functional-lifecycle'
 import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
+import Confetti from './Confetti'
 
 
 //
@@ -10,7 +11,6 @@ const Button = (props) => {
     const {createGame, restartGame, score, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
-        console.log(evt)
         switch (evt.key){
             case "ArrowRight" :
                 KeyDown(evt);
@@ -29,15 +29,12 @@ const Button = (props) => {
                 break; 
         }
     }
-   
     const start = () => event => {
         startMove_2()
     }
     const Restart = () => event => {
         restartGame()
     }
-    console.log("gameStat", gameStart)
-    console.log("isFirst", playerInfo)
     let visib_2
     if (gameStart == false && isFirst)
         visib_2 = "visible"
@@ -55,11 +52,13 @@ const Button = (props) => {
             )
     }else if (playerInfo.isWinner == true){
         return (
-            <div style={{display:'flex', justifyContent : 'space-between'}}>
+        <div >
+            <div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}>
             <div>WINNER</div>
                 <OtherTabContainer />
                 <button style={{visibility : visib_2}} onClick={Restart()}>RestartGame</button>
             </div>
+        </div>
         )
     }
     else if (playerInfo.isLooser == false){
@@ -94,27 +93,24 @@ const Button = (props) => {
 export default functional(Button, {
  
     componentWillMount: (props) => {
-        if (typeof(props.playerInfo.name) == 'undefined'){
-            let infoParti = window.location.href.split('/')
-            if (infoParti.length == 4){
-                let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
-                if (info.length == 2)
-                   props.createGame(info)
-            }
-        } 
+        // if (typeof(props.playerInfo.name) == 'undefined'){
+        //     let infoParti = window.location.href.split('/')
+        //     if (infoParti.length == 4){
+        //         let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
+        //         if (info.length == 2)
+        //            props.createGame(info)
+        //     }
+        // } 
     },
  
     shouldComponentUpdate: (props, nextProps) => {
-        console.log("NEXT === ", nextProps.playerInfo)
         if (props.gameStart == false && nextProps.gameStart == true && nextProps.playerInfo.isVisitor == false)
             props.startMove()
         if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){
             // envoyer au server que l'on rejoin le game et qu'il envoit au autre client de partager les endLine 
-            console.log("1")
             props.getUserInGame()
         }
         if (props.ifUserVisitor == false && nextProps.ifUserVisitor === true){
-            console.log("2")
             props.initOtherTab()
         }
         if (props.malusLength < nextProps.malusLength){

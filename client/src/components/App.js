@@ -67,7 +67,7 @@ class App extends Component {
       {this.state.position == 0 ? <SpaceSky /> : null}
       {/* <Confettii /> */}
       <div className="App-center">
-        <AddUserContainer />
+        <AddUserContainer gravity={this.state.position}/>
       </div>
        <div className={"App-center-background"}>
        {this.state.table.map((object, key) =>

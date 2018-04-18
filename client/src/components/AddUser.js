@@ -5,7 +5,7 @@ import StartNewGame from './StartNewGame'
 import Button from '../containers/ButtonContainer'
 //ne pas oublier le pb de l'id de la room lors de la creation de la nouvelle room
 const  Center = (props) => {
-    const {name, addUser, rooms, createGame, playerInfo, inGame, joinGame} = props
+    const {name, addUser, rooms, createGame, playerInfo, inGame, joinGame, gravity} = props
     const isLoggedIn = name != '' ? 1 : null;
     if (!isLoggedIn) {
         let input
@@ -35,11 +35,11 @@ const  Center = (props) => {
                 <p>Number of players: {Game.game.player.length} </p>
                 
                 <p>started: {Game.game.start == true ? 'yes' : 'no'} </p>
-                <JoinGame key={Game.game.id} room={Game.game} createGame={createGame} user={name} joinGame={joinGame}/>            
+                <JoinGame key={Game.game.id} room={Game.game} createGame={createGame} user={name} joinGame={joinGame} gravity={gravity}/>            
                 </div>
             ))}
             <br />
-            <StartNewGame room={rooms.length} user={name}  createGame={createGame}/>
+            <StartNewGame room={rooms.length} user={name}  createGame={createGame} gravity={gravity}/>
     <div className="Connected-rotate">
                 <div className="space">{name}</div>
                 <div>Connected</div>
@@ -54,9 +54,10 @@ const  Center = (props) => {
 
 
 const AddUser = ( props ) => {
-  const {addUser, username, rooms, createGame, playerInfo, inGame, joinGame} = props 
+  const {addUser, username, rooms, createGame, playerInfo, inGame, joinGame, gravity} = props 
+  console.log("GG == ", gravity)
   return (
-    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo} inGame={inGame} joinGame={joinGame}/>
+    <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo} inGame={inGame} joinGame={joinGame} gravity={gravity}/>
   )
 }
 

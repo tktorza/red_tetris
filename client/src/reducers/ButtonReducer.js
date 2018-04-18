@@ -72,7 +72,7 @@ export default function (tab = init, action){
             // return tab.update('isWinner', isWinner => isWinner = true)
         case "RESTART_GAME": 
         //update player info
-            return tab.update('endLine', List([]), endLine => endLine = [])
+            return tab.update('endLine', List([]), endLine => endLine = []).update('score', score => score = 0)
         case "UP_SCORE" :
             return tab.update('score', score => score += 10)
         default :

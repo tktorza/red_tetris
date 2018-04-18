@@ -20,26 +20,37 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addUser(user));
             dispatch(getAllRooms())
         },
-        createGame: (game, user) => {
+        createGame: (game, user, gravity) => {
             dispatch(inGame())
             dispatch(createGame(game, user))
             for(let x = 0; x < 10; x++) {
-                dispatch(createTableX(x))
-               
+                    dispatch(createTableX(x))
             }
-            for (let y = 0; y < 20; y++){
-                dispatch(createTableY(y))
+            if (gravity == 1){
+                for (let y = 0; y < 20; y++){
+                    dispatch(createTableY(y))
+                }
+            }else{
+                 for (let y = 19; y >= 0; y--){
+                    dispatch(createTableY(y))
+                }
             }
         },
-        joinGame : (game, user) => {
+        joinGame : (game, user, gravity) => {
             dispatch(inGame())
             dispatch(joinGame(game, user))
             for(let x = 0; x < 10; x++) {
                 dispatch(createTableX(x))
                
             }
-            for (let y = 0; y < 20; y++){
-                dispatch(createTableY(y))
+             if (gravity == 1){
+                for (let y = 0; y < 20; y++){
+                    dispatch(createTableY(y))
+                }
+            }else{
+                 for (let y = 19; y >= 0; y--){
+                    dispatch(createTableY(y))
+                }
             }
         }
    }
