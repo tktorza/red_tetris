@@ -61,12 +61,15 @@ exports.default = (socket) => {
 	socket.on("IS_LOOSE", data => {
 		let currentGame = cache.get(data.gameId)
 		currentGame.game.player[data.playerInfo.id].player.isLooser = true
-		cache.put(data.gameId, currentGame)
 		let isLast = checkIfLastLooser(currentGame.game.player)
-		if (isLast.i == 1){
+		console.log("last", isLast)
+		if (isLast.i == 1 || isLast.i == 0){
+			console.log("current", currentGame.game.player[isLast.j])
 			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "WINNER"})
 			io.to(data.gameId).emit('action', {type : "START_GAME"})
+			currentGame.restartGame()
 		}
+		cache.put(data.gameId, currentGame)
 		io.to(socket.id).emit("action", {type : "LOOSE"})
 	})
 	socket.on('CREATE_GAME', (data) => {

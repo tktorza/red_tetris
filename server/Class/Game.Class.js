@@ -46,6 +46,9 @@ module.exports = class Game {
 	startGame(){
 		this.game.start = true
 	}
+	restartGame(){
+		this.game.start = false
+	}
 	addPiece(){
 		this.game.piece = []
 		for (let i = 0; i < 5; i++){

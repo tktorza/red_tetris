@@ -37,6 +37,8 @@ const Button = (props) => {
         restartGame()
     }
     console.log("is winner, " , isWinner)
+    console.log("gameStat", gameStart)
+    console.log("isFirst", isFirst)
     let visib_2
     if (gameStart == false && isFirst)
         visib_2 = "visible"
