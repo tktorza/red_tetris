@@ -203,7 +203,7 @@ const mapDispatchToProps = (dispatch) => {
         startMove : () => {
             let gameId = store.getState().buttonReducer.toJS().gameId
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo
-            
+            console.log("playerInfo == ", playerInfo)
             dispatch(initOtherTab(gameId, playerInfo))
             refreshIntervalId = setInterval(() => {
                 let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)

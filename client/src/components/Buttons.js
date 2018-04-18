@@ -104,6 +104,7 @@ export default functional(Button, {
     },
  
     shouldComponentUpdate: (props, nextProps) => {
+        console.log("NEXT === ", nextProps.playerInfo)
         if (props.gameStart == false && nextProps.gameStart == true && nextProps.playerInfo.isVisitor == false)
             props.startMove()
         if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){

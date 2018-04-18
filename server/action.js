@@ -22,6 +22,7 @@ exports.default = (socket) => {
 			element.player.isLooser = false
 			element.player.isWinner = false
 			element.player.isVisitor = false
+			console.log("elemet == ", element.player.playerName)
 			io.to(element.player.socketId).emit('action', {
 				type : 'CREATE_GAME',
 				id : data.gameId,
@@ -66,10 +67,7 @@ exports.default = (socket) => {
 		let currentGame = cache.get(data.gameId)
 		currentGame.game.player[data.playerInfo.id].player.isLooser = true
 		let isLast = checkIfLastLooser(currentGame.game.player)
-		console.log("last", isLast)
 		if (isLast.i == 1 || isLast.i == 0){
-			console.log("current", currentGame.game.player[isLast.j])
-
 			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "END", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
 			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
 			io.to(data.gameId).emit('action', {type : "START_GAME"})
@@ -238,7 +236,7 @@ const startNewGame = (data, socket) => {
 			piece.push(element.piece)
 		});	
 		socket.join(id, ()=> {
-			console.log('join room :', id)
+			console.log(data.playerName, 'join room :', id)
 		})
 		io.to(socket.id).emit('action', {
 			type : 'GET_CURRENT_PIECE',
@@ -272,7 +270,7 @@ const joinGame = (data, socket) => {
 		piece.push(element.piece)
 	});	
 	socket.join(id, ()=> {
-			console.log('join room :', id)
+			console.log(data.playerName, 'join room :', id)
 	})
 	io.to(socket.id).emit('action', {
 		type : 'GET_CURRENT_PIECE',
@@ -288,6 +286,11 @@ const joinGame = (data, socket) => {
 		isFirst : false,
 		playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false}
 	})
+	if (currentGame.Game.player[personne].player.isVisitor == true){
+		io.to(socket.id).emit('action', {
+			type : "START_GAME"
+		})
+	}
 }
 
 const refreshGamePiece = (socket, data) => {
