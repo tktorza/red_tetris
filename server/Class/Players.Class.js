@@ -10,7 +10,8 @@ module.exports = class Player {
 			isVisitor : isVisitor, 
 			playerName : playerName,
 			isFirst : isFirst,
-			isLooser : false
+			isLooser : false,
+			isWinnew : false
 		}
 		// this.player.nextPiece = 
 		// this.Player.id = GetNewPlayerId()

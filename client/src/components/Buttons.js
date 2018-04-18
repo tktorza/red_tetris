@@ -7,7 +7,7 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 
 //
 const Button = (props) => {
-    const {createGame, refreshInterval, restartGame, tab, column, isLooser, isWinner, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
+    const {createGame, restartGame, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {
         evt = evt || window.event;
         console.log(evt)
@@ -36,9 +36,8 @@ const Button = (props) => {
     const Restart = () => event => {
         restartGame()
     }
-    console.log("is winner, " , isWinner)
     console.log("gameStat", gameStart)
-    console.log("isFirst", isFirst)
+    console.log("isFirst", playerInfo)
     let visib_2
     if (gameStart == false && isFirst)
         visib_2 = "visible"
@@ -54,8 +53,7 @@ const Button = (props) => {
                 <OtherTabContainer />
             </div>
             )
-    }else if (isWinner == true){
-        refreshInterval()
+    }else if (playerInfo.isWinner == true){
         return (
             <div style={{display:'flex', justifyContent : 'space-between'}}>
             <div>WINNER</div>
@@ -64,7 +62,7 @@ const Button = (props) => {
             </div>
         )
     }
-    else if (isLooser == false){
+    else if (playerInfo.isLooser == false){
         return (
             <div  style={{display:'flex', justifyContent : 'space-between'}}>
                 <button onClick={start()} style={{visibility : visib_2}}>Start</button>
@@ -119,6 +117,9 @@ export default functional(Button, {
         }
         if (props.malusLength < nextProps.malusLength){
             props.shareEndLine()
+        }
+        if (props.playerInfo.isWinner == false && nextProps.playerInfo.isWinner == true){
+            props.refreshInterval()
         }
         return true
     }

@@ -63,11 +63,14 @@ export default function (tab = init, action){
             return tab.update('ifUserVisitor', ifUserVisitor => ifUserVisitor = !ifUserVisitor)
         case "DISCONNECTED" :
             return init
-        case "LOOSE" : 
-            return tab.update('isLooser', isLooser => isLooser = true)
-        case "WINNER" : 
-            return tab.update('isWinner', isWinner => isWinner = true)
+        case "END" : 
+        //update player info
+            return tab.update('playerInfo',  List([]), playerInfo => playerInfo = action.payload)
+        // case "WINNER" : 
+        //update player info
+            // return tab.update('isWinner', isWinner => isWinner = true)
         case "RESTART_GAME": 
+        //update player info
             return tab.update('isLooser', isLooser => isLooser = false).update('isWinner', isWinner => isWinner = false).update('endLine', List([]), endLine => endLine = [])
         default :
             return tab;

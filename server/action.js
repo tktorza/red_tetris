@@ -20,12 +20,13 @@ exports.default = (socket) => {
 		currentGame.addPiece()
 		currentGame.game.player.forEach(element => {
 			element.player.isLooser = false
+			element.player.isWinner = false
 			element.player.isVisitor = false
 			io.to(element.player.socketId).emit('action', {
 				type : 'CREATE_GAME',
 				id : data.gameId,
 				isFirst : element.player.isFirst,
-				playerInfo : {name : element.player.playerName, id : element.player.id, isVisitor : false}
+				playerInfo : {name : element.player.playerName, id : element.player.id, isVisitor : false, isWinner : false, isLooser: false}
 			})
 			// socket.broadcast.to(data.gameId).emit('action',
 			// {
@@ -33,6 +34,7 @@ exports.default = (socket) => {
 			// 	payload : { player : {name : element.player.playerName, id : element.player.id, isVisitor : false}, endLine : [] }
 			// })
 		})
+		cache.put(data.gameId, currentGame)
 		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});
@@ -53,10 +55,12 @@ exports.default = (socket) => {
 		// 	type : 'GET_NEXT_PIECE',
 		// 	payload : piece.slice(1)
 		// })
-		cache.put(data.gameId, currentGame)
 		// io.to(data.gameId).emit("action", {
 		// 	type : "RESTART_GAME"
 		// })
+	})
+	socket.on("SHARE_WINNER", data => {
+		socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : data.playerInfo})
 	})
 	socket.on("IS_LOOSE", data => {
 		let currentGame = cache.get(data.gameId)
@@ -65,12 +69,17 @@ exports.default = (socket) => {
 		console.log("last", isLast)
 		if (isLast.i == 1 || isLast.i == 0){
 			console.log("current", currentGame.game.player[isLast.j])
-			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "WINNER"})
+
+			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "END", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
+			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
 			io.to(data.gameId).emit('action', {type : "START_GAME"})
 			currentGame.restartGame()
 		}
 		cache.put(data.gameId, currentGame)
-		io.to(socket.id).emit("action", {type : "LOOSE"})
+		if (isLast.i != 0){
+			io.to(socket.id).emit("action", {type : "END", payload : {id : currentGame.game.player[data.playerInfo.id].id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
+			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[data.playerInfo.id].player.id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
+		}
 	})
 	socket.on('CREATE_GAME', (data) => {
 		startNewGame(data, socket)
@@ -102,6 +111,7 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('INIT_OTHER_TAB', data => {
+		console.log("PP = ", data.playerInfo)
 		socket.broadcast.to(data.id).emit('action',
 		{
 			type : 'INIT_OTHER_TAB',
@@ -242,7 +252,7 @@ const startNewGame = (data, socket) => {
 			type : 'CREATE_GAME',
 			id : id,
 			isFirst : true,
-			playerInfo : {name : data.playerName, id : personne, isVisitor : false}
+			playerInfo : {name : data.playerName, id : personne, isVisitor : false, isWinner : false, isLooser: false}
 		})
 		cache.put(id, currentGame)
 		RoomId.push(id)
@@ -276,7 +286,7 @@ const joinGame = (data, socket) => {
 		type : 'CREATE_GAME',
 		id : id,
 		isFirst : false,
-		playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor}
+		playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false}
 	})
 }
 

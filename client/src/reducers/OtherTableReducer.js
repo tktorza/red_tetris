@@ -20,6 +20,16 @@ export default function (tab = init, action){
                     return player.get('player').id != action.payload
                 })
             })
+        case "UPDATE_PLAYER" :
+            return tab.update(t => {
+                return t.map(p =>{
+                    if (p.get('player').id === action.payload.id){
+                        return p.set('player', action.payload)
+                    }else{
+                        return p
+                    }
+                })
+            })
         case "RESTART" : 
             return init
         case "INIT_OTHER_TAB" :

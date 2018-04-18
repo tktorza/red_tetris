@@ -23,14 +23,11 @@ const Cell = (props) => {
 //
 const Test = (props) => {
   const {player, column, line} = props
-  console.log(player)
-  let isLoose = false
-  player.endLine.forEach( function(element) {
-    if (element.y <= 0)
-      isLoose = true
-  });
-  if (isLoose)
+  console.log("player", player)
+  if (player.player.isLooser)
     return (<div><div>LOOSER</div><p>{player.player.name}</p></div>)
+  else if (player.player.isWinner)
+    return (<div><div>WINNER</div><p>{player.player.name}</p></div>)
   else{
     return (
     <div><div className="board" style={{display:'flex'}}>

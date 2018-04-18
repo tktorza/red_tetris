@@ -9,7 +9,7 @@ import { createTableX, createTableY,
          startGameServer, startGameClient,
          shareEndLine, initOtherTab,
          sendMalus, disconnected,
-            initOtherTabForVisitor, loose, restartGame} from '../action/action'
+            initOtherTabForVisitor, loose, restartGame, shareWinner} from '../action/action'
 import  store  from '../index'
 
 let refreshIntervalId
@@ -26,22 +26,25 @@ const getLowerCoord = (piece) => {
     return tmpValue
 }
 const calculDown = (piece, endLine) => {
-    let newEndLine = {type : piece.type, coord : []}
-    let difference = -1 * (-1 - getLowerCoord(piece.coord))
-    let tmp = 20
+    return new Promise((resolve, reject) => {
+        let newEndLine = {type : piece.type, coord : []}
+        let difference = -1 * (-1 - getLowerCoord(piece.coord))
+        let tmp = 20
 
-    piece.coord.forEach(elem => {
-        endLine.map(e => {
-            if (elem.x == e.x){
-                if (e.y < tmp)
-                    tmp = e.y
-            }
+        piece.coord.forEach(elem => {
+            endLine.map(e => {
+                if (elem.x == e.x){
+                    if (e.y < tmp)
+                        tmp = e.y
+                }
+            })
         })
+        piece.coord.forEach(elem => {
+            newEndLine.coord.push({x : elem.x, y : elem.y + tmp - difference  })
+        })
+        resolve(newEndLine)
     })
-    piece.coord.forEach(elem => {
-        newEndLine.coord.push({x : elem.x, y : elem.y + tmp - difference  })
-    })
-    return newEndLine
+    
 }
 
 const isLoose = (table) => {
@@ -273,11 +276,10 @@ const mapDispatchToProps = (dispatch) => {
             let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
             let endLine = store.getState().buttonReducer.toJS().endLine.slice()
             let gameId = store.getState().buttonReducer.toJS().gameId
-            let newPose = Object.assign({}, calculDown(currentPiece, endLine))
-            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
-            
-            dispatch(move(newPose))
+            calculDown(currentPiece, endLine).then(r => {
+                dispatch(move(r))
 
+            })
         },
         createPiece : () => {
             let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
@@ -316,7 +318,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(restartGame(gameId))
         },
         refreshInterval : () => {
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            let gameId = store.getState().buttonReducer.toJS().gameId
             clearInterval(refreshIntervalId)
+            dispatch(shareWinner(gameId ,playerInfo))
         }
     }
 }

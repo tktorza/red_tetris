@@ -5,6 +5,14 @@ export const addUser = (user) => {
     }
 }
 
+export const shareWinner= (gameId, playerInfo) => {
+    return {
+        type : "server/SHARE_WINNER",
+        gameId : gameId,
+        playerInfo : playerInfo
+    }
+}
+
 export const loose = (gameId, playerInfo) => {
     return {
         type : "server/IS_LOOSE",
