@@ -3,6 +3,7 @@ import Button from '../containers/ButtonContainer'
 import AddUserContainer from '../containers/AddUserContainer'
 import Confettii from './Confetti'
 import Boule, {tableColor} from './Boule'
+import store  from '../index'
 
 const Background = (props) =>{
   const {position, onClick} = props
