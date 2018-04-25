@@ -2,8 +2,7 @@ import React from 'react'
 
 
 const Cell = (props) => {
-   const { tab, column, currentPiece, KeyDown, endLine} = props
-   let test = []
+   const { tab, column, currentPiece, endLine} = props
    let color = false
    let end = false
    if (typeof(currentPiece.coord) != 'undefined'){
@@ -44,22 +43,20 @@ const Cell = (props) => {
             break
 
     }
-   // console.log(endLine)
    for (let i = 0; i < endLine.length; i++){
-        if (endLine[i].y === tab.id && endLine[i].x === column.id){
+        if (endLine[i].y === tab.id && column && column.id && endLine[i].x === column.id){
             end = true
         }
    }
     if(end === true){
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
+        return(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
     }else if (color === true){
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
+        return(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: backgroundPiece}} className={tab.id}/>)
     
     }else{
-        test.push(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
+        return(<div key={column.id} style={{width: '2em', height: '2em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
         
     }
-    return test
 }
 
 export default Cell

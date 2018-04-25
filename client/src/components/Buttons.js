@@ -5,8 +5,6 @@ import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
 import Confetti from './Confetti'
 
-
-//
 const Button = (props) => {
     const {createGame, restartGame, score, tab, column, SpaceDown, currentPiece, startMove, KeyDown, endLine, gameStart, gameId, getPiece, createPiece, isFirst, startMove_2, disconnected, playerInfo} = props
     document.onkeydown = (evt) => {

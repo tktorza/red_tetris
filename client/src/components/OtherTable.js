@@ -23,7 +23,6 @@ const Cell = (props) => {
 //
 const Test = (props) => {
   const {player, column, line} = props
-  console.log("player", player)
   if (player.player.isLooser)
     return (<div><div>LOOSER</div><p>{player.player.name}</p></div>)
   else if (player.player.isWinner)

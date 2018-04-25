@@ -25,108 +25,99 @@ const state = {
 
 }
 
-function creatTab() {
-    const tab = []
-    for (let c = 0; c < 21; c++) {
-
-        let tab_tmp = []
-        for (let d = 0; d < 10; d++) {
-            tab_tmp.push({ color: 'white' })
-        }
-        tab.push(tab_tmp)
-    }
-    return tab
-}
-
-const init = {}
-
-const initialState = fromJS({
-    buttonReducer: fromJS({
-        column: [],
-        line: [],
-        currentPiece: {
+const initButtonReducer = fromJS({
+    column: [],
+    line: [],
+    currentPiece: {
+    },
+    endLine: [{ x: 5, y: 16 }, { x: 5, y: 17 }, { x: 5, y: 18 }, { x: 5, y: 19 }],
+    malusLength: 2,
+    nextPiece: [
+        {
+            type: 1,
+            coord: [
+                { x: 4, y: -2 },
+                { x: 5, y: -2 },
+                { x: 4, y: -1 },
+                { x: 5, y: -1 }
+            ]
         },
-        endLine: [{ x: 5, y: 16 }, { x: 5, y: 17 }, { x: 5, y: 18 }, { x: 5, y: 19 }],
-        malusLength: 2,
-        nextPiece: [
-            {
-                type: 1,
-                coord: [
-                    { x: 4, y: -2 },
-                    { x: 5, y: -2 },
-                    { x: 4, y: -1 },
-                    { x: 5, y: -1 }
-                ]
-            },
-            {
-                type: 3,
-                coord: [
-                    { x: 4, y: -3 },
-                    { x: 4, y: -2 },
-                    { x: 4, y: -1 },
-                    { x: 3, y: -1 }
-                ]
-            },
-            {
-                type: 6,
-                coord: [
-                    { x: 5, y: -1 },
-                    { x: 4, y: -1 },
-                    { x: 4, y: -2 },
-                    { x: 3, y: -1 }
-                ]
-            }
-        ],
-        playerInfo: { name: "test", id: 0, isVisitor: false },
-        gameId: 0,
-        gameStart: false,
-        isFirst: true,
-        ifUserVisitor: false,
-        isLooser: false,
-        isWinner: false,
-        score: 0
-    }),
-    otherTableRedeucer: List([]),
-    UserReducer: fromJS({
-        rooms: [],
-        user: 'test',
-        inGame: true,
-        gravity: false,
-    })
-
+        {
+            type: 3,
+            coord: [
+                { x: 4, y: -3 },
+                { x: 4, y: -2 },
+                { x: 4, y: -1 },
+                { x: 3, y: -1 }
+            ]
+        },
+        {
+            type: 6,
+            coord: [
+                { x: 5, y: -1 },
+                { x: 4, y: -1 },
+                { x: 4, y: -2 },
+                { x: 3, y: -1 }
+            ]
+        }
+    ],
+    playerInfo: { name: "test", id: 0, isVisitor: false },
+    gameId: 0,
+    gameStart: false,
+    isFirst: true,
+    ifUserVisitor: false,
+    isLooser: false,
+    isWinner: false,
+    score: 0
 })
+
+const buttonReducerObj= Object.assign({}, initButtonReducer)
+
+const initotherTableReducer = List([])
+    
+var otherTableReducerObj = List([])
+
+const initUserReducer = fromJS({
+    rooms: [],
+    user: 'test',
+    inGame: true,
+    gravity: false,
+})
+
+const UserReducerObj =  Object.assign({}, initUserReducer)
+
 describe('reducer', () => {
 
     describe('CREATE_TAB_Y', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'CREATE_TAB_Y', payload: {
                     id: 0,
                     isDone: false
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('CREATE_TAB_X', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'CREATE_TAB_X', payload: {
                     id: 0,
                     isDone: false
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('GET_CURRENT_PIECE', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'GET_CURRENT_PIECE', payload: {
                     type: 1,
                     coord: [
@@ -137,14 +128,14 @@ describe('reducer', () => {
                     ]
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('MOVE', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'MOVE', payload: {
                     type: 1,
                     coord: [
@@ -155,52 +146,52 @@ describe('reducer', () => {
                     ]
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('GET_LINE', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'server/GET_LINE',
                 payload: [{ x: 5, y: 16 }, { x: 5, y: 17 }, { x: 5, y: 18 }, { x: 5, y: 19 }],
                 gameId: 0,
                 playerInfo: { name: "test", id: 0, isVisitor: false }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('CREATE_GAME', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'server/CREATE_GAME', payload: {
                     room: 0,
                     playerName: 'arthur'
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('START_GAME', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'server/START_GAME', payload: {
                     id: 0,
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
     describe('GET_NEXT_PIECE', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'GET_NEXT_PIECE',
                 payload: {
                     type: 4,
@@ -212,7 +203,7 @@ describe('reducer', () => {
                     ]
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -220,13 +211,13 @@ describe('reducer', () => {
     describe('MALUS', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'server/MALUS',
                 payload: {
                     id: 1
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -234,13 +225,13 @@ describe('reducer', () => {
     describe('REFRESH_USER_FIRST', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'REFRESH_USER_FIRST', payload: {
 
                     type: 4
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -248,13 +239,13 @@ describe('reducer', () => {
     describe('USER_GAME', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'USER_GAME',
                 payload: {
                     type: 4
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -262,12 +253,12 @@ describe('reducer', () => {
     describe('DISCONNECTED', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'DISCONNECTED', payload: {
                     type: 4
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -275,11 +266,11 @@ describe('reducer', () => {
     describe('END', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'END',
                 payload: { name: "test", id: 0, isVisitor: false }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -287,11 +278,11 @@ describe('reducer', () => {
     describe('RESTART_GAME', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'RESTART_GAME',
                 payload: {}
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -299,11 +290,11 @@ describe('reducer', () => {
     describe('UP_SCORE', () => {
 
         it('should be false ', done => {
-            let lol = buttonReducer(fromJS(initialState), {
+            let lol = buttonReducer(fromJS(buttonReducerObj), {
                 type: 'UP_SCORE',
                 payload: {}
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initButtonReducer))
             done()
         })
     })
@@ -311,37 +302,37 @@ describe('reducer', () => {
     describe('GET_CURRENT_ROOMS', () => {
 
         it('should be false ', done => {
-            let lol = UserReducer(fromJS(initialState), {
+            let lol = UserReducer(fromJS(UserReducerObj), {
                 type: 'GET_CURRENT_ROOMS'
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initUserReducer))
             done()
         })
     })
     describe('IN_GAME', () => {
 
         it('should be false ', done => {
-            let lol = UserReducer(fromJS(initialState), {
+            let lol = UserReducer(fromJS(UserReducerObj), {
                 type: 'IN_GAME',
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initUserReducer))
             done()
         })
     })
     describe('REVERSE_GRAVITE', () => {
 
         it('should be false ', done => {
-            let lol = UserReducer(fromJS(initialState), {
+            let lol = UserReducer(fromJS(UserReducerObj), {
                 type: 'REVERSE_GRAVITE',
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initUserReducer))
             done()
         })
     })
     describe('ADD_USER', () => {
 
         it('should be false ', done => {
-            let lol = UserReducer(fromJS(initialState), {
+            let lol = UserReducer(fromJS(UserReducerObj), {
                 type: 'ADD_USER',
                 payload: {
                     user: {
@@ -352,62 +343,64 @@ describe('reducer', () => {
                     }
                 }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(lol, initUserReducer))
             done()
         })
     })
     describe('server/INIT_OTHER_TAB', () => {
         it('should be false ', done => {
-            let lol = UserReducer(fromJS(initialState), {
+            otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj), {
                 type: 'INIT_OTHER_TAB',
-                payload: { playerInfo: { name: 'test', id: 1, isVisitor: false }, endLine: [] }
+                payload: { player: { name: 'test', id: 1, isVisitor: false }, endLine: [] }
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(otherTableReducerObj, initotherTableReducer))
             done()
         })
     })
     describe('SHARE_END_LINE', () => {
 
         it('should be false ', done => {
-            let lol = OtherTableReducer(fromJS(initialState),
+            otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj),
                 {
                     type: 'SHARE_END_LINE',
                     payload: { playerInfo: { name: 'test', id: 1, isVisitor: false }, endLine: [{ x: 5, y: 16 }, { x: 5, y: 17 }, { x: 5, y: 18 }, { x: 5, y: 19 }] }
                 })
-            assert.equal(false, _.isEqual(lol, init))
-            done()
-        })
-    })
-    describe('REMOVE_USER', () => {
-
-        it('should be false ', done => {
-            let lol = OtherTableReducer(fromJS(initialState), {
-                type: 'REMOVE_USER',
-                payload: 1
-            })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(false, _.isEqual(otherTableReducerObj, initotherTableReducer))
             done()
         })
     })
     describe('UPDATE_USER', () => {
+        
+                it('should be false ', done => {
+                    const test = Object.assign({}, otherTableReducerObj.toJS())
+                    otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj), {
+                        type: 'UPDATE_USER',
+                        payload: { id: 1, name: 'okok' }
+                    })
+                    assert.equal(false, _.isEqual(otherTableReducerObj, test))
+                    done()
+                })
+    })
+    describe('REMOVE_USER', () => {
 
-        it('should be false ', done => {
-            let lol = OtherTableReducer(fromJS(initialState), {
-                type: 'UPDATE_USER',
-                payload: { id: 1 }
+        it('should be true ', done => {
+            otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj), {
+                type: 'REMOVE_USER',
+                payload: 1
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(true, _.isEqual(otherTableReducerObj, initotherTableReducer))
             done()
         })
     })
+    
     describe('RESTART', () => {
 
-        it('should be false ', done => {
-            let lol = OtherTableReducer(fromJS(initialState), {
+        it('should be true ', done => {
+            otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj), {
                 type: "server/RESTART_GAME",
                 gameId: 0
             })
-            assert.equal(false, _.isEqual(lol, init))
+            assert.equal(true, _.isEqual(otherTableReducerObj, initotherTableReducer))
             done()
         })
     })
