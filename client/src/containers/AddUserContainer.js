@@ -1,9 +1,6 @@
 import AddUser from '../components/AddUser'
-import  store  from '../index'
 import { connect } from 'react-redux'
 import { addUser, getAllRooms, createGame, createTableX, createTableY, inGame, joinGame } from '../action/action'
-
-import { } from '../action/action'
 
 const mapStateToProps = (state) => {
         return  {

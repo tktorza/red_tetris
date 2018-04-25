@@ -3,7 +3,7 @@ import { fromJS, List } from 'immutable'
 import _ from 'lodash'
 import equalJSX from 'chai-equal-jsx'
 import { createRenderer } from 'react-addons-test-utils'
-import AddUser from '../client/src/components/AddUser'
+import AddUser from '../client/src/containers/AddUserContainer'
 // import App from '../client/src/components/App'
 // import Buttons from '../client/src/components/Buttons'
 import Cell from '../client/src/components/Cell'
@@ -14,7 +14,7 @@ import StartNewGame from '../client/src/components/StartNewGame'
 // import OtherTableReducer from '../client/src/reducers/OtherTableReducer'
 // import UserReducer from '../client/src/reducers/UserReducer'
 import ReactTestUtils from 'react-dom/test-utils' //simulate DOM event
-import { shallow, jest } from 'enzyme';
+import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
 
 'use strict'
@@ -26,10 +26,7 @@ const assert = require('chai').assert
 const should = chai.should()
 chai.use(equalJSX)
 
-const initialState = {};
-const mockStore = configureStore();
-let wrapper;
-let store = mockStore(initialState)
+
 const tab = fromJS({
     id: 55,
     column: [],
@@ -77,6 +74,15 @@ const tab = fromJS({
     score: 0
 })
 describe('react JSX TESTS', function () {
+    beforeEach(()=>{
+        const initialState = {};
+        const mockStore = configureStore();
+        let wrapper;
+        let store = mockStore(initialState)
+        this.props = {
+            data: 'val'
+        }
+    })
     it('Cell component', function (done) {
         const renderer = createRenderer()  
         renderer.render(<Cell tab={tab.toJS()} column={{id: 5}} currentPiece={{
@@ -118,13 +124,10 @@ describe('react JSX TESTS', function () {
         done()
     })
 
-    it('StartNewGame component', function (done) {
+    it('AddUser component', function (done) {
         const renderer = createRenderer()
-        renderer.render(<AddUser name = {'tom'} addUser = { ()=>{console.log('coucou')} } rooms = { {} } createGame={()=>{console.log('coucou')}} playerInfo={{ name: "test", id: 0, isVisitor: false }} inGame={true} joinGame={()=>{console.log('coucou')}} gravity={1}/>)
-        const output = renderer.getRenderOutput()
-        output.should.equalJSX(
-            <Center name = {username} addUser = { addUser } rooms = { rooms } createGame={createGame} playerInfo={playerInfo} inGame={inGame} joinGame={joinGame} gravity={gravity}/>
-        )
-        done()
+
+        const wrapper = renderer.render(<AddUser name = {'tom'} addUser = { ()=>{console.log('coucou')} } rooms = { {} } createGame={()=>{console.log('coucou')}} playerInfo={{ name: "test", id: 0, isVisitor: false }} inGame={true} joinGame={()=>{console.log('coucou')}} gravity={1}/>)
+        // expect(wrapper.is('div').toBe(true))
     })
 })
