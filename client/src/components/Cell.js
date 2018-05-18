@@ -44,7 +44,7 @@ const Cell = (props) => {
 
     }
    for (let i = 0; i < endLine.length; i++){
-        if (endLine[i].y === tab.id && column && column.id && endLine[i].x === column.id){
+        if (endLine[i].y === tab.id && endLine[i].x === column.id){
             end = true
         }
    }

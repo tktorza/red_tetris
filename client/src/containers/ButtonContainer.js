@@ -27,7 +27,7 @@ const getLowerCoord = (piece) => {
 }
 const calculDown = (piece, endLine) => {
     return new Promise((resolve, reject) => {
-        let newEndLine = {type : piece.type, coord : []}
+        let newEndLine = []
         let difference = -1 * (-1 - getLowerCoord(piece.coord))
         let tmp = 20
 
@@ -40,7 +40,7 @@ const calculDown = (piece, endLine) => {
             })
         })
         piece.coord.forEach(elem => {
-            newEndLine.coord.push({x : elem.x, y : elem.y + tmp - difference  })
+            newEndLine.push({x : elem.x, y : elem.y + tmp - difference  })
         })
         resolve(newEndLine)
     })
@@ -205,7 +205,6 @@ const mapDispatchToProps = (dispatch) => {
         startMove : () => {
             let gameId = store.getState().buttonReducer.toJS().gameId
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo
-            console.log("playerInfo == ", playerInfo)
             dispatch(initOtherTab(gameId, playerInfo))
             refreshIntervalId = setInterval(() => {
                 let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
@@ -277,9 +276,15 @@ const mapDispatchToProps = (dispatch) => {
         SpaceDown : () => {
             let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
             let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
             let gameId = store.getState().buttonReducer.toJS().gameId
+            let malus = store.getState().buttonReducer.toJS().malusLength
             calculDown(currentPiece, endLine).then(r => {
-                dispatch(move(r))
+
+                let FinalLine = getNewEndLine(endLine.concat(r), dispatch, gameId, malus)
+                getNewPiece(dispatch)
+                dispatch(getEndLine(FinalLine, gameId, playerInfo))
+                // dispatch(move(r))
 
             })
         },
