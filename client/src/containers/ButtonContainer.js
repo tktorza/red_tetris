@@ -13,7 +13,7 @@ import { createTableX, createTableY,
 import  store  from '../index'
 
 let refreshIntervalId
-
+let i = 0
 const getLowerCoord = (piece) => {
     let tmpValue = -1
 
@@ -25,25 +25,39 @@ const getLowerCoord = (piece) => {
 
     return tmpValue
 }
+
+const getLowerDist = (piece, coord, difference)=>{
+    let tmp = 20
+    piece.coord.map(elemt => {
+        if (elemt.x == coord.x){
+            if (coord.y - elemt.y - 1  < difference){
+
+                difference = coord.y - elemt.y - 1
+            }
+        }
+    })
+    return difference
+}
+
 const calculDown = (piece, endLine) => {
     return new Promise((resolve, reject) => {
-        let newEndLine = []
-        let difference = -1 * (-1 - getLowerCoord(piece.coord))
-        let tmp = 20
+       let newEndLine = []
+      
+       let difference = 19 - getLowerCoord(piece.coord)
+       let i
+        endLine.map(e => {
+            i = getLowerDist(piece, e, difference)
+            if (difference > i){
+                difference = i
+            }
+        })
+        piece.coord.forEach(elem => {
+            endLine.push({x : elem.x, y : elem.y + difference})
+        })
 
-        piece.coord.forEach(elem => {
-            endLine.map(e => {
-                if (elem.x == e.x){
-                    if (e.y < tmp)
-                        tmp = e.y
-                }
-            })
-        })
-        piece.coord.forEach(elem => {
-            newEndLine.push({x : elem.x, y : elem.y + tmp - difference  })
-        })
-        resolve(newEndLine)
+        resolve (endLine) 
     })
+        
     
 }
 
@@ -279,14 +293,12 @@ const mapDispatchToProps = (dispatch) => {
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo
             let gameId = store.getState().buttonReducer.toJS().gameId
             let malus = store.getState().buttonReducer.toJS().malusLength
-            calculDown(currentPiece, endLine).then(r => {
-
-                let FinalLine = getNewEndLine(endLine.concat(r), dispatch, gameId, malus)
+            calculDown(Object.assign({}, currentPiece), endLine.slice()).then(r => {
+                let FinalLine = getNewEndLine(r, dispatch, gameId, malus)
                 getNewPiece(dispatch)
                 dispatch(getEndLine(FinalLine, gameId, playerInfo))
-                // dispatch(move(r))
-
             })
+
         },
         createPiece : () => {
             let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
