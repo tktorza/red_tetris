@@ -101,6 +101,46 @@ const getNewEndLine = (table, dispatch, gameId, malus) => {
     return (table)
 }
 
+const getDecale = (piece) => {
+    console.log(piece)
+    let decale = 0
+    console.log(piece.coord[1].x )
+        switch (piece.type){
+            case 7 :
+            // regarder aussi combien de piece a a droite si 2 ou 1 en fonction la decalle change, possible de tt faire en 1
+                if (piece.coord[1].x == 0 && piece.coord[2].y > piece.coord[1].y)
+                    return 2
+                else if (piece.coord[1].x == 0 && piece.coord[2].y < piece.coord[1].y || piece.coord[1].x == 1 && piece.coord[2].y > piece.coord[1].y){
+                    return 1
+                }
+                else if (piece.coord[1].x == 9 && piece.coord[2].y > piece.coord[1].y || piece.coord[1].x == 8   && piece.coord[2].y < piece.coord[1].y){
+                    console.log("la")
+                    return -1
+                }
+                else if (piece.coord[1].x == 9 && piece.coord[2].y < piece.coord[1].y ){
+                    console.log("loooooa")
+                    return -2
+                    console.log("")
+                }
+
+            default : 
+                if (piece.coord[1].x == 0 ){
+                    return 1
+                }
+                else if (piece.coord[1].x == 9){
+                    return -1
+                }
+    }
+    // if (piece.coord[1].x == 0){
+    //     switch (piece.type){
+    //         case 2 :
+    //             decale = 2
+    //         default : 
+    //             decale = 1
+    //     }
+    // } 
+    return decale
+}
 
 const calculeRotate = (piece) =>{
     // regarder le type de la piece si carre => rien faire + rajouter un x, y 
@@ -108,16 +148,17 @@ const calculeRotate = (piece) =>{
         if (piece.type != 1){
                 let newPiece = {type : piece.type, coord : []}
                 let tmp_pos = {}
-
+                let decale = getDecale(piece)
+                console.log("decale = " , decale)
             for (let i = 0; i < piece.coord.length; i++){
                 if (i != 1){
-                    let new_x =(piece.coord[i].x - piece.coord[1].x)
+                    let new_x =(piece.coord[i].x  - piece.coord[1].x )
                     let new_y =(piece.coord[i].y - piece.coord[1].y)
-                    let X = Math.round(new_x * Math.cos(Math.PI / 2) - new_y * Math.sin(Math.PI / 2) + piece.coord[1].x)
+                    let X = Math.round(new_x * Math.cos(Math.PI / 2) - new_y * Math.sin(Math.PI / 2) + piece.coord[1].x) +decale
                     let Y = Math.round(new_x * Math.sin(Math.PI / 2) + new_y * Math.cos(Math.PI / 2) + piece.coord[1].y)
                     tmp_pos = { x : X, y : Y }
                 }else{
-                    tmp_pos = { x : piece.coord[i].x, y : piece.coord[i].y}
+                    tmp_pos = { x : piece.coord[i].x + decale, y : piece.coord[i].y}
                 }
                 newPiece.coord.push(tmp_pos)
                 tmp_pos = {} 
