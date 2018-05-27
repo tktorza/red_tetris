@@ -29,7 +29,8 @@ const getLowerCoord = (piece) => {
 const getLowerDist = (piece, coord, difference)=>{
     let tmp = 20
     piece.coord.map(elemt => {
-        if (elemt.x == coord.x){
+        // si bug c'est && coord.y > elemt.y a retirer
+        if (elemt.x == coord.x && coord.y > elemt.y){
             if (coord.y - elemt.y - 1  < difference){
 
                 difference = coord.y - elemt.y - 1
@@ -40,7 +41,6 @@ const getLowerDist = (piece, coord, difference)=>{
 }
 
 const calculDown = (piece, endLine) => {
-    return new Promise((resolve, reject) => {
        let newEndLine = []
       
        let difference = 19 - getLowerCoord(piece.coord)
@@ -55,8 +55,7 @@ const calculDown = (piece, endLine) => {
             endLine.push({x : elem.x, y : elem.y + difference})
         })
 
-        resolve (endLine) 
-    })
+        return (endLine) 
         
     
 }
@@ -114,13 +113,10 @@ const getDecale = (piece) => {
                     return 1
                 }
                 else if (piece.coord[1].x == 9 && piece.coord[2].y > piece.coord[1].y || piece.coord[1].x == 8   && piece.coord[2].y < piece.coord[1].y){
-                    console.log("la")
                     return -1
                 }
                 else if (piece.coord[1].x == 9 && piece.coord[2].y < piece.coord[1].y ){
-                    console.log("loooooa")
                     return -2
-                    console.log("")
                 }
 
             default : 
@@ -334,11 +330,9 @@ const mapDispatchToProps = (dispatch) => {
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo
             let gameId = store.getState().buttonReducer.toJS().gameId
             let malus = store.getState().buttonReducer.toJS().malusLength
-            calculDown(Object.assign({}, currentPiece), endLine.slice()).then(r => {
-                let FinalLine = getNewEndLine(r, dispatch, gameId, malus)
-                getNewPiece(dispatch)
-                dispatch(getEndLine(FinalLine, gameId, playerInfo))
-            })
+            let FinalLine = getNewEndLine(calculDown(Object.assign({}, currentPiece), endLine.slice()), dispatch, gameId, malus)
+            getNewPiece(dispatch)
+            dispatch(getEndLine(FinalLine, gameId, playerInfo))
 
         },
         createPiece : () => {
