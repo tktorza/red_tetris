@@ -100,11 +100,31 @@ const getNewEndLine = (table, dispatch, gameId, malus) => {
     return (table)
 }
 
-const getDecale = (piece) => {
+const getSideBlock = (piece, endLine, type) => {
+    console.log("PIECE == ", piece)
+    console.log("endLine == ",endLine)
+    let i = 0
+    endLine.forEach(coord => {
+        if (coord.x == piece.x - 1 && coord.y == piece.y){
+            i = coord.x
+        }else if (coord.x == piece.x + 1 && coord.y == piece.y){
+            i = coord.x
+        }else if (coord.x == piece.x + 2 && coord.y == piece.y && type == 7){
+            i = coord.x
+        }else if (coord.x == piece.x - 2 && coord.y == piece.y && type == 7){
+            i = coord.x
+        }
+    })
+    console.log("FIN DUNCTION  ", i)
+    return i
+}
+
+const getDecale = (piece, endLine) => {
     console.log(piece)
     let decale = 0
-    console.log(piece.coord[1].x )
-        switch (piece.type){
+    let sideLock = getSideBlock(piece.coord[1], endLine, piece.type)
+    console.log("sideLock == ", sideLock)
+    switch (piece.type){
             case 7 :
             // regarder aussi combien de piece a a droite si 2 ou 1 en fonction la decalle change, possible de tt faire en 1
                 if (piece.coord[1].x == 0 && piece.coord[2].y > piece.coord[1].y)
@@ -117,34 +137,37 @@ const getDecale = (piece) => {
                 }
                 else if (piece.coord[1].x == 9 && piece.coord[2].y < piece.coord[1].y ){
                     return -2
+                }else if (sideLock + 1 == piece.coord[1].x && piece.coord[2].y > piece.coord[1].y && sideLock > 0){
+                    return 2
+                }else if (sideLock + 1 == piece.coord[1].x &&  piece.coord[2].y < piece.coord[1].y || sideLock + 2 == piece.coord[1].x && piece.coord[2].y > piece.coord[1].y && sideLock > 0 ){
+                    return 1
+                } else if (piece.coord[1].x == sideLock -1 && piece.coord[2].y > piece.coord[1].y || piece.coord[1].x == sideLock - 2 && piece.coord[2].y < piece.coord[1].y && sideLock > 0){
+                    return -1
+                }else if (piece.coord[1].x == sideLock - 1 && piece.coord[2].y < piece.coord[1].y && sideLock > 0 ){
+                    return -2
                 }
-
             default : 
-                if (piece.coord[1].x == 0 ){
+                if (piece.coord[1].x == 0){
                     return 1
                 }
                 else if (piece.coord[1].x == 9){
                     return -1
+                }else if (sideLock + 1 == piece.coord[1].x && sideLock > 0){
+                    return 1
+                }else if (sideLock - 1 == piece.coord[1].x && sideLock > 0){
+                    return -1
                 }
     }
-    // if (piece.coord[1].x == 0){
-    //     switch (piece.type){
-    //         case 2 :
-    //             decale = 2
-    //         default : 
-    //             decale = 1
-    //     }
-    // } 
     return decale
 }
 
-const calculeRotate = (piece) =>{
+const calculeRotate = (piece, endLine) =>{
     // regarder le type de la piece si carre => rien faire + rajouter un x, y 
     //(peut etre que 1 meme) si il est prsent on remonte la piece de ce quq'il faut pour que la rotation se passe mibe            
         if (piece.type != 1){
                 let newPiece = {type : piece.type, coord : []}
                 let tmp_pos = {}
-                let decale = getDecale(piece)
+                let decale = getDecale(piece, endLine)
                 console.log("decale = " , decale)
             for (let i = 0; i < piece.coord.length; i++){
                 if (i != 1){
@@ -309,8 +332,9 @@ const mapDispatchToProps = (dispatch) => {
                         })
                         break
                     case "ArrowUp":
+                        let endLine = store.getState().buttonReducer.toJS().endLine.slice()
                         mve = "up"
-                        newPose = Object.assign({}, calculeRotate(currentPiece))
+                        newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
                         break
                     case "ArrowDown":
                         mve = "down"
