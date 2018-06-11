@@ -1,11 +1,11 @@
 import React from 'react'
 import { fromJS, List } from 'immutable'
 import _ from 'lodash'
-import buttonReducer from '../client/src/reducers/ButtonReducer'
-import OtherTableReducer from '../client/src/reducers/OtherTableReducer'
-import UserReducer from '../client/src/reducers/UserReducer'
+import buttonReducer from '../src/client/src/reducers/ButtonReducer'
+import OtherTableReducer from '../src/client/src/reducers/OtherTableReducer'
+import UserReducer from '../src/client/src/reducers/UserReducer'
 import ReactTestUtils from 'react-dom/test-utils' //simulate DOM event
-// import socketMiddleware from '../client/src/middleware/socketIoMiddleWare'
+// import socketMiddleware from '../src/client/src/middleware/socketIoMiddleWare'
 'use strict'
 const chai = require('chai')
 const io = require('socket.io-client')

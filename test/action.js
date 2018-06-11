@@ -1,4 +1,4 @@
-import { addUser, shareWinner, loose, restartGame, joinGame, inGame, getAllRooms, getEndLine, sendMalus, createTableX, createTableY, disconnected, getCurrentPiece, createGame, getMorePiece, getNextPiece, move, startGameServer, initOtherTab, initOtherTabForVisitor, upScore } from '../client/src/action/action'
+import { addUser, shareWinner, loose, restartGame, joinGame, inGame, getAllRooms, getEndLine, sendMalus, createTableX, createTableY, disconnected, getCurrentPiece, createGame, getMorePiece, getNextPiece, move, startGameServer, initOtherTab, initOtherTabForVisitor, upScore } from '../src/client/src/action/action'
 'use strict'
 import _ from 'lodash'
 const chai = require('chai')
