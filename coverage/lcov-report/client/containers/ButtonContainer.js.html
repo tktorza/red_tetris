@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for client/containers/ButtonContainer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">client/containers/</a> ButtonContainer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/6</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Button from '../components/Buttons'
+import { connect } from 'react-redux'
+import { createTableX, createTableY,
+         startMove, toggleTodoX,
+         toggleTodoY, reverseToggleX,
+         reverseToggleY, getCurrentPiece,
+         move, getEndLine, createGame,
+         getMorePiece, getNextPiece,
+         startGameServer, startGameClient,
+         shareEndLine, initOtherTab,
+         sendMalus, disconnected, upScore,
+            initOtherTabForVisitor, loose, restartGame, shareWinner} from '../actions/action'
+import  store  from '../index'
+import { getLowerCoord, getLowerDist, calculDown, isLoose, getNewEndLine, getSideBlock, getDecale,
+         calculeRotate , isPossible, getNewPiece} from '../utils'
+let refreshIntervalId
+&nbsp;
+const mapStateToProps = <span class="fstat-no" title="function not covered" >(state) =&gt; {</span>
+    return  {   
+                tab : state.buttonReducer.get('line'),
+                column : state.buttonReducer.get('column'), 
+                currentPiece : state.buttonReducer.get('currentPiece'),
+                endLine : state.buttonReducer.get('endLine'),
+                gameId : state.buttonReducer.get('gameId'),
+                gameStart : state.buttonReducer.get('gameStart'),
+                nextPiece : state.buttonReducer.get('nextPiece'),
+                isFirst : state.buttonReducer.get('isFirst'),
+                start : state.buttonReducer.get('start'),
+                playerInfo : state.buttonReducer.get('playerInfo'),
+                malusLength : state.buttonReducer.get('malusLength'),
+                ifUserVisitor : state.buttonReducer.get('ifUserVisitor'),
+                isLooser : state.buttonReducer.get('isLooser'),
+                isWinner : state.buttonReducer.get('isWinner'),
+                score : state.buttonReducer.get('score')
+            }
+}
+&nbsp;
+const mapDispatchToProps = <span class="fstat-no" title="function not covered" >(dispatch) =&gt; {</span>
+    return {
+        createGame : <span class="fstat-no" title="function not covered" >(info) =&gt; {</span>
+            dispatch(createGame(info[0], info[1]))
+<span class="cstat-no" title="statement not covered" >            for(let x = 0; x &lt; 10; x++) {</span>
+                dispatch(createTableX(x))
+               
+            }
+<span class="cstat-no" title="statement not covered" >            for (let y = 0; y &lt; 20; y++){</span>
+                dispatch(createTableY(y))
+            }
+        },
+        startMove : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            dispatch(initOtherTab(gameId, playerInfo))
+            refreshIntervalId = setInterval(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+                let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
+                let malus = store.getState().buttonReducer.toJS().malusLength
+                let newPose = {type : currentPiece.type, coord : []}
+                let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+               
+<span class="cstat-no" title="statement not covered" >                if (isPossible(currentPiece, 'down', endLine) === 0){</span>
+                    currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                        newPose.coord.push({x : p.x, y : p.y+ 1})
+                    })
+                        dispatch(move(newPose))
+                }else{
+                    let newEndLine = store.getState().buttonReducer.toJS().endLine.slice().concat(currentPiece.coord)
+                    let FinalLine = getNewEndLine(newEndLine.slice(), dispatch, gameId, malus)
+                    
+<span class="cstat-no" title="statement not covered" >                    if (isLoose(FinalLine) == true){</span>
+                        dispatch(getEndLine(FinalLine, gameId, playerInfo))
+                        dispatch(loose(gameId, playerInfo))
+                        clearInterval(refreshIntervalId)
+                    }
+                    else{
+                        let nextPiece = store.getState().buttonReducer.toJS().nextPiece.slice()
+                        getNewPiece(gameId, nextPiece, dispatch)
+                        dispatch(getEndLine(FinalLine, gameId, playerInfo))
+                    }
+                }
+            },900)
+        },
+        startMove_2 : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId =  store.getState().buttonReducer.toJS().gameId
+            
+            dispatch(startGameServer(gameId))
+        },
+        KeyDown : <span class="fstat-no" title="function not covered" >(key ) =&gt; {</span>
+            let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
+            let newPose = {type : currentPiece.type, coord : []}
+            let i = 0
+            let mve = ""
+            let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+           
+<span class="cstat-no" title="statement not covered" >            if (typeof(currentPiece.coord) != 'undefined'){</span>
+                switch (key.key) {
+                    case "ArrowLeft":
+                            mve = "left"
+                            currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                                newPose.coord.push({x : p.x - 1, y : p.y})
+                            })
+                        break
+                    case "ArrowRight" : 
+                        mve = "right"
+                        currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                            newPose.coord.push({x : p.x +1, y : p.y})
+                        })
+                        break
+                    case "ArrowUp":
+                        mve = "up"
+                        newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
+                        break
+                    case "ArrowDown":
+                        mve = "down"
+                        currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                            newPose.coord.push({x : p.x, y : p.y + 1})
+                        })
+                        break
+                }
+<span class="cstat-no" title="statement not covered" >                if (isPossible(newPose, mve, endLine) === 0){</span>
+                    dispatch(move(newPose))
+                }
+            }
+        },
+        SpaceDown : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
+            let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            let malus = store.getState().buttonReducer.toJS().malusLength
+            let FinalLine = getNewEndLine(calculDown(Object.assign({}, currentPiece), endLine.slice()), dispatch, gameId, malus)
+            let nextPiece = store.getState().buttonReducer.toJS().nextPiece.slice()
+            getNewPiece(gameId, nextPiece, dispatch)
+            dispatch(getEndLine(FinalLine, gameId, playerInfo))
+&nbsp;
+        },
+        createPiece : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let game = Object.assign({}, store.getState().buttonReducer.toJS().game)
+            
+            dispatch(getCurrentPiece(game.player[0].player.currentPiece.piece))
+            dispatch(getNextPiece(game.player[0].player.nextPiece))
+        },
+        shareEndLine : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            let endLine = store.getState().buttonReducer.toJS().endLine.slice()
+            
+            dispatch(getEndLine(endLine, gameId, playerInfo))
+        },
+        disconnected : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            
+            dispatch(disconnected(gameId, playerInfo))
+        },
+        getUserInGame : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            
+            dispatch({type : 'server/GET_USER_IN_GAME', id : gameId})
+        },
+        initOtherTab : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            
+            dispatch(initOtherTabForVisitor(gameId, playerInfo))
+            dispatch({type : 'USER_GAME'})
+&nbsp;
+        },
+        restartGame : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            dispatch(restartGame(gameId))
+        },
+        refreshInterval : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+            let playerInfo = store.getState().buttonReducer.toJS().playerInfo
+            let gameId = store.getState().buttonReducer.toJS().gameId
+            clearInterval(refreshIntervalId)
+            dispatch(shareWinner(gameId ,playerInfo))
+        }
+    }
+}
+&nbsp;
+const BouttonContainers = connect(
+        mapStateToProps,
+        mapDispatchToProps
+)(Button)
+&nbsp;
+export default BouttonContainers
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 27 2018 18:17:16 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

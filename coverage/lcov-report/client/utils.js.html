@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for client/utils.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">client/</a> utils.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>39/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.89% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>123/131</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>24/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>39/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">64×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { sendMalus , upScore , getMorePiece, getNextPiece, getCurrentPiece} from './actions/action'
+&nbsp;
+export const getLowerCoord = (piece) =&gt; {
+    let tmpValue = -1
+&nbsp;
+    piece.map(p =&gt; {
+        if (p.y &gt; tmpValue){
+            tmpValue = p.y
+        }
+    })
+    return tmpValue
+}
+&nbsp;
+export const getLowerDist = (piece, coord, difference)=&gt;{
+    let tmp = 20
+    piece.coord.map(elemt =&gt; {
+        // si bug c'est &amp;&amp; coord.y &gt; elemt.y a retirer
+        if (elemt.x == coord.x &amp;&amp; coord.y &gt; elemt.y){
+            if (coord.y - elemt.y - 1  &lt; difference){
+&nbsp;
+                difference = coord.y - elemt.y - 1
+            }
+        }
+    })
+    return difference
+}
+&nbsp;
+export const calculDown = (piece, endLine) =&gt; {
+       let newEndLine = []
+      
+       let difference = 19 - getLowerCoord(piece.coord)
+       let i
+        endLine.map(e =&gt; {
+            i = getLowerDist(piece, e, difference)
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (difference &gt; i){
+                difference = i
+            }
+        })
+        piece.coord.forEach(elem =&gt; {
+            endLine.push({x : elem.x, y : elem.y + difference})
+        })
+&nbsp;
+        return (endLine) 
+        
+    
+}
+&nbsp;
+export const isLoose = (table) =&gt; {
+    let i = 0
+&nbsp;
+    table.forEach( (elem) =&gt; {
+        if (elem.y &lt; 0){
+            i++
+        }
+    });
+    if (i  == 0)
+        return false
+    else{
+        return true
+    }
+}
+&nbsp;
+export const getNewEndLine = (table, dispatch, gameId, malus) =&gt; {
+    let tmptab = []
+    let maluslength = 0
+    for (let i = 0; i &lt; table.length; i++){
+        tmptab = table.filter(filtre =&gt; {
+            if (filtre.y &lt; 20 - malus)
+                return (filtre.y == table[i].y)
+        })
+        if (tmptab.length == 10){
+            maluslength += 1
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (maluslength &gt; 1){
+                console.log("malus === ", maluslength)
+                dispatch(sendMalus(gameId))
+            }
+            dispatch(upScore())
+            table = table.filter(remove =&gt; {
+                return (remove.y != tmptab[0].y)
+            })
+            table.forEach(item =&gt; {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (item.y &lt; tmptab[0].y){
+                    item.y += 1
+                }
+          })
+            tmptab = []
+        }
+    }
+    return (table)
+}
+&nbsp;
+export const getSideBlock = (piece, endLine, type) =&gt; {
+    let i = 0
+    endLine.forEach(coord =&gt; {
+        if (coord.x == piece.x - 1 &amp;&amp; coord.y == piece.y){
+            i = coord.x
+        }else if (coord.x == piece.x + 1 &amp;&amp; coord.y == piece.y){
+            i = coord.x
+        }else if (coord.x == piece.x + 2 &amp;&amp; coord.y == piece.y &amp;&amp; type == 7){
+            i = coord.x
+        }else if (coord.x == piece.x - 2 &amp;&amp; coord.y == piece.y &amp;&amp; type == 7){
+            i = coord.x
+        }
+    })
+    return i
+}
+&nbsp;
+export const getDecale = (piece, endLine) =&gt; {
+    let decale = 0
+    let sideLock = getSideBlock(piece.coord[1], endLine, piece.type)
+    switch (piece.type){
+            case 7 :
+            // regarder aussi combien de piece a a droite si 2 ou 1 en fonction la decalle change, possible de tt faire en 1
+                if (piece.coord[1].x == 0 &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y){
+                    return 2
+                }
+                else if (piece.coord[1].x == 0 &amp;&amp; piece.coord[2].y &lt; piece.coord[1].y || piece.coord[1].x == 1 &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y){
+                    return 1
+                }
+                else if (piece.coord[1].x == 9 &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y || piece.coord[1].x == 8   &amp;&amp; piece.coord[2].y &lt; piece.coord[1].y){
+                    return -1
+                }
+                else if (piece.coord[1].x == 9 &amp;&amp; piece.coord[2].y &lt; piece.coord[1].y ){
+                    return -2
+                }else if (sideLock + 1 == piece.coord[1].x &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y &amp;&amp; sideLock &gt; 0){
+                    return 2
+                }else if (sideLock + 1 == piece.coord[1].x &amp;&amp;  piece.coord[2].y &lt; piece.coord[1].y || sideLock + 2 == piece.coord[1].x &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y &amp;&amp; sideLock &gt; 0 ){
+                    return 1
+                } else if (piece.coord[1].x == sideLock -1 &amp;&amp; piece.coord[2].y &gt; piece.coord[1].y || piece.coord[1].x == sideLock - 2 &amp;&amp; piece.coord[2].y &lt; piece.coord[1].y &amp;&amp; sideLock &gt; 0){
+                    return -1
+                }else if (piece.coord[1].x == sideLock - 1 &amp;&amp; piece.coord[2].y &lt; piece.coord[1].y &amp;&amp; sideLock &gt; 0 ){
+                    return -2
+                }
+            default : 
+                if (piece.coord[1].x == 0){
+                    return 1
+                }
+                else if (piece.coord[1].x == 9){
+                    return -1
+                }else if (sideLock + 1 == piece.coord[1].x &amp;&amp; sideLock &gt; 0){
+                    return 1
+                }else if (sideLock - 1 == piece.coord[1].x &amp;&amp; sideLock &gt; 0){
+                    return -1
+                }
+    }
+    return decale
+}
+&nbsp;
+export const calculeRotate = (piece, endLine) =&gt;{
+    // regarder le type de la piece si carre =&gt; rien faire + rajouter un x, y 
+    //(peut etre que 1 meme) si il est prsent on remonte la piece de ce quq'il faut pour que la rotation se passe mibe            
+        if (piece.type != 1){
+                let newPiece = {type : piece.type, coord : []}
+                let tmp_pos = {}
+                let decale = getDecale(piece, endLine)
+            for (let i = 0; i &lt; piece.coord.length; i++){
+                if (i != 1){
+                    let new_x =(piece.coord[i].x  - piece.coord[1].x )
+                    let new_y =(piece.coord[i].y - piece.coord[1].y)
+                    let X = Math.round(new_x * Math.cos(Math.PI / 2) - new_y * Math.sin(Math.PI / 2) + piece.coord[1].x) +decale
+                    let Y = Math.round(new_x * Math.sin(Math.PI / 2) + new_y * Math.cos(Math.PI / 2) + piece.coord[1].y)
+                    tmp_pos = { x : X, y : Y }
+                }else{
+                    tmp_pos = { x : piece.coord[i].x + decale, y : piece.coord[i].y}
+                }
+                newPiece.coord.push(tmp_pos)
+                tmp_pos = {} 
+            }
+            return newPiece
+        }else{
+            return piece
+        }
+}
+&nbsp;
+export const isPossible = (piece, move, endLine) =&gt; {
+    let i = 0
+    let x, y
+&nbsp;
+    if (endLine.length &gt; 0){
+        switch (move){
+            case 'down' :
+                x = 0
+                y = 1
+                endLine.forEach(item =&gt; {
+                    piece.coord.forEach(p =&gt; {
+                        if (item.x == p.x &amp;&amp; item.y == p.y + 1 || p.y === 19)
+                            i++
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (p.x &lt; 0 || p.x &gt; 9)
+                            i++
+                    })
+                })
+                break
+            default :
+                endLine.forEach(item =&gt; {
+                    piece.coord.forEach(p =&gt; {
+                        if (item.x == p.x  &amp;&amp; item.y == p.y)
+                            i++
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (p.x &lt; 0 || p.x &gt; 9)
+                            i++
+                    })
+                })
+                break
+&nbsp;
+        }
+    }else{
+        piece.coord.forEach(p =&gt; {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (19 &lt;= p.y)
+                    i++
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (p.x &lt; 0 || p.x &gt; 9)
+                    i++
+            })
+    }
+    return i 
+}
+&nbsp;
+export const getNewPiece = (gameId, nextPiece, dispatch) =&gt; {
+    let newPiece = nextPiece.shift()
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (nextPiece.length == 0){
+        dispatch(getMorePiece(gameId))
+    }
+    else{
+        dispatch(getNextPiece(nextPiece))
+    }
+    dispatch(getCurrentPiece(newPiece))
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 27 2018 18:17:16 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

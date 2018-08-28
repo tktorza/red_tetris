@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for client/reducers/ButtonReducer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">client/reducers/</a> ButtonReducer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/0</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+import {List, Map, fromJS} from 'immutable'
+&nbsp;
+const init = fromJS({
+        column : [],
+        line : [],
+        currentPiece : [],
+        endLine : [],
+        malusLength : 0,
+        nextPiece : [],
+        playerInfo : {},
+        gameId : 0 , 
+        gameStart : false,
+        isFirst : false,
+        ifUserVisitor : false,
+        isLooser : false,
+        isWinner : false,
+        score : 0
+    })
+&nbsp;
+let addEnd = [
+    { x : 0, y : 19},
+    { x : 1, y : 19},
+    { x : 2, y : 19},
+    { x : 3, y : 19},
+    { x : 4, y : 19},
+    { x : 5, y : 19},
+    { x : 6, y : 19},
+    { x : 7, y : 19},
+    { x : 8, y : 19},
+    { x : 9, y : 19}
+]
+export default function (tab = init, action){
+    switch (action.type) {
+        case "CREATE_TAB_Y":
+            return tab.update('line', List([]), line =&gt; line.push(Map(action.payload)))
+        case "CREATE_TAB_X":
+            return tab.update('column', List([]), column =&gt; column.push(Map(action.payload)))
+        case "GET_CURRENT_PIECE":
+            return tab.update('currentPiece', List([]), currentPiece =&gt; currentPiece = action.payload)
+        case "MOVE" :
+            return tab.update('currentPiece', List([]), currentPiece =&gt; currentPiece = action.payload)
+        case "GET_LINE" : 
+            return tab.update('endLine', List([]), endLine =&gt; endLine = action.payload)
+        case "CREATE_GAME" :
+            return tab.update('gameId', gameId =&gt; gameId = action.id)
+                    .update('isFirst', isFirst =&gt; isFirst = action.isFirst)
+                    .update('playerInfo', List([]), playerInfo =&gt; playerInfo = action.playerInfo)
+                    .update('nextPiece', List([]), nextPiece =&gt; nextPiece = action.nextPiece)
+                    .update('currentPiece', List([]), currentPiece =&gt; currentPiece = action.currentPiece)
+        case "START_GAME" : 
+            return tab.update('gameStart', gameStart =&gt; gameStart = !gameStart)
+        case "GET_NEXT_PIECE" :
+            return tab.update('nextPiece', List([]), nextPiece =&gt; nextPiece = action.payload)
+        case "MALUS" :
+            return tab.update('endLine', List([]), endLine =&gt; {
+                return endLine.map(<span class="fstat-no" title="function not covered" >e =&gt; {</span>
+                    return {x : e.x, y : e.y - 1}
+                }) 
+            }).update('endLine', List([]), endLine =&gt; {
+                return endLine.concat(addEnd)
+            }).update('malusLength', malusLength =&gt; {
+                return malusLength += 1
+            })
+        case "REFRESH_USER_FIRST" :
+            return tab.update('isFirst', isFirst =&gt; isFirst = true)
+        case "USER_GAME" :
+            return tab.update('ifUserVisitor', ifUserVisitor =&gt; ifUserVisitor = !ifUserVisitor)
+        case "DISCONNECTED" :
+            return init
+        case "END" : 
+            return tab.update('playerInfo',  List([]), playerInfo =&gt; playerInfo = action.payload)
+        case "RESTART_GAME": 
+            return tab.update('endLine', List([]), endLine =&gt; endLine = []).update('score', score =&gt; score = 0)
+        case "UP_SCORE" :
+            return tab.update('score', score =&gt; score += 10)
+        default :
+            return tab;
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Aug 27 2018 18:17:16 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
