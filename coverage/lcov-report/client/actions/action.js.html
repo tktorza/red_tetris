@@ -25,14 +25,14 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>21/21</span>
+        <span class='fraction'>0/21</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -357,14 +357,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const addUser = (user) =&gt; {
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const addUser = <span class="fstat-no" title="function not covered" >(user) =&gt; {</span>
     return {
         type: 'ADD_USER', 
         payload: user
     }
 }
 &nbsp;
-export const shareWinner= (gameId, playerInfo) =&gt; {
+export const shareWinner= <span class="fstat-no" title="function not covered" >(gameId, playerInfo) =&gt; {</span>
     return {
         type : "server/SHARE_WINNER",
         gameId : gameId,
@@ -372,7 +372,7 @@ export const shareWinner= (gameId, playerInfo) =&gt; {
     }
 }
 &nbsp;
-export const loose = (gameId, playerInfo) =&gt; {
+export const loose = <span class="fstat-no" title="function not covered" >(gameId, playerInfo) =&gt; {</span>
     return {
         type : "server/IS_LOOSE",
         gameId : gameId,
@@ -380,13 +380,13 @@ export const loose = (gameId, playerInfo) =&gt; {
     }
 }
 &nbsp;
-export const restartGame = (gameId) =&gt; {
+export const restartGame = <span class="fstat-no" title="function not covered" >(gameId) =&gt; {</span>
     return {
         type : "server/RESTART_GAME",
         gameId : gameId
     }
 }
-export const joinGame = (room, playerName) =&gt; {
+export const joinGame = <span class="fstat-no" title="function not covered" >(room, playerName) =&gt; {</span>
     return {
         type : "server/JOIN_GAME",
         room : room,
@@ -394,19 +394,19 @@ export const joinGame = (room, playerName) =&gt; {
     }
 }
 &nbsp;
-export const inGame = () =&gt; {
+export const inGame = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
     return {
         type : "IN_GAME"
     }
 }
 &nbsp;
-export const getAllRooms = () =&gt;{
+export const getAllRooms = <span class="fstat-no" title="function not covered" >() =&gt;{</span>
     return {
         type : 'server/GET_CURRENT_ROOMS'
     }
 }
 &nbsp;
-export const getEndLine = (endLine, gameId, playerInfo) =&gt; {
+export const getEndLine = <span class="fstat-no" title="function not covered" >(endLine, gameId, playerInfo) =&gt; {</span>
     return {
         type : 'server/GET_LINE',
         payload : endLine,
@@ -415,14 +415,14 @@ export const getEndLine = (endLine, gameId, playerInfo) =&gt; {
     }
 }
 &nbsp;
-export const sendMalus = (id) =&gt;{
+export const sendMalus = <span class="fstat-no" title="function not covered" >(id) =&gt;{</span>
     return {
         type: 'server/MALUS',
         id : id
     }
 }
 &nbsp;
-export const createTableX = (id) =&gt;{
+export const createTableX = <span class="fstat-no" title="function not covered" >(id) =&gt;{</span>
     return {
         type : 'CREATE_TAB_X',
         payload : {
@@ -432,7 +432,7 @@ export const createTableX = (id) =&gt;{
     }
 }
 &nbsp;
-export const createTableY = (id) =&gt;{
+export const createTableY = <span class="fstat-no" title="function not covered" >(id) =&gt;{</span>
     return {
         type : 'CREATE_TAB_Y',
         payload : {
@@ -442,7 +442,7 @@ export const createTableY = (id) =&gt;{
     }
 }
 &nbsp;
-export const disconnected = (gameId, playerInfo) =&gt; {
+export const disconnected = <span class="fstat-no" title="function not covered" >(gameId, playerInfo) =&gt; {</span>
     return {
         type : 'server/DISCONNECTED',
         gameId : gameId,
@@ -450,14 +450,14 @@ export const disconnected = (gameId, playerInfo) =&gt; {
     }
 }
 &nbsp;
-export const getCurrentPiece = (piece = <span class="branch-1 cbranch-no" title="branch not covered" >[]) =&gt;{</span>
+export const getCurrentPiece = <span class="fstat-no" title="function not covered" >(piece = []) =&gt;{</span>
 	return {
 		type : 'GET_CURRENT_PIECE',
 		payload : piece
 	}
 }
 &nbsp;
-export const createGame = (room, playerName) =&gt; {
+export const createGame = <span class="fstat-no" title="function not covered" >(room, playerName) =&gt; {</span>
     return {
         type : 'server/CREATE_GAME',
         room : room,
@@ -465,35 +465,35 @@ export const createGame = (room, playerName) =&gt; {
     }
 }
 &nbsp;
-export const getMorePiece = (id) =&gt; {
+export const getMorePiece = <span class="fstat-no" title="function not covered" >(id) =&gt; {</span>
     return {
         type : 'server/GET_MORE_PIECE',
         payload : id
     }
 }
 &nbsp;
-export const getNextPiece = (piece) =&gt;{
+export const getNextPiece = <span class="fstat-no" title="function not covered" >(piece) =&gt;{</span>
     return {
         type : "GET_NEXT_PIECE",
         payload : piece
     }
 }
 &nbsp;
-export const move = (piece) =&gt; {
+export const move = <span class="fstat-no" title="function not covered" >(piece) =&gt; {</span>
 	return {
 		type : 'MOVE',
 		payload : piece
 	}
 }
 &nbsp;
-export const startGameServer = (id) =&gt; {
+export const startGameServer = <span class="fstat-no" title="function not covered" >(id) =&gt; {</span>
     return {
         type : 'server/START_GAME',
         id : id
     }
 }
 &nbsp;
-export const initOtherTab = (id, playerInfo) =&gt; {
+export const initOtherTab = <span class="fstat-no" title="function not covered" >(id, playerInfo) =&gt; {</span>
     return {
         type : 'server/INIT_OTHER_TAB',
         id : id,
@@ -502,7 +502,7 @@ export const initOtherTab = (id, playerInfo) =&gt; {
 &nbsp;
 }
 &nbsp;
-export const initOtherTabForVisitor = (id, playerInfo) =&gt; {
+export const initOtherTabForVisitor = <span class="fstat-no" title="function not covered" >(id, playerInfo) =&gt; {</span>
     return {
         type : 'server/initOtherTabForVisitor',
         id : id,
@@ -510,7 +510,7 @@ export const initOtherTabForVisitor = (id, playerInfo) =&gt; {
     }
 }
 &nbsp;
-export const upScore = () =&gt; {
+export const upScore = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
     return {
         type : "UP_SCORE"
     }
@@ -520,7 +520,7 @@ export const upScore = () =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 17:36:23 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 05 2018 15:12:01 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

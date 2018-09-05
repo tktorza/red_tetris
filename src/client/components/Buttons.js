@@ -5,6 +5,8 @@ import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
 // import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
+import imageWinner from '../../../img/imageWinner.jpeg'
+import imageLooser from '../../../img/looser.jpeg'
 const Button = (props) => {
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
@@ -51,12 +53,12 @@ const Button = (props) => {
             )
     }else if (playerInfo.isWinner == true){
         return (
-        <div >
+        <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
             <div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}>
-            <div>WINNER</div>
+            <img src={imageWinner} style={{width: "220px", height: "237px"}}/>
                 <OtherTabContainer />
-                <button style={{visibility : visib_2}} onClick={Restart()}>RestartGame</button>
             </div>
+                <button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -050%)"}} onClick={Restart()}>RestartGame</button>
         </div>
         )
     }
@@ -80,10 +82,14 @@ const Button = (props) => {
             )
     }else{
         return(
+            <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
             <div style={{display:'flex', justifyContent : 'space-between'}}>
-            <div>LOOSER</div>
+            <img src={imageLooser} style={{width: "220px", height: "237px"}}/>
+
             <OtherTabContainer />
-                <button style={{visibility : visib_2}} onClick={Restart()}>RestartGame</button>
+            </div>
+                <button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -50%)"}} onClick={Restart()}>RestartGame</button>
+
             </div>
         )
     }

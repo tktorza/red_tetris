@@ -14,9 +14,9 @@ const OtherTable = (props) => {
   	line.push({ id : y})
   }
   return (
-  		<div>
+  		<div style={{marginLeft : "2%"}}>
   			{player.map(p => (
-          <div key={p.player.id}>
+          <div key={p.player.id} >
             <OtherPlayerBoard player={p} column={column} line={line}/>
           </div>
 

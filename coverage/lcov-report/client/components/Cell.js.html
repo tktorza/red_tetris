@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">68% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>17/25</span>
+        <span class='fraction'>0/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>0/7</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -115,12 +115,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,14 +152,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,14 +176,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react'
 &nbsp;
 &nbsp;
-const Cell = (props) =&gt; {
+const Cell = <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
    const { tab, column, currentPiece, endLine} = props
    let color = false
    let end = false
-   <span class="missing-if-branch" title="else path not taken" >E</span>if (currentPiece){
-       <span class="missing-if-branch" title="else path not taken" >E</span>if ( typeof(currentPiece.coord) != 'undefined'){
-            currentPiece.coord.map(p =&gt; {
-                if (tab.id === p.y &amp;&amp; column.id == p.x){
+<span class="cstat-no" title="statement not covered" >   if (currentPiece){</span>
+<span class="cstat-no" title="statement not covered" >       if ( typeof(currentPiece.coord) != 'undefined'){</span>
+            currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (tab.id === p.y &amp;&amp; column.id == p.x){</span>
                     color = true
                 }
 &nbsp;
@@ -201,32 +201,32 @@ const Cell = (props) =&gt; {
             case 3 :
                 backgroundPiece = "#EEE8AA"
                 break
-<span class="branch-3 cbranch-no" title="branch not covered" >            case 4 : </span>
+            case 4 : 
                 backgroundPiece = '#CD853F'
                 break
-<span class="branch-4 cbranch-no" title="branch not covered" >            case 5: </span>
+            case 5: 
                 backgroundPiece = '#DDA0DD'
                 break;
-<span class="branch-5 cbranch-no" title="branch not covered" >            case 6 : </span>
+            case 6 : 
                 backgroundPiece = '#66CDAA'
                 break
-<span class="branch-6 cbranch-no" title="branch not covered" >            case 7 : </span>
+            case 7 : 
                 backgroundPiece = '#FF69B4'
                 break
-<span class="branch-7 cbranch-no" title="branch not covered" >            case 9 : </span>
+            case 9 : 
                 backgroundPiece = "green"
-<span class="branch-8 cbranch-no" title="branch not covered" >            default :</span>
+            default :
                 break
 &nbsp;
         }
-       for (let i = 0; i &lt; endLine.length; i++){
-            if (endLine[i].y === tab.id &amp;&amp; endLine[i].x === column.id){
+<span class="cstat-no" title="statement not covered" >       for (let i = 0; i &lt; endLine.length; i++){</span>
+<span class="cstat-no" title="statement not covered" >            if (endLine[i].y === tab.id &amp;&amp; endLine[i].x === column.id){</span>
                 end = true
             }
        }
-        if(end === true){
+<span class="cstat-no" title="statement not covered" >        if(end === true){</span>
             return(&lt;div key={column.id} style={{width: '2em', height: '2em', backgroundColor: 'red'}} className={tab.id}/&gt;)
-        }else if (color === true){
+        }else <span class="cstat-no" title="statement not covered" >if (color === true){</span>
             return(&lt;div key={column.id} style={{width: '2em', height: '2em', backgroundColor: backgroundPiece}} className={tab.id}/&gt;)
         
         }else{
@@ -244,7 +244,7 @@ export default Cell</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 17:36:23 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 05 2018 15:12:01 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

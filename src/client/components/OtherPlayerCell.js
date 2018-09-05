@@ -10,9 +10,9 @@ const OtherPlayerCell = (props) => {
           }
      }
     if(end === true){
-        return(<div key={column.id} style={{width: '0.7em', height: '0.7em', border: '1px solid black', backgroundColor: 'red'}} className={tab.id}/>)
+        return(<div key={column.id} style={{width: '0.7em', height: '0.7em', backgroundColor: 'red'}} className={tab.id}/>)
     }else{
-        return(<div key={column.id} style={{width: '0.7em', height: '0.7em', border: '1px solid black', backgroundColor: 'white'}} className={tab.id}/>)
+        return(<div key={column.id} style={{width: '0.7em', height: '0.7em', backgroundColor: 'white'}} className={tab.id}/>)
         
     }
     // return test

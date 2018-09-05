@@ -168,7 +168,13 @@
 123
 124
 125
-126</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+126
+127
+128
+129
+130
+131
+132</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -197,29 +203,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,6 +214,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -300,6 +312,8 @@ import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
 // import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
+import imageWinner from '../../../img/imageWinner.jpeg'
+import imageLooser from '../../../img/looser.jpeg'
 const Button = <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
@@ -346,12 +360,12 @@ const Button = <span class="fstat-no" title="function not covered" >(props) =&gt
             )
     }else <span class="cstat-no" title="statement not covered" >if (playerInfo.isWinner == true){</span>
         return (
-        &lt;div &gt;
+        &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
             &lt;div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}&gt;
-            &lt;div&gt;WINNER&lt;/div&gt;
+            &lt;img src={imageWinner} style={{width: "220px", height: "237px"}}/&gt;
                 &lt;OtherTabContainer /&gt;
-                &lt;button style={{visibility : visib_2}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
             &lt;/div&gt;
+                &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -050%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
         &lt;/div&gt;
         )
     }
@@ -375,10 +389,14 @@ const Button = <span class="fstat-no" title="function not covered" >(props) =&gt
             )
     }else{
         return(
+            &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
             &lt;div style={{display:'flex', justifyContent : 'space-between'}}&gt;
-            &lt;div&gt;LOOSER&lt;/div&gt;
+            &lt;img src={imageLooser} style={{width: "220px", height: "237px"}}/&gt;
+&nbsp;
             &lt;OtherTabContainer /&gt;
-                &lt;button style={{visibility : visib_2}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
+            &lt;/div&gt;
+                &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -50%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
+&nbsp;
             &lt;/div&gt;
         )
     }
@@ -424,7 +442,7 @@ const methods = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Aug 29 2018 17:36:23 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 05 2018 15:12:01 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
