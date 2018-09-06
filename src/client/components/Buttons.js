@@ -5,8 +5,6 @@ import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
 // import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
-import imageWinner from '../../../img/imageWinner.jpeg'
-import imageLooser from '../../../img/looser.jpeg'
 const Button = (props) => {
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
@@ -55,7 +53,7 @@ const Button = (props) => {
         return (
         <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
             <div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}>
-            <img src={imageWinner} style={{width: "220px", height: "237px"}}/>
+            <img src={'https://png.pngtree.com/element_origin_min_pic/17/07/23/473f204a1589862d0264b14f926b4b59.jpg'} style={{width: "220px", height: "237px"}}/>
                 <OtherTabContainer />
             </div>
                 <button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -050%)"}} onClick={Restart()}>RestartGame</button>
@@ -84,7 +82,7 @@ const Button = (props) => {
         return(
             <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
             <div style={{display:'flex', justifyContent : 'space-between'}}>
-            <img src={imageLooser} style={{width: "220px", height: "237px"}}/>
+            <img src={'https://astucesdefilles.com/wp-content/uploads/2017/06/11-things-anyone-whos-ever-dated-a-total-looser-k-2-10562-1440004132-3_dblbig.jpg'} style={{width: "220px", height: "237px"}}/>
 
             <OtherTabContainer />
             </div>

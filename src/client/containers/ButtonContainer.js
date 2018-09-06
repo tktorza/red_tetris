@@ -37,16 +37,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createGame : (info) => {
-            dispatch(createGame(info[0], info[1]))
-            for(let x = 0; x < 10; x++) {
-                dispatch(createTableX(x))
-               
-            }
-            for (let y = 0; y < 20; y++){
-                dispatch(createTableY(y))
-            }
-        },
         startMove : () => {
             let gameId = store.getState().buttonReducer.toJS().gameId
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo

@@ -10,6 +10,7 @@ import {fromJS, List, Map} from 'immutable'
 import configureStore from 'redux-mock-store'
 import OtherPlayerBoard from '../src/client/components/OtherPlayerBoard'
 import OtherPlayerCell from '../src/client/components/OtherPlayerCell'
+
 chai.should()
 chai.use(equalJSX)
 const assert = chai.assert
