@@ -66,6 +66,7 @@ exports.default = (socket) => {
 		}
 	})
 	socket.on('CREATE_GAME', (data) => {
+		console.log("la")
 		startNewGame(data, socket)
 		//get game id
 		
@@ -137,6 +138,10 @@ exports.default = (socket) => {
 		cache.put(data.gameId, currentGame)
 		if (j === 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				currentGame.Game.player[0].player.isFirst = true
+				currentGame.Game.player.forEach(elem => {
+					elem.player.id = elem.player.id - 1
+				})
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
 					type : "REFRESH_USER_FIRST"
 				})
