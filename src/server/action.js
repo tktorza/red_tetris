@@ -1,5 +1,6 @@
 const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
+import {getPersonneById} from './utils'
 let RoomId = []
 
 exports.default = (socket) => {
@@ -19,14 +20,11 @@ exports.default = (socket) => {
 		})
 	})
 	socket.on("RESTART_GAME", data => {
-		// revoir la logique
 		let currentGame = cache.get(data.gameId)
 		let piece = []
 		
 		currentGame.addPiece()
 		currentGame.game.player.forEach(element => {
-
-			console.log("lalalal")
 			element.player.isLooser = false
 			element.player.isWinner = false
 			element.player.isVisitor = false
@@ -131,11 +129,9 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('DISCONNECTED', data =>{
-		// revoir la logique : si qlq se deconnect mais quil y un un visituer => game restart ? ave lui en first
-		// + si un autre que le 1 se deco voir pq le 1er ne se fais pas update
 		let currentGame = cache.get(data.gameId)
-		let j = getPlayerById(currentGame.Game.player, data.playerInfo.id)
-		currentGame.removePlayer(data.playerInfo.id)
+		let j = getPersonneById(currentGame.Game.player, data.playerInfo.name)
+		currentGame.removePlayer(j)
 		socket.broadcast.to(data.gameId).emit('action',
 		{
 			type : 'REMOVE_USER',
@@ -144,16 +140,18 @@ exports.default = (socket) => {
 		io.to(socket.id).emit('action', {
 			type : 'DISCONNECTED'
 		})
-		cache.put(data.gameId, currentGame)
-		if (j === 0){
-			if (typeof(currentGame.Game.player[0]) != 'undefined'){
-				currentGame.Game.player[0].player.isFirst = true
 				let i = 0
-				currentGame.Game.player.forEach(elem => {
+
+		currentGame.Game.player.forEach(elem => {
 					if (elem.player.id != i)
 						elem.player.id = i
 					i++
 				})
+		cache.put(data.gameId, currentGame)
+		if (j == 0){
+			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				currentGame.Game.player[0].player.isFirst = true
+				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
 					type : "REFRESH_USER_FIRST"
 				})
@@ -161,7 +159,6 @@ exports.default = (socket) => {
 			else{
 				RoomId = RoomId.filter(elemt => elemt != data.gameId)
 				cache.del(data.gameId)
-				// remove // updAte room from addUserContainer
 			}
 		}else if (typeof(currentGame.Game.player[0]) == 'undefined'){
 			cache.del(data.gameId)
@@ -193,26 +190,17 @@ const startGame = (socket, data) => {
 		type : "START_GAME"
 	})
 	let rooms = []
-		RoomId.forEach( (element) => {
-			rooms.push(cache.get(element))
-		});
-		io.to(1845).emit('action', {
-			type : 'GET_CURRENT_ROOMS',
-			payload : rooms
-		})
-
-}
-
-const getPersonneById = (tab, playerName) => {
-	let i = 0
-	let j = 0
-	tab.forEach( function(element, index) {
-		if (element.player.playerName.localeCompare(playerName) == 0)
-			j = i
-		i++
+	RoomId.forEach( (element) => {
+		rooms.push(cache.get(element))
 	});
-	return j
+	io.to(1845).emit('action', {
+		type : 'GET_CURRENT_ROOMS',
+		payload : rooms
+	})
+
 }
+
+
 
 const getPlayerById = (tab, id) => {
 	let i = 0

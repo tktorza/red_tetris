@@ -25,6 +25,37 @@ export const getLowerDist = (piece, coord, difference)=>{
     return difference
 }
 
+export const getMoove = (currentPiece, key) => {
+    let moove = {} 
+    let newPose = {type : currentPiece.type, coord : []}
+    switch (key.key) {
+        case "ArrowLeft":
+                currentPiece.coord.map(p => {
+                    newPose.coord.push({x : p.x - 1, y : p.y})
+                })
+                moove = {moove : "left", newPose : newPose}
+                break
+        case "ArrowRight" : 
+            currentPiece.coord.map(p => {
+                newPose.coord.push({x : p.x +1, y : p.y})
+            })
+            moove = {moove : "right", newPose : newPose}
+            break
+        case "ArrowUp":
+            newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
+            moove = {moove : "up", newPose : newPose}
+            
+            break
+        case "ArrowDown":
+            currentPiece.coord.map(p => {
+                newPose.coord.push({x : p.x, y : p.y + 1})
+            })
+            moove = {moove : "down", newPose : newPose}
+            break
+    }
+    return moove
+}
+
 export const calculDown = (piece, endLine) => {
        let newEndLine = []
       

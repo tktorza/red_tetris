@@ -76,37 +76,38 @@ const mapDispatchToProps = (dispatch) => {
         },
         KeyDown : (key ) => {
             let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
-            let newPose = {type : currentPiece.type, coord : []}
-            let i = 0
-            let mve = ""
+            // let newPose = {type : currentPiece.type, coord : []}
+            // let i = 0
+            // let mve = ""
             let endLine = store.getState().buttonReducer.toJS().endLine.slice()
-           
+           // le mettre dans une fonction dans util
             if (typeof(currentPiece.coord) != 'undefined'){
-                switch (key.key) {
-                    case "ArrowLeft":
-                            mve = "left"
-                            currentPiece.coord.map(p => {
-                                newPose.coord.push({x : p.x - 1, y : p.y})
-                            })
-                        break
-                    case "ArrowRight" : 
-                        mve = "right"
-                        currentPiece.coord.map(p => {
-                            newPose.coord.push({x : p.x +1, y : p.y})
-                        })
-                        break
-                    case "ArrowUp":
-                        mve = "up"
-                        newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
-                        break
-                    case "ArrowDown":
-                        mve = "down"
-                        currentPiece.coord.map(p => {
-                            newPose.coord.push({x : p.x, y : p.y + 1})
-                        })
-                        break
-                }
-                if (isPossible(newPose, mve, endLine) === 0){
+                let moove = getMoove(currentPiece, key)
+                // switch (key.key) {
+                //     case "ArrowLeft":
+                //             mve = "left"
+                //             currentPiece.coord.map(p => {
+                //                 newPose.coord.push({x : p.x - 1, y : p.y})
+                //             })
+                //         break
+                //     case "ArrowRight" : 
+                //         mve = "right"
+                //         currentPiece.coord.map(p => {
+                //             newPose.coord.push({x : p.x +1, y : p.y})
+                //         })
+                //         break
+                //     case "ArrowUp":
+                //         mve = "up"
+                //         newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
+                //         break
+                //     case "ArrowDown":
+                //         mve = "down"
+                //         currentPiece.coord.map(p => {
+                //             newPose.coord.push({x : p.x, y : p.y + 1})
+                //         })
+                //         break
+                // }
+                if (isPossible(moove.newPose, moove.moove, endLine) === 0){
                     dispatch(move(newPose))
                 }
             }

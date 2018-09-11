@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/11</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/39</span>
+        <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/7</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/11</span>
+        <span class='fraction'>0/10</span>
       </div>
     </div>
   </div>
@@ -156,27 +156,7 @@
 111
 112
 113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+114</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,30 +209,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -317,7 +279,6 @@ import lifecycle from 'react-pure-lifecycle'
 const Button = <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
-     console.log(playerInfo)
     document.onkeydown = <span class="fstat-no" title="function not covered" >(evt) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (gameStart){</span>
             evt = evt || window.event;
@@ -355,13 +316,7 @@ const Button = <span class="fstat-no" title="function not covered" >(props) =&gt
      window.onbeforeunload = <span class="fstat-no" title="function not covered" >(e) =&gt; {</span>
         disconnected()
     }
-<span class="cstat-no" title="statement not covered" >    if (playerInfo.isVisitor == true){</span>
-        return (
-            &lt;div  style={{display:'flex', justifyContent : 'space-between'}}&gt;
-                &lt;OtherTabContainer /&gt;
-            &lt;/div&gt;
-            )
-    }else <span class="cstat-no" title="statement not covered" >if (playerInfo.isWinner == true){</span>
+<span class="cstat-no" title="statement not covered" >    if (playerInfo.isWinner == true){</span>
         return (
         &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
             &lt;div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}&gt;
@@ -405,19 +360,7 @@ const Button = <span class="fstat-no" title="function not covered" >(props) =&gt
     }
 }
 //
-// export default functional(Button, {
 const methods = {
-    componentWillMount: <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
-        // if (typeof(props.playerInfo.name) == 'undefined'){
-        //     let infoParti = window.location.href.split('/')
-        //     if (infoParti.length == 4){
-        //         let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
-        //         if (info.length == 2)
-        //            props.nfo)
-        //     }
-        // } 
-    },
- 
     shouldComponentUpdate: <span class="fstat-no" title="function not covered" >(props, nextProps) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (props.gameStart == false &amp;&amp; nextProps.gameStart == true &amp;&amp; nextProps.playerInfo.isVisitor == false)</span>
             props.startMove()
@@ -439,13 +382,13 @@ const methods = {
  }
 &nbsp;
  export default lifecycle(methods)(Button)
-// });</pre></td></tr>
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 11:18:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 19:33:03 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

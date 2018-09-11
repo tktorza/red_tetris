@@ -25,14 +25,14 @@
         <span class='fraction'>39/39</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.89% </span>
+        <span class="strong">91.85% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>123/131</span>
+        <span class='fraction'>124/135</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">92.86% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>24/24</span>
+        <span class='fraction'>26/28</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -268,7 +268,38 @@
 223
 224
 225
-226</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,6 +318,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20×</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -520,6 +582,37 @@ export const getLowerDist = (piece, coord, difference)=&gt;{
     return difference
 }
 &nbsp;
+export const getMoove = (currentPiece, key) =&gt; {
+    let moove = {} 
+    let newPose = {type : currentPiece.type, coord : []}
+    switch (key.key) {
+        case "ArrowLeft":
+                currentPiece.coord.map(p =&gt; {
+                    newPose.coord.push({x : p.x - 1, y : p.y})
+                })
+                moove = {moove : "left", newPose : newPose}
+                break
+<span class="branch-1 cbranch-no" title="branch not covered" >        case "ArrowRight" : </span>
+            currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                newPose.coord.push({x : p.x +1, y : p.y})
+            })
+            moove = {moove : "right", newPose : newPose}
+            break
+<span class="branch-2 cbranch-no" title="branch not covered" >        case "ArrowUp":</span>
+            newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
+            moove = {moove : "up", newPose : newPose}
+            
+            break
+<span class="branch-3 cbranch-no" title="branch not covered" >        case "ArrowDown":</span>
+            currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
+                newPose.coord.push({x : p.x, y : p.y + 1})
+            })
+            moove = {moove : "down", newPose : newPose}
+            break
+    }
+    return moove
+}
+&nbsp;
 export const calculDown = (piece, endLine) =&gt; {
        let newEndLine = []
       
@@ -724,7 +817,7 @@ export const getNewPiece = (gameId, nextPiece, dispatch) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 11:18:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 19:33:03 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -136,7 +136,7 @@ describe('react JSX TESTS', function () {
     })
     it('JoinGame component', function (done) {
         const renderer = createRenderer()
-        renderer.render(<JoinGame joinGame={()=>{console.log('coucou')}} room={'room1'} user={{ name: "test", id: 0, isVisitor: false }} gravity={1}/>)
+        renderer.render(<JoinGame joinGame={()=>{console.log('coucou')}} room={{name : 'room1', start : false}} user={{ name: "test", id: 0, isVisitor: false }} gravity={1}/>)
         const output = renderer.getRenderOutput()
         output.should.equalJSX(
             <div className="" href="" onClick={()=>{

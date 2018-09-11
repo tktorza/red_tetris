@@ -1,7 +1,7 @@
 import { getLowerCoord, getLowerDist, calculDown, isLoose, getNewEndLine, getSideBlock, getDecale, isPossible,
-         calculeRotate, getNewPiece } from '../src/client/utils'
+         calculeRotate, getNewPiece, getMoove } from '../src/client/utils'
 import {Map, List, fromJS} from 'immutable'
-
+import {getPersonneById} from '../src/server/utils'
 import chai from "chai"
 import equalJSX from 'chai-equal-jsx'
 
@@ -210,6 +210,18 @@ describe('Util', () =>{
 		let value = getNewPiece(0, [{type : 1, coord : [{x : 5, y : 5} ,{x : 5, y : 6}, {x :5, y : 7}, {x : 5, y : 8}]}], () => {return 1})	
 		console.log(value)
 		assert.equal(typeof(value), 'undefined')
+		done()
+	})
+	// voir format envoye pour tab
+	it ('should return 0', done => {
+		let value = getPersonneById([], "louis")
+		assert.equal(value, 0)
+		done()
+	})
+	it ('should moove', done => {
+		let value = getMoove({type : 7, coord : [{x : 5, y : 7} ,{x : 5, y : 6}, {x :5, y : 5}, {x : 5, y : 8}]}, {key : "ArrowLeft"})
+		assert.equal(value.moove, "left")
+
 		done()
 	})
 })

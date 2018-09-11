@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.62% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/13</span>
+        <span class='fraction'>9/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.71% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>17/28</span>
+        <span class='fraction'>13/26</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.5% </span>
+        <span class="strong">71.05% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>31/40</span>
+        <span class='fraction'>27/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">84.62% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/13</span>
+        <span class='fraction'>9/12</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -346,21 +346,7 @@
 301
 302
 303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+304</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -505,14 +491,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -567,18 +552,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -675,6 +651,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
+import {getPersonneById} from './utils'
 let RoomId = []
 &nbsp;
 exports.default = (socket) =&gt; {
@@ -694,14 +671,11 @@ exports.default = (socket) =&gt; {
 		})
 	})
 	socket.on("RESTART_GAME", data =&gt; {
-		// revoir la logique
 		let currentGame = cache.get(data.gameId)
 		let piece = []
 		
 		currentGame.addPiece()
 		currentGame.game.player.forEach(element =&gt; {
-&nbsp;
-			console.log("lalalal")
 			element.player.isLooser = false
 			element.player.isWinner = false
 			element.player.isVisitor = false
@@ -806,11 +780,9 @@ exports.default = (socket) =&gt; {
 	})
 	
 	socket.on('DISCONNECTED', data =&gt;{
-		// revoir la logique : si qlq se deconnect mais quil y un un visituer =&gt; game restart ? ave lui en first
-		// + si un autre que le 1 se deco voir pq le 1er ne se fais pas update
 		let currentGame = cache.get(data.gameId)
-		let j = getPlayerById(currentGame.Game.player, data.playerInfo.id)
-		currentGame.removePlayer(data.playerInfo.id)
+		let j = getPersonneById(currentGame.Game.player, data.playerInfo.name)
+		currentGame.removePlayer(j)
 		socket.broadcast.to(data.gameId).emit('action',
 		{
 			type : 'REMOVE_USER',
@@ -819,16 +791,18 @@ exports.default = (socket) =&gt; {
 		io.to(socket.id).emit('action', {
 			type : 'DISCONNECTED'
 		})
-		cache.put(data.gameId, currentGame)
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (j === 0){
-			<span class="missing-if-branch" title="else path not taken" >E</span>if (typeof(currentGame.Game.player[0]) != 'undefined'){
-				currentGame.Game.player[0].player.isFirst = true
 				let i = 0
-				currentGame.Game.player.forEach(elem =&gt; {
-					if (elem.player.id != i)
+&nbsp;
+		currentGame.Game.player.forEach(elem =&gt; {
+					<span class="missing-if-branch" title="else path not taken" >E</span>if (elem.player.id != i)
 						elem.player.id = i
 					i++
 				})
+		cache.put(data.gameId, currentGame)
+		<span class="missing-if-branch" title="else path not taken" >E</span>if (j == 0){
+			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				currentGame.Game.player[0].player.isFirst = true
+				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
 					type : "REFRESH_USER_FIRST"
 				})
@@ -836,7 +810,6 @@ exports.default = (socket) =&gt; {
 			else{
 				RoomId = RoomId.filter(elemt =&gt; elemt != data.gameId)
 				cache.del(data.gameId)
-				// remove // updAte room from addUserContainer
 			}
 		}else <span class="cstat-no" title="statement not covered" >if (typeof(currentGame.Game.player[0]) == 'undefined'){</span>
 			cache.del(data.gameId)
@@ -868,32 +841,23 @@ const startGame = (socket, data) =&gt; {
 		type : "START_GAME"
 	})
 	let rooms = []
-		RoomId.forEach( (element) =&gt; {
-			rooms.push(cache.get(element))
-		});
-		io.to(1845).emit('action', {
-			type : 'GET_CURRENT_ROOMS',
-			payload : rooms
-		})
-&nbsp;
-}
-&nbsp;
-const getPersonneById = (tab, playerName) =&gt; {
-	let i = 0
-	let j = 0
-	tab.forEach( function(element, index) {
-		if (element.player.playerName.localeCompare(playerName) == 0)
-			j = i
-		i++
+	RoomId.forEach( (element) =&gt; {
+		rooms.push(cache.get(element))
 	});
-	return j
+	io.to(1845).emit('action', {
+		type : 'GET_CURRENT_ROOMS',
+		payload : rooms
+	})
+&nbsp;
 }
 &nbsp;
-const getPlayerById = (tab, id) =&gt; {
+&nbsp;
+&nbsp;
+const getPlayerById = <span class="fstat-no" title="function not covered" >(tab, id) =&gt; {</span>
 	let i = 0
 	let j = 0
-	tab.forEach( function(element, index) {
-		if (element.player.id === id)
+	tab.forEach( <span class="fstat-no" title="function not covered" >function(element, index) {</span>
+<span class="cstat-no" title="statement not covered" >		if (element.player.id === id)</span>
 			j = i
 		i++
 	});
@@ -994,7 +958,7 @@ const refreshGamePiece = (socket, data) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 11:18:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 19:33:03 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

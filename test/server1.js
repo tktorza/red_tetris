@@ -59,7 +59,12 @@ describe('Server test', function(){
     })
     store.dispatch(loose(0, {name: "paul", id : 1}))
   })
-
+    it ('should restart game', function (done){
+    const store = configureStore(rootReducer, socket, initialState, {
+      'CREATE_GAME' : () => done()
+    })
+    store.dispatch({type : "server/RESTART_GAME", gameId : 0})
+  })
   //remove a laisser a la fin ?
   it('should remove first player', function(done){
     const store = configureStore(rootReducer, socket, initialState, {
@@ -73,11 +78,6 @@ describe('Server test', function(){
     })
     store.dispatch(disconnected(0, {name: "paul", id : 1}))
   })
-  it ('should restart game', function (done){
-    const store = configureStore(rootReducer, socket, initialState, {
-      'CREATE_GAME' : () => done()
-    })
-    store.dispatch({type : "server/RESTART_GAME", gameId : 0})
-  })
+
   
 });

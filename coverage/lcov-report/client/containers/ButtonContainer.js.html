@@ -27,12 +27,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/12</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/18</span>
+        <span class='fraction'>0/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -219,7 +219,8 @@
 174
 175
 176
-177</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+177
+178</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -303,6 +304,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -473,37 +475,38 @@ const mapDispatchToProps = <span class="fstat-no" title="function not covered" >
         },
         KeyDown : <span class="fstat-no" title="function not covered" >(key ) =&gt; {</span>
             let currentPiece = Object.assign({}, store.getState().buttonReducer.toJS().currentPiece)
-            let newPose = {type : currentPiece.type, coord : []}
-            let i = 0
-            let mve = ""
+            // let newPose = {type : currentPiece.type, coord : []}
+            // let i = 0
+            // let mve = ""
             let endLine = store.getState().buttonReducer.toJS().endLine.slice()
-           
+           // le mettre dans une fonction dans util
 <span class="cstat-no" title="statement not covered" >            if (typeof(currentPiece.coord) != 'undefined'){</span>
-                switch (key.key) {
-                    case "ArrowLeft":
-                            mve = "left"
-                            currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
-                                newPose.coord.push({x : p.x - 1, y : p.y})
-                            })
-                        break
-                    case "ArrowRight" : 
-                        mve = "right"
-                        currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
-                            newPose.coord.push({x : p.x +1, y : p.y})
-                        })
-                        break
-                    case "ArrowUp":
-                        mve = "up"
-                        newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
-                        break
-                    case "ArrowDown":
-                        mve = "down"
-                        currentPiece.coord.map(<span class="fstat-no" title="function not covered" >p =&gt; {</span>
-                            newPose.coord.push({x : p.x, y : p.y + 1})
-                        })
-                        break
-                }
-<span class="cstat-no" title="statement not covered" >                if (isPossible(newPose, mve, endLine) === 0){</span>
+                let moove = getMoove(currentPiece, key)
+                // switch (key.key) {
+                //     case "ArrowLeft":
+                //             mve = "left"
+                //             currentPiece.coord.map(p =&gt; {
+                //                 newPose.coord.push({x : p.x - 1, y : p.y})
+                //             })
+                //         break
+                //     case "ArrowRight" : 
+                //         mve = "right"
+                //         currentPiece.coord.map(p =&gt; {
+                //             newPose.coord.push({x : p.x +1, y : p.y})
+                //         })
+                //         break
+                //     case "ArrowUp":
+                //         mve = "up"
+                //         newPose = Object.assign({}, calculeRotate(currentPiece, endLine))
+                //         break
+                //     case "ArrowDown":
+                //         mve = "down"
+                //         currentPiece.coord.map(p =&gt; {
+                //             newPose.coord.push({x : p.x, y : p.y + 1})
+                //         })
+                //         break
+                // }
+<span class="cstat-no" title="statement not covered" >                if (isPossible(moove.newPose, moove.moove, endLine) === 0){</span>
                     dispatch(move(newPose))
                 }
             }
@@ -577,7 +580,7 @@ export default BouttonContainers
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 11:18:24 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 11 2018 19:33:03 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

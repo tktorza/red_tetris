@@ -8,7 +8,6 @@ import lifecycle from 'react-pure-lifecycle'
 const Button = (props) => {
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
-     console.log(playerInfo)
     document.onkeydown = (evt) => {
         if (gameStart){
             evt = evt || window.event;
@@ -46,13 +45,7 @@ const Button = (props) => {
      window.onbeforeunload = (e) => {
         disconnected()
     }
-    if (playerInfo.isVisitor == true){
-        return (
-            <div  style={{display:'flex', justifyContent : 'space-between'}}>
-                <OtherTabContainer />
-            </div>
-            )
-    }else if (playerInfo.isWinner == true){
+    if (playerInfo.isWinner == true){
         return (
         <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
             <div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}>
@@ -96,19 +89,7 @@ const Button = (props) => {
     }
 }
 //
-// export default functional(Button, {
 const methods = {
-    componentWillMount: (props) => {
-        // if (typeof(props.playerInfo.name) == 'undefined'){
-        //     let infoParti = window.location.href.split('/')
-        //     if (infoParti.length == 4){
-        //         let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
-        //         if (info.length == 2)
-        //            props.nfo)
-        //     }
-        // } 
-    },
- 
     shouldComponentUpdate: (props, nextProps) => {
         if (props.gameStart == false && nextProps.gameStart == true && nextProps.playerInfo.isVisitor == false)
             props.startMove()
@@ -130,4 +111,3 @@ const methods = {
  }
 
  export default lifecycle(methods)(Button)
-// });
