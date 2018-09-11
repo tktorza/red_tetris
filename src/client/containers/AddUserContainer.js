@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
    return {
         addUser: (user) => {
+            console.log(user)
             dispatch(addUser(user));
             dispatch(getAllRooms())
         },

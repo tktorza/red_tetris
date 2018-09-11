@@ -12,7 +12,7 @@ describe('Front-end', () => {
     describe('Action', () => {
         it('should be true when addUser\'s action is test', done => {
             const lol = addUser('test')
-            assert.equal(true, _.isEqual(lol, { type: 'ADD_USER', payload: 'test' }))
+            assert.equal(true, _.isEqual(lol, { type: 'server/ADD_USER', payload: 'test' }))
             done()
         })
         it('should be true when shareWinner\'s action is test', done => {

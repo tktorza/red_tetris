@@ -8,24 +8,27 @@ import lifecycle from 'react-pure-lifecycle'
 const Button = (props) => {
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
+     console.log(playerInfo)
     document.onkeydown = (evt) => {
-        evt = evt || window.event;
-        switch (evt.key){
-            case "ArrowRight" :
-                KeyDown(evt);
-                break;
-            case "ArrowLeft" :
-                KeyDown(evt);
-                break
-            case "ArrowUp" :
-                KeyDown(evt);
-                break;
-            case "ArrowDown" :
-                KeyDown(evt);
-                break;
-            case " " :
-                SpaceDown();
-                break; 
+        if (gameStart){
+            evt = evt || window.event;
+            switch (evt.key){
+                case "ArrowRight" :
+                    KeyDown(evt);
+                    break;
+                case "ArrowLeft" :
+                    KeyDown(evt);
+                    break
+                case "ArrowUp" :
+                    KeyDown(evt);
+                    break;
+                case "ArrowDown" :
+                    KeyDown(evt);
+                    break;
+                case " " :
+                    SpaceDown();
+                    break; 
+            }
         }
     }
     const start = () => event => {
