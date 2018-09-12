@@ -25,7 +25,7 @@ export const getLowerDist = (piece, coord, difference)=>{
     return difference
 }
 
-export const getMoove = (currentPiece, key) => {
+export const getMoove = (currentPiece, key, endLine) => {
     let moove = {} 
     let newPose = {type : currentPiece.type, coord : []}
     switch (key.key) {

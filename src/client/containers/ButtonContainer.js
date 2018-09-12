@@ -12,7 +12,7 @@ import { createTableX, createTableY,
             initOtherTabForVisitor, loose, restartGame, shareWinner} from '../actions/action'
 import  store  from '../index'
 import { getLowerCoord, getLowerDist, calculDown, isLoose, getNewEndLine, getSideBlock, getDecale,
-         calculeRotate , isPossible, getNewPiece} from '../utils'
+         calculeRotate , isPossible, getNewPiece, getMoove} from '../utils'
 let refreshIntervalId
 
 const mapStateToProps = (state) => {
@@ -82,7 +82,8 @@ const mapDispatchToProps = (dispatch) => {
             let endLine = store.getState().buttonReducer.toJS().endLine.slice()
            // le mettre dans une fonction dans util
             if (typeof(currentPiece.coord) != 'undefined'){
-                let moove = getMoove(currentPiece, key)
+                let moove = getMoove(currentPiece, key, endLine)
+                console.log(moove)
                 // switch (key.key) {
                 //     case "ArrowLeft":
                 //             mve = "left"
@@ -108,7 +109,7 @@ const mapDispatchToProps = (dispatch) => {
                 //         break
                 // }
                 if (isPossible(moove.newPose, moove.moove, endLine) === 0){
-                    dispatch(move(newPose))
+                    dispatch(move(moove.newPose))
                 }
             }
         },

@@ -51,6 +51,14 @@ exports.default = (socket) => {
 		}).emit("action", {
 			type : "RESTART_GAME"
 		})
+		let rooms = []
+		RoomId.forEach( (element) => {
+			rooms.push(cache.get(element))
+		});
+		io.to(1845).emit('action', {
+			type : 'GET_CURRENT_ROOMS',
+			payload : rooms
+		})
 	})
 	socket.on("SHARE_WINNER", data => {
 		socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : data.playerInfo})
