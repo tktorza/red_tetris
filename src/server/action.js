@@ -5,7 +5,6 @@ let RoomId = []
 
 exports.default = (socket) => {
 	socket.on("ADD_USER", data => {
-		console.log(data)
 		socket.join(1845, () => {})
 		io.to(socket.id).emit('action', {type : "ADD_USER", payload : data.payload})
 	})
@@ -64,8 +63,10 @@ exports.default = (socket) => {
 		socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : data.playerInfo})
 	})
 	socket.on("IS_LOOSE", data => {
+
 		let currentGame = cache.get(data.gameId)
-		currentGame.game.player[data.playerInfo.id].player.isLooser = true
+		let j = getPersonneById(currentGame.Game.player, data.playerInfo.name)
+		currentGame.game.player[j].player.isLooser = true
 		let isLast = checkIfLastLooser(currentGame.game.player)
 		if (isLast.i == 1 || isLast.i == 0){
 			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "END", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
@@ -80,7 +81,6 @@ exports.default = (socket) => {
 		}
 	})
 	socket.on('CREATE_GAME', (data) => {
-		console.log("la")
 		startNewGame(data, socket)
 		//get game id
 		
@@ -155,10 +155,10 @@ exports.default = (socket) => {
 						elem.player.id = i
 					i++
 				})
-		cache.put(data.gameId, currentGame)
 		if (j == 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
 				currentGame.Game.player[0].player.isFirst = true
+				cache.put(data.gameId, currentGame)
 				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
 					type : "REFRESH_USER_FIRST"
