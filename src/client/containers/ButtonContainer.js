@@ -1,15 +1,14 @@
 import Button from '../components/Buttons'
 import { connect } from 'react-redux'
 import { createTableX, createTableY,
-         startMove, toggleTodoX,
-         toggleTodoY, reverseToggleX,
-         reverseToggleY, getCurrentPiece,
+         startMove, getCurrentPiece,
          move, getEndLine, createGame,
          getMorePiece, getNextPiece,
          startGameServer, startGameClient,
          shareEndLine, initOtherTab,
          sendMalus, disconnected, upScore,
-            initOtherTabForVisitor, loose, restartGame, shareWinner} from '../actions/action'
+            initOtherTabForVisitor, loose, restartGame, shareWinner,
+            inGame, joinGame} from '../actions/action'
 import  store  from '../index'
 import { getLowerCoord, getLowerDist, calculDown, isLoose, getNewEndLine, getSideBlock, getDecale,
          calculeRotate , isPossible, getNewPiece, getMoove} from '../utils'
@@ -37,6 +36,23 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        joinGame : (gameName, username, gravity) => {
+            dispatch(inGame())
+            dispatch(joinGame(gameName, username))
+            for(let x = 0; x < 10; x++) {
+                dispatch(createTableX(x))
+               
+            }
+             if (gravity == 1){
+                for (let y = 0; y < 20; y++){
+                    dispatch(createTableY(y))
+                }
+            }else{
+                 for (let y = 19; y >= 0; y--){
+                    dispatch(createTableY(y))
+                }
+            }
+        },
         startMove : () => {
             let gameId = store.getState().buttonReducer.toJS().gameId
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo

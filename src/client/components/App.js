@@ -1,5 +1,4 @@
 import Button from '../containers/ButtonContainer'
-import AddUserContainer from '../containers/AddUserContainer'
 // import Confettii from './Confetti'
 // import Boule, {tableColor} from './Boule'
 import store  from '../index'
@@ -11,7 +10,7 @@ const App = (props) => {
 	
   return (
     <div style={styles.AppCenter}>
-      		<AddUserContainer />
+      		<Button />
           
     </div>
   );
