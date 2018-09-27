@@ -3,6 +3,7 @@ import JoinGame from './JoinGame'
 import StartNewGame from './StartNewGame'
 import Button from '../containers/ButtonContainer'
 import {styles} from '../styles'
+import lifecycle from 'react-pure-lifecycle'
 
 let gravity = 1
 
@@ -71,4 +72,19 @@ const AddUser = ( props ) => {
 
 }
 
-export default AddUser
+const methods = {
+    componentWillMount: (props) => {
+      console.log("Loa,a")
+        if (typeof(props.playerInfo.name) == 'undefined'){
+            let infoParti = window.location.href.split('/')
+            if (infoParti.length == 4){
+                let info = infoParti[3].replace('#', '').replace(/]/gi, '').split('[')
+                if (info.length == 2)
+                   console.log("info ===", info)
+                   // props.createGame(info)
+            }
+        } 
+    }
+ }
+
+ export default lifecycle(methods)(AddUser)
