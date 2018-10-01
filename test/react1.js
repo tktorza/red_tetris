@@ -2,9 +2,7 @@ import chai from "chai"
 import React from 'react'
 import equalJSX from 'chai-equal-jsx'
 import {createRenderer} from 'react-addons-test-utils'
-import StartNewGame from '../src/client/components/StartNewGame'
 import Cell from '../src/client/components/Cell'
-import JoinGame from '../src/client/components/JoinGame'
 import OtherTab from '../src/client/components/OtherTable'
 import {fromJS, List, Map} from 'immutable'
 import configureStore from 'redux-mock-store'
@@ -134,30 +132,7 @@ describe('react JSX TESTS', function () {
         assert.equal(output.type,'div')
         done()
     })
-    it('JoinGame component', function (done) {
-        const renderer = createRenderer()
-        renderer.render(<JoinGame joinGame={()=>{console.log('coucou')}} room={{name : 'room1', start : false}} user={{ name: "test", id: 0, isVisitor: false }} gravity={1}/>)
-        const output = renderer.getRenderOutput()
-        output.should.equalJSX(
-            <div className="" href="" onClick={()=>{
-                joinGame(room, user, gravity)
-                
-            }} style={{cursor : 'pointer'}}>Join game
-            </div>
-        )
-        done()
-    })
-    it('StartNewGame component', function (done) {
-        const renderer = createRenderer()
-        renderer.render(<StartNewGame createGame={()=>{console.log('coucou')}} room={'room1'} user={{ name: "test", id: 0, isVisitor: false }} gravity={1}/>)
-        const output = renderer.getRenderOutput()
-        output.should.equalJSX(
-            <div className="" onClick={()=>{
-                createGame(room, user, gravity)
-            }} style={{cursor: 'pointer', padding: '2%'}}>Start New Game</div>
-        )
-        done()
-    })
+
     it ('OtherTable component', done => {
         const renderer = createRenderer()
         renderer.render(<OtherTab player={[{player : { name : "lala", id : 0}}]}/>)

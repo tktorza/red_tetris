@@ -2,7 +2,6 @@ import buttonReducer from '../src/client/reducers/ButtonReducer'
 import { fromJS, List , Map} from 'immutable'
 import _ from 'lodash'
 import OtherTableReducer from '../src/client/reducers/OtherTableReducer'
-import UserReducer from '../src/client/reducers/UserReducer'
   // import socketMiddleware from '../src/client/src/middleware/socketIoMiddleWare'
 'use strict'
 const chai = require('chai')
@@ -296,54 +295,6 @@ describe('reducer', () => {
         })
     })
 
-    describe('GET_CURRENT_ROOMS', () => {
-
-        it('should be false ', done => {
-            let lol = UserReducer(fromJS(UserReducerObj), {
-                type: 'GET_CURRENT_ROOMS'
-            })
-            assert.equal(false, _.isEqual(lol, initUserReducer))
-            done()
-        })
-    })
-    describe('IN_GAME', () => {
-
-        it('should be false ', done => {
-            let lol = UserReducer(fromJS(UserReducerObj), {
-                type: 'IN_GAME',
-            })
-            assert.equal(false, _.isEqual(lol, initUserReducer))
-            done()
-        })
-    })
-    describe('REVERSE_GRAVITE', () => {
-
-        it('should be false ', done => {
-            let lol = UserReducer(fromJS(UserReducerObj), {
-                type: 'REVERSE_GRAVITE',
-            })
-            assert.equal(false, _.isEqual(lol, initUserReducer))
-            done()
-        })
-    })
-    describe('ADD_USER', () => {
-
-        it('should be false ', done => {
-            let lol = UserReducer(fromJS(UserReducerObj), {
-                type: 'ADD_USER',
-                payload: {
-                    user: {
-                        rooms: [],
-                        user: 'test',
-                        inGame: true,
-                        gravity: false
-                    }
-                }
-            })
-            assert.equal(false, _.isEqual(lol, initUserReducer))
-            done()
-        })
-    })
     describe('server/INIT_OTHER_TAB', () => {
         it('should be false ', done => {
             otherTableReducerObj = OtherTableReducer(fromJS(otherTableReducerObj), {

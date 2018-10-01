@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/4</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
-        <span class="quiet">Branches</span>
         <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/15</span>
+        <span class='fraction'>0/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>0/8</span>
       </div>
     </div>
   </div>
@@ -192,7 +192,23 @@
 147
 148
 149
-150</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,6 +243,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -344,15 +376,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Button from '../components/Buttons'
 import { connect } from 'react-redux'
 import { createTableX, createTableY,
-         startMove, toggleTodoX,
-         toggleTodoY, reverseToggleX,
-         reverseToggleY, getCurrentPiece,
+         startMove, getCurrentPiece,
          move, getEndLine, createGame,
          getMorePiece, getNextPiece,
          startGameServer, startGameClient,
          shareEndLine, initOtherTab,
          sendMalus, disconnected, upScore,
-            initOtherTabForVisitor, loose, restartGame, shareWinner} from '../actions/action'
+            initOtherTabForVisitor, loose, restartGame, shareWinner,
+            inGame, joinGame} from '../actions/action'
 import  store  from '../index'
 import { getLowerCoord, getLowerDist, calculDown, isLoose, getNewEndLine, getSideBlock, getDecale,
          calculeRotate , isPossible, getNewPiece, getMoove} from '../utils'
@@ -380,6 +411,23 @@ const mapStateToProps = <span class="fstat-no" title="function not covered" >(st
 &nbsp;
 const mapDispatchToProps = <span class="fstat-no" title="function not covered" >(dispatch) =&gt; {</span>
     return {
+        joinGame : <span class="fstat-no" title="function not covered" >(gameName, username, gravity) =&gt; {</span>
+            dispatch(inGame())
+            dispatch(joinGame(gameName, username))
+<span class="cstat-no" title="statement not covered" >            for(let x = 0; x &lt; 10; x++) {</span>
+                dispatch(createTableX(x))
+               
+            }
+<span class="cstat-no" title="statement not covered" >             if (gravity == 1){</span>
+<span class="cstat-no" title="statement not covered" >                for (let y = 0; y &lt; 20; y++){</span>
+                    dispatch(createTableY(y))
+                }
+            }else{
+<span class="cstat-no" title="statement not covered" >                 for (let y = 19; y &gt;= 0; y--){</span>
+                    dispatch(createTableY(y))
+                }
+            }
+        },
         startMove : <span class="fstat-no" title="function not covered" >() =&gt; {</span>
             let gameId = store.getState().buttonReducer.toJS().gameId
             let playerInfo = store.getState().buttonReducer.toJS().playerInfo
@@ -496,7 +544,7 @@ export default BouttonContainers
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 18:23:01 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 27 2018 16:26:31 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/15</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/37</span>
+        <span class='fraction'>0/51</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/6</span>
+        <span class='fraction'>0/7</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/15</span>
       </div>
     </div>
   </div>
@@ -156,7 +156,30 @@
 111
 112
 113
-114</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,6 +224,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -244,6 +275,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -276,6 +320,7 @@ import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
 // import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
+&nbsp;
 const Button = <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
@@ -314,53 +359,74 @@ const Button = <span class="fstat-no" title="function not covered" >(props) =&gt
          visib_2 = 'hidden'
     }
      window.onbeforeunload = <span class="fstat-no" title="function not covered" >(e) =&gt; {</span>
-        disconnected()
+<span class="cstat-no" title="statement not covered" >        if (typeof(props.playerInfo.name) != 'undefined'){</span>
+            disconnected()
+        }
     }
-<span class="cstat-no" title="statement not covered" >    if (playerInfo.isWinner == true){</span>
+<span class="cstat-no" title="statement not covered" >    if (typeof(props.playerInfo.name) == 'undefined'){</span>
         return (
-        &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
-            &lt;div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}&gt;
-            &lt;img src={'https://png.pngtree.com/element_origin_min_pic/17/07/23/473f204a1589862d0264b14f926b4b59.jpg'} style={{width: "220px", height: "237px"}}/&gt;
-                &lt;OtherTabContainer /&gt;
-            &lt;/div&gt;
-                &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -050%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
-        &lt;/div&gt;
-        )
+         &lt;div&gt;ERROR&lt;/div&gt;
+         )
     }
-    else <span class="cstat-no" title="statement not covered" >if (playerInfo.isLooser == false){</span>
-        return (
-            &lt;div  style={{display:'flex', margin : "2%"}}&gt;
-                &lt;button onClick={start()} style={{visibility : visib_2}}&gt;Start&lt;/button&gt;
-                &lt;div className="board" style={{display:'flex', marginLeft : "2%"}}&gt;
-                   {column.map(c =&gt; (
-                        &lt;div key={c.get('id')} id={c.get('id')}&gt;
-                            {tab.map(t =&gt; (
-                                &lt;Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} currentPiece={currentPiece} endLine={endLine}/&gt;
-                            ))}
-                        &lt;/div&gt;
-                   ))}
+    else{
+<span class="cstat-no" title="statement not covered" >        if (playerInfo.isWinner == true){</span>
+            return (
+            &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
+                &lt;div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}&gt;
+                &lt;img src={'https://png.pngtree.com/element_origin_min_pic/17/07/23/473f204a1589862d0264b14f926b4b59.jpg'} style={{width: "220px", height: "237px"}}/&gt;
+                    &lt;OtherTabContainer /&gt;
                 &lt;/div&gt;
-                &lt;div style={{ marginLeft : "2%"}} &gt;{score}&lt;/div&gt;
-                &lt;OtherTabContainer /&gt;
-                
+                    &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -050%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
             &lt;/div&gt;
             )
-    }else{
-        return(
-            &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
-            &lt;div style={{display:'flex', justifyContent : 'space-between'}}&gt;
-            &lt;img src={'https://astucesdefilles.com/wp-content/uploads/2017/06/11-things-anyone-whos-ever-dated-a-total-looser-k-2-10562-1440004132-3_dblbig.jpg'} style={{width: "220px", height: "237px"}}/&gt;
+        }
+        else <span class="cstat-no" title="statement not covered" >if (playerInfo.isLooser == false){</span>
+            return (
+                &lt;div  style={{display:'flex', margin : "2%"}}&gt;
+                    &lt;button onClick={start()} style={{visibility : visib_2}}&gt;Start&lt;/button&gt;
+                    &lt;div className="board" style={{display:'flex', marginLeft : "2%"}}&gt;
+                       {column.map(c =&gt; (
+                            &lt;div key={c.get('id')} id={c.get('id')}&gt;
+                                {tab.map(t =&gt; (
+                                    &lt;Cell key={`${t.get('id')} ${c.get('id')}`} tab={t.toJS()} column={c.toJS()} currentPiece={currentPiece} endLine={endLine}/&gt;
+                                ))}
+                            &lt;/div&gt;
+                       ))}
+                    &lt;/div&gt;
+                    &lt;div style={{ marginLeft : "2%"}} &gt;{score}&lt;/div&gt;
+                    &lt;OtherTabContainer /&gt;
+                    
+                &lt;/div&gt;
+                )
+        }else{
+            return(
+                &lt;div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}&gt;
+                &lt;div style={{display:'flex', justifyContent : 'space-between'}}&gt;
+                &lt;img src={'https://astucesdefilles.com/wp-content/uploads/2017/06/11-things-anyone-whos-ever-dated-a-total-looser-k-2-10562-1440004132-3_dblbig.jpg'} style={{width: "220px", height: "237px"}}/&gt;
 &nbsp;
-            &lt;OtherTabContainer /&gt;
-            &lt;/div&gt;
-                &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -50%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
+                &lt;OtherTabContainer /&gt;
+                &lt;/div&gt;
+                    &lt;button style={{visibility : visib_2, marginLeft : "50%", marginTop: "10%", transform: "translate(-50%, -50%)"}} onClick={Restart()}&gt;RestartGame&lt;/button&gt;
 &nbsp;
-            &lt;/div&gt;
-        )
+                &lt;/div&gt;
+            )
+        }
     }
 }
 //
 const methods = {
+    componentWillMount: <span class="fstat-no" title="function not covered" >(props) =&gt; {</span>
+            let infoParti = window.location.href.split('/')
+<span class="cstat-no" title="statement not covered" >            if (infoParti.length == 4){</span>
+                let info = infoParti[3].replace('#', '').replace(/]/gi, '[').split('[')
+                console.log(info.length)
+<span class="cstat-no" title="statement not covered" >                if (info.length == 3 &amp;&amp; info[2] === ""){</span>
+                    props.joinGame(info[0], info[1], 1)
+                }else <span class="cstat-no" title="statement not covered" >if (info.length == 3 &amp;&amp; info[2] === "!"){</span>
+                    props.joinGame(info[0], info[1], 0)
+                }
+            }
+    },
     shouldComponentUpdate: <span class="fstat-no" title="function not covered" >(props, nextProps) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (props.gameStart == false &amp;&amp; nextProps.gameStart == true &amp;&amp; nextProps.playerInfo.isVisitor == false)</span>
             props.startMove()
@@ -388,7 +454,7 @@ const methods = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 25 2018 18:23:01 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 27 2018 16:26:31 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

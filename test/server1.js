@@ -31,7 +31,7 @@ describe('Server test', function(){
     const store = configureStore(rootReducer, socket, initialState, {
       'CREATE_GAME': () => done()
     })
-    store.dispatch(joinGame({ id : 0}, "paul"))
+    store.dispatch(joinGame(0, "paul"))
   })
   it('should start game', function(done){
     const store = configureStore(rootReducer, socket, initialState, {
