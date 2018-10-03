@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.73% </span>
+        <span class="strong">81.25% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/11</span>
+        <span class='fraction'>13/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>13/26</span>
+        <span class='fraction'>17/34</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">64.71% </span>
+        <span class="strong">65.71% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>22/34</span>
+        <span class='fraction'>23/35</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">72.73% </span>
+        <span class="strong">81.25% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/11</span>
+        <span class='fraction'>13/16</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -358,7 +358,29 @@
 313
 314
 315
-316</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -622,6 +644,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -934,6 +978,27 @@ const startNewGame = (data, socket) =&gt; {
 		// })
 }
 &nbsp;
+const IsAvalable = (name, game) =&gt; {
+	let j = 0
+	for (let i = 0; i &lt; game.Game.player.length; i++){
+		console.log(name)
+		console.log(game.Game.player[i].player.playerName)
+		console.log(name.localeCompare(game.Game.player[i].player.playerName))
+		<span class="missing-if-branch" title="if path not taken" >I</span>i</span>f (name.localeCompare(game.Game.player[i].player.playerName) == 0 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >j == 0){
+			j++
+		}
+		else <span class="missing-if-branch" title="if path not taken" >I</span>if ((name + j.toString()).localeCompare(game.Game.player[i].player.playerName) == 0){
+			j++
+		}
+	}
+	console.log("J == ", j)
+	<span class="missing-if-branch" title="else path not taken" >E</span>if (j == 0)
+		return name 
+	else {
+		return name + j.toString()
+	}
+}
+&nbsp;
 const joinGame = (data, socket) =&gt; {
 	let isRoomFree = c</span>ache.get(data.room) == null ? <span class="branch-0 cbranch-no" title="branch not covered" >1 : 0 
 	<span class="missing-if-branch" title="if path not taken" >I</span>if (isRoomFree == 1){
@@ -942,8 +1007,9 @@ const joinGame = (data, socket) =&gt; {
 	else {
 		let piece = []
 		let currentGame = cache.get(data.room)
-		currentGame.addPlayer(socket.id, data.playerName)
-		let personne = getPersonneById(currentGame.Game.player, data.playerName)
+		let playerName = IsAvalable(data.playerName, currentGame)
+		currentGame.addPlayer(socket.id, playerName)
+		let personne = getPersonneById(currentGame.Game.player, playerName)
 		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
@@ -955,7 +1021,7 @@ const joinGame = (data, socket) =&gt; {
 			type : 'CREATE_GAME',
 			id : data.room,
 			isFirst : false,
-			playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false},
+			playerInfo : {name : playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false},
 			currentPiece : currentGame.Game.piece[0].piece,
 			nextPiece : piece.slice(1)
 		})
@@ -994,7 +1060,7 @@ const refreshGamePiece = (socket, data) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 27 2018 16:26:31 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 03 2018 15:59:55 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

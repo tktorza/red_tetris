@@ -259,6 +259,27 @@ const startNewGame = (data, socket) => {
 		// })
 }
 
+const IsAvalable = (name, game) => {
+	let j = 0
+	for (let i = 0; i < game.Game.player.length; i++){
+		console.log(name)
+		console.log(game.Game.player[i].player.playerName)
+		console.log(name.localeCompare(game.Game.player[i].player.playerName))
+		if (name.localeCompare(game.Game.player[i].player.playerName) == 0 && j == 0){
+			j++
+		}
+		else if ((name + j.toString()).localeCompare(game.Game.player[i].player.playerName) == 0){
+			j++
+		}
+	}
+	console.log("J == ", j)
+	if (j == 0)
+		return name 
+	else {
+		return name + j.toString()
+	}
+}
+
 const joinGame = (data, socket) => {
 	let isRoomFree = cache.get(data.room) == null ? 1 : 0 
 	if (isRoomFree == 1){
@@ -267,8 +288,9 @@ const joinGame = (data, socket) => {
 	else {
 		let piece = []
 		let currentGame = cache.get(data.room)
-		currentGame.addPlayer(socket.id, data.playerName)
-		let personne = getPersonneById(currentGame.Game.player, data.playerName)
+		let playerName = IsAvalable(data.playerName, currentGame)
+		currentGame.addPlayer(socket.id, playerName)
+		let personne = getPersonneById(currentGame.Game.player, playerName)
 		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
@@ -280,7 +302,7 @@ const joinGame = (data, socket) => {
 			type : 'CREATE_GAME',
 			id : data.room,
 			isFirst : false,
-			playerInfo : {name : data.playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false},
+			playerInfo : {name : playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false},
 			currentPiece : currentGame.Game.piece[0].piece,
 			nextPiece : piece.slice(1)
 		})
