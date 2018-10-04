@@ -6,6 +6,7 @@ import OtherTabContainer from '../containers/OtherTabContainer'
 // import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
 
+let log = 'Please go to : "http://<server_name_or_ip>:<port>/#<room>[<player_name>]" for start. Add "!" at the end for reverse gravity'
 const Button = (props) => {
     const {restartGame, score, tab, column, SpaceDown, currentPiece, startMove,
      KeyDown, endLine, gameStart, isFirst, startMove_2, disconnected, playerInfo} = props
@@ -50,11 +51,14 @@ const Button = (props) => {
     }
     if (typeof(props.playerInfo.name) == 'undefined'){
         return (
-         <div>ERROR</div>
+         <div style={{position : 'absolute',transform:"translate(-50%, -50%)", top:"50%", left:"50%", color:"white"}}>{log}</div>
          )
     }
     else{
-        if (playerInfo.isWinner == true){
+        if (playerInfo.isVisitor == true){
+            return (<div style={{position : 'absolute',transform:"translate(-50%, -50%)", top:"50%", left:"50%", color:"white"}}>Game started, please wait or go on an other room</div>)
+        }
+        else if (playerInfo.isWinner == true){
             return (
             <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
                 <div style={{display:'flex', justifyContent : 'space-between', zIndex : '1', position : 'relative'}}>

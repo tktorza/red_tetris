@@ -46,14 +46,6 @@ exports.default = (socket) => {
 		}).emit("action", {
 			type : "RESTART_GAME"
 		})
-		let rooms = []
-		RoomId.forEach( (element) => {
-			rooms.push(cache.get(element))
-		});
-		io.to(1845).emit('action', {
-			type : 'GET_CURRENT_ROOMS',
-			payload : rooms
-		})
 	})
 	socket.on("SHARE_WINNER", data => {
 		socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : data.playerInfo})
@@ -73,7 +65,7 @@ exports.default = (socket) => {
 		cache.put(data.gameId, currentGame)
 		if (isLast.i != 0){
 			io.to(socket.id).emit("action", {type : "END", payload : {id : currentGame.game.player[data.playerInfo.id].id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
-			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[data.playerInfo.id].player.id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
+			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[j].player.id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
 		}
 	})
 	socket.on('CREATE_GAME', (data) => {
@@ -133,12 +125,9 @@ exports.default = (socket) => {
 	})
 	
 	socket.on('DISCONNECTED', data =>{
-		console.log(data)
 		let currentGame = cache.get(data.gameId)
-		console.log(currentGame.Game.player)
 		let j = getPersonneById(currentGame.Game.player, data.playerInfo.name)
 		currentGame.removePlayer(j)
-		console.log(currentGame)
 		socket.broadcast.to(data.gameId).emit('action',
 		{
 			type : 'REMOVE_USER',
@@ -157,6 +146,7 @@ exports.default = (socket) => {
 		if (j == 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
 				currentGame.Game.player[0].player.isFirst = true
+				currentGame.Game.player[0].player.isVisitor = false
 				cache.put(data.gameId, currentGame)
 				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
@@ -196,15 +186,6 @@ const startGame = (socket, data) => {
 	io.to(data.id).emit('action',{
 		type : "START_GAME"
 	})
-	let rooms = []
-	RoomId.forEach( (element) => {
-		rooms.push(cache.get(element))
-	});
-	io.to(1845).emit('action', {
-		type : 'GET_CURRENT_ROOMS',
-		payload : rooms
-	})
-
 }
 
 
@@ -220,16 +201,8 @@ const getPlayerById = (tab, id) => {
 	return j
 }
 
-// const idAvailable = (id) => {
-// 	if (cache.get(id) == null){
-// 		return id
-// 	}
-// 	id += 1
-// 	return idAvailable(id)
-// }
 
 const startNewGame = (data, socket) => {
-		// let id = idAvailable(data.room)
 		let piece = []
 		let currentGame = new Game(data.room, socket.id, data.playerName)
 		let personne = getPersonneById(currentGame.Game.player, data.playerName)
@@ -247,24 +220,11 @@ const startNewGame = (data, socket) => {
 			nextPiece : piece.slice(1)
 		})
 		cache.put(data.room, currentGame)
-		// RoomId.push(id)
-
-		// let rooms = []
-		// RoomId.forEach( (element) => {
-			// rooms.push(cache.get(element))
-		// });
-		// io.to(1845).emit('action', {
-			// type : 'GET_CURRENT_ROOMS',
-			// payload : rooms
-		// })
 }
 
 const IsAvalable = (name, game) => {
 	let j = 0
 	for (let i = 0; i < game.Game.player.length; i++){
-		console.log(name)
-		console.log(game.Game.player[i].player.playerName)
-		console.log(name.localeCompare(game.Game.player[i].player.playerName))
 		if (name.localeCompare(game.Game.player[i].player.playerName) == 0 && j == 0){
 			j++
 		}
@@ -272,7 +232,6 @@ const IsAvalable = (name, game) => {
 			j++
 		}
 	}
-	console.log("J == ", j)
 	if (j == 0)
 		return name 
 	else {
@@ -294,33 +253,34 @@ const joinGame = (data, socket) => {
 		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});	
-		// 	socket.leave(1845)
+		socket.join(data.room, ()=> {})
+		if (currentGame.game.start == true){
+			io.to(socket.id).emit('action', {
+				type : 'CREATE_GAME',
+				id : data.room,
+				isFirst : false,
+				playerInfo : {name : playerName, id : personne, isVisitor : currentGame.game.start, isWinner : false, isLooser: false},
+				currentPiece : {},
+				nextPiece : []
+			})
+			io.to(socket.id).emit('action',{
+			type : "START_GAME"
+		})
+		}
+		else{
+			io.to(socket.id).emit('action', {
+				type : 'CREATE_GAME',
+				id : data.room,
+				isFirst : false,
+				playerInfo : {name : playerName, id : personne, isVisitor : currentGame.game.start, isWinner : false, isLooser: false},
+				currentPiece : currentGame.Game.piece[0].piece,
+				nextPiece : piece.slice(1)
+			})
+		}
+		cache.put(data.room, currentGame)
 
-		socket.join(data.room, ()=> {
-		})
-		io.to(socket.id).emit('action', {
-			type : 'CREATE_GAME',
-			id : data.room,
-			isFirst : false,
-			playerInfo : {name : playerName, id : personne, isVisitor : currentGame.Game.player[personne].player.isVisitor, isWinner : false, isLooser: false},
-			currentPiece : currentGame.Game.piece[0].piece,
-			nextPiece : piece.slice(1)
-		})
 	}
-	// ??/let rooms = []
-	// 	RoomId.forEach( (element) => {
-	// 		rooms.push(cache.get(element))
-	// 	});
-	// 	io.to(1845).emit('action', {
-	// 		type : 'GET_CURRENT_ROOMS',
-	// 		payload : rooms
-	// 	})
 
-	// if (currentGame.Game.player[personne].player.isVisitor == true){
-	// 	io.to(socket.id).emit('action', {
-	// 		type : "START_GAME"
-	// 	})
-	// }
 }
 
 const refreshGamePiece = (socket, data) => {
