@@ -14,7 +14,6 @@ export const getLowerCoord = (piece) => {
 export const getLowerDist = (piece, coord, difference)=>{
     let tmp = 20
     piece.coord.map(elemt => {
-        // si bug c'est && coord.y > elemt.y a retirer
         if (elemt.x == coord.x && coord.y > elemt.y){
             if (coord.y - elemt.y - 1  < difference){
 
@@ -141,7 +140,6 @@ export const getDecale = (piece, endLine) => {
     let sideLock = getSideBlock(piece.coord[1], endLine, piece.type)
     switch (piece.type){
             case 7 :
-            // regarder aussi combien de piece a a droite si 2 ou 1 en fonction la decalle change, possible de tt faire en 1
                 if (piece.coord[1].x == 0 && piece.coord[2].y > piece.coord[1].y){
                     return 2
                 }
@@ -178,8 +176,6 @@ export const getDecale = (piece, endLine) => {
 }
 
 export const calculeRotate = (piece, endLine) =>{
-    // regarder le type de la piece si carre => rien faire + rajouter un x, y 
-    //(peut etre que 1 meme) si il est prsent on remonte la piece de ce quq'il faut pour que la rotation se passe mibe            
         if (piece.type != 1){
                 let newPiece = {type : piece.type, coord : []}
                 let tmp_pos = {}

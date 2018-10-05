@@ -15,7 +15,6 @@ const OtherPlayerCell = (props) => {
         return(<div key={column.id} style={{width: '0.7em', height: '0.7em', backgroundColor: 'white'}} className={tab.id}/>)
         
     }
-    // return test
 }
 
 export default OtherPlayerCell

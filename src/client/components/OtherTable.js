@@ -1,8 +1,5 @@
 import React from 'react'
 import OtherPlayerBoard from './OtherPlayerBoard'
-// import Cell from './Cell'
-
-//
 const OtherTable = (props) => {
 	const { player } = props
   let line = []

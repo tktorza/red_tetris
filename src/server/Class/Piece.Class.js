@@ -70,13 +70,5 @@ module.exports = class Piece {
 	constructor (){
 		this.piece = type[Math.floor(Math.random() * 7)]
 	}
-
-	// get Piece (){
-	// 	return this.piece
-	// }
-
 }
-
-// const test = new Piece()
-// console.log(test.Piece)
 

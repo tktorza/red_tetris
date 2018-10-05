@@ -13,8 +13,6 @@ module.exports = class Player {
 			isLooser : false,
 			isWinnew : false
 		}
-		// this.player.nextPiece = 
-		// this.Player.id = GetNewPlayerId()
 	}
 	addPiece (tab){
 		let i = 0

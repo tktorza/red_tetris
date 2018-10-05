@@ -1,9 +1,7 @@
 import React from 'react'
 import {List, Map} from 'immutable'
-import functional from 'react-functional-lifecycle'
 import Cell from './Cell'
 import OtherTabContainer from '../containers/OtherTabContainer'
-// import Confetti from './Confetti'
 import lifecycle from 'react-pure-lifecycle'
 
 let log = 'Please go to : "http://<server_name_or_ip>:<port>/#<room>[<player_name>]" for start. Add "!" at the end for reverse gravity'
@@ -120,7 +118,6 @@ const methods = {
         if (props.gameStart == false && nextProps.gameStart == true && nextProps.playerInfo.isVisitor == false)
             props.startMove()
         if (typeof(props.playerInfo.isVisitor) == 'undefined' && typeof(nextProps.playerInfo.isVisitor) == 'boolean' && nextProps.playerInfo.isVisitor){
-            // envoyer au server que l'on rejoin le game et qu'il envoit au autre client de partager les endLine 
             props.getUserInGame()
         }
         if (props.ifUserVisitor == false && nextProps.ifUserVisitor === true){
