@@ -1,23 +1,24 @@
 const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
 import {getPersonneById} from './utils'
-let RoomId = []
+// let RoomId = []
 
 exports.default = (socket) => {
-	socket.on("GET_CURRENT_ROOMS", data => {
-		let rooms = []
-		RoomId.forEach( (element) => {
-			rooms.push(cache.get(element))
-		});
-		io.to(socket.id).emit('action', {
-			type : 'GET_CURRENT_ROOMS',
-			payload : rooms
-		})
-	})
+	// socket.on("GET_CURRENT_ROOMS", data => {
+	// 	let rooms = []
+	// 	RoomId.forEach( (element) => {
+	// 		rooms.push(cache.get(element))
+	// 	});
+	// 	io.to(socket.id).emit('action', {
+	// 		type : 'GET_CURRENT_ROOMS',
+	// 		payload : rooms
+	// 	})
+	// })
 	socket.on("RESTART_GAME", data => {
+		//vider le pice du game
 		let currentGame = cache.get(data.gameId)
 		let piece = []
-		
+		currentGame.game.piece = []
 		currentGame.addPiece()
 		currentGame.game.player.forEach(element => {
 			element.player.isLooser = false
@@ -209,7 +210,6 @@ const startNewGame = (data, socket) => {
 		currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});
-		socket.leave(1845)
 		socket.join(data.room, ()=> {})
 		io.to(socket.id).emit('action', {
 			type : 'CREATE_GAME',
