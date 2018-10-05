@@ -48,6 +48,7 @@ export default function (tab = init, action){
                     .update('playerInfo', List([]), playerInfo => playerInfo = action.playerInfo)
                     .update('nextPiece', List([]), nextPiece => nextPiece = action.nextPiece)
                     .update('currentPiece', List([]), currentPiece => currentPiece = action.currentPiece)
+                    .update('malusLength', List([]), malusLength => malusLength = 0)
         case "START_GAME" : 
             return tab.update('gameStart', gameStart => gameStart = !gameStart)
         case "GET_NEXT_PIECE" :

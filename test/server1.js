@@ -1,7 +1,7 @@
 import chai from "chai"
 import {startServer, configureStore} from './helpers/server'
 import rootReducer from '../src/client/reducers/Action'
-import { createGame, joinGame, startGameServer, getMorePiece, getAllRooms, disconnected,
+import { createGame, joinGame, startGameServer, getMorePiece, disconnected,
           loose } from '../src/client/actions/action'
 import io from 'socket.io-client'
 import params from '../params'
@@ -45,14 +45,6 @@ describe('Server test', function(){
     })
     store.dispatch(getMorePiece(0))
   })
-  it('should return current room', function(done){
-    const store = configureStore(rootReducer, socket, initialState, {
-      'GET_CURRENT_ROOMS': () => done()
-    })
-    store.dispatch(getAllRooms())
-  })
-
-
   it ('should give looser', function(done){
     const store = configureStore(rootReducer, socket, initialState, {
       'END': () => done()

@@ -155,7 +155,6 @@ exports.default = (socket) => {
 				})
 			}
 			else{
-				RoomId = RoomId.filter(elemt => elemt != data.gameId)
 				cache.del(data.gameId)
 			}
 		}else if (typeof(currentGame.Game.player[0]) == 'undefined'){
