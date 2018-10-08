@@ -23,7 +23,7 @@ export default function (tab = init, action){
         case "UPDATE_PLAYER" :
             return tab.update(t => {
                 return t.map(p =>{
-                    if (p.get('player').id === action.payload.id){
+                    if (p.get('player').name === action.payload.name){
                         return p.set('player', action.payload)
                     }else{
                         return p

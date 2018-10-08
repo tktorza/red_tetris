@@ -59,19 +59,17 @@ exports.default = (socket) => {
 		let isLast = checkIfLastLooser(currentGame.game.player)
 		if (isLast.i == 1 || isLast.i == 0){
 			io.to(currentGame.game.player[isLast.j].player.socketId).emit('action', {type : "END", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
-			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[isLast.j].player.id, name : currentGame.game.player[isLast.j].player.playerName, isVisitor : currentGame.game.player[isLast.j].player.isVisitor, isLooser : false, isWinner : true}})
 			io.to(data.gameId).emit('action', {type : "START_GAME"})
 			currentGame.restartGame()
 		}
 		cache.put(data.gameId, currentGame)
 		if (isLast.i != 0){
-			io.to(socket.id).emit("action", {type : "END", payload : {id : currentGame.game.player[data.playerInfo.id].id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
-			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[j].player.id, name : currentGame.game.player[data.playerInfo.id].player.playerName, isVisitor : currentGame.game.player[data.playerInfo.id].player.isVisitor, isLooser : true, isWinner : false}})
+			io.to(socket.id).emit("action", {type : "END", payload : {id : currentGame.game.player[j].player.id, name : currentGame.game.player[j].player.playerName, isVisitor : currentGame.game.player[j].player.isVisitor, isLooser : true, isWinner : false}})
+			socket.broadcast.to(data.gameId).emit("action", {type : "UPDATE_PLAYER", payload : {id : currentGame.game.player[j].player.id, name : currentGame.game.player[j].player.playerName, isVisitor : currentGame.game.player[j].player.isVisitor, isLooser : true, isWinner : false}})
 		}
 	})
 	socket.on('CREATE_GAME', (data) => {
 		startNewGame(data, socket)
-		//get game id
 		
 	})
 	socket.on('JOIN_GAME', (data) => {
@@ -140,13 +138,13 @@ exports.default = (socket) => {
 				let i = 0
 
 		currentGame.Game.player.forEach(elem => {
+			console.log(elem.player)
 					if (elem.player.id != i)
 						elem.player.id = i
 					i++
 				})
 		if (j == 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
-				currentGame.Game.player[0].player.isFirst = true
 				currentGame.Game.player[0].player.isVisitor = false
 				cache.put(data.gameId, currentGame)
 				

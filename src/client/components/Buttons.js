@@ -47,6 +47,23 @@ const Button = (props) => {
             disconnected()
         }
     }
+    window.onpopstate = () =>{
+        if (typeof(props.playerInfo.name) == 'undefined'){
+            let infoParti = window.location.href.split('/')
+            if (infoParti.length == 4){
+                let info = infoParti[3].replace('#', '').replace(/]/gi, '[').split('[')
+                console.log(info.length)
+                if (info.length == 3 && info[2] === ""){
+                    props.joinGame(info[0], info[1], 1)
+                }else if (info.length == 3 && info[2] === "!"){
+                    props.joinGame(info[0], info[1], 0)
+                }
+            }
+        }else{
+            disconnected()
+        }
+       console.log("la")
+    }
     if (typeof(props.playerInfo.name) == 'undefined'){
         return (
          <div style={{position : 'absolute',transform:"translate(-50%, -50%)", top:"50%", left:"50%", color:"white"}}>{log}</div>
