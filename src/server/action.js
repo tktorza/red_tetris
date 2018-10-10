@@ -1,21 +1,10 @@
 const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
 import {getPersonneById} from './utils'
-// let RoomId = []
 
 exports.default = (socket) => {
-	// socket.on("GET_CURRENT_ROOMS", data => {
-	// 	let rooms = []
-	// 	RoomId.forEach( (element) => {
-	// 		rooms.push(cache.get(element))
-	// 	});
-	// 	io.to(socket.id).emit('action', {
-	// 		type : 'GET_CURRENT_ROOMS',
-	// 		payload : rooms
-	// 	})
-	// })
+
 	socket.on("RESTART_GAME", data => {
-		//vider le pice du game
 		let currentGame = cache.get(data.gameId)
 		let piece = []
 		currentGame.game.piece = []
@@ -138,19 +127,25 @@ exports.default = (socket) => {
 				let i = 0
 
 		currentGame.Game.player.forEach(elem => {
-			console.log(elem.player)
 					if (elem.player.id != i)
 						elem.player.id = i
 					i++
 				})
 		if (j == 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				let visitor = currentGame.Game.player[0].player.isVisitor
 				currentGame.Game.player[0].player.isVisitor = false
 				cache.put(data.gameId, currentGame)
-				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
-					type : "REFRESH_USER_FIRST"
+					type : "REFRESH_USER_FIRST",
+					payload : {name : currentGame.Game.player[0].player.playerName, id : currentGame.Game.player[0].player.id, isVisitor : false, isWinner : false, isLooser: false}
 				})
+				if (currentGame.Game.player.length == 1 && visitor == true){
+					currentGame.Game.start = false
+					io.to(data.gameId).emit('action',{
+						type : "START_GAME"
+					})
+				}
 			}
 			else{
 				cache.del(data.gameId)
@@ -286,7 +281,7 @@ const refreshGamePiece = (socket, data) => {
 	currentGame.addPiece()
 	currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
-		});	
+		});
 	io.to(data.payload).emit('action' , {
 		type : 'GET_NEXT_PIECE',
 		payload : piece

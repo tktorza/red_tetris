@@ -242,7 +242,6 @@ export const isPossible = (piece, move, endLine) => {
 
 export const getNewPiece = (gameId, nextPiece, dispatch) => {
     let newPiece = nextPiece.shift()
-
     if (nextPiece.length == 0){
         dispatch(getMorePiece(gameId))
     }

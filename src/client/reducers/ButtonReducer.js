@@ -64,7 +64,7 @@ export default function (tab = init, action){
                 return malusLength += 1
             })
         case "REFRESH_USER_FIRST" :
-            return tab.update('isFirst', isFirst => isFirst = true)
+            return tab.update('isFirst', isFirst => isFirst = true).update('playerInfo', playerInfo => playerInfo = action.payload)
         case "USER_GAME" :
             return tab.update('ifUserVisitor', ifUserVisitor => ifUserVisitor = !ifUserVisitor)
         case "DISCONNECTED" :

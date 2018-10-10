@@ -62,7 +62,6 @@ const Button = (props) => {
         }else{
             disconnected()
         }
-       console.log("la")
     }
     if (typeof(props.playerInfo.name) == 'undefined'){
         return (
@@ -123,7 +122,6 @@ const methods = {
             let infoParti = window.location.href.split('/')
             if (infoParti.length == 4){
                 let info = infoParti[3].replace('#', '').replace(/]/gi, '[').split('[')
-                console.log(info.length)
                 if (info.length == 3 && info[2] === ""){
                     props.joinGame(info[0], info[1], 1)
                 }else if (info.length == 3 && info[2] === "!"){
@@ -145,6 +143,9 @@ const methods = {
         }
         if (props.playerInfo.isWinner == false && nextProps.playerInfo.isWinner == true){
             props.refreshInterval()
+        }
+        if (props.playerInfo.isVisitor == true && nextProps.playerInfo.isVisitor== false && props.isFirst == false && nextProps.isFirst == true){
+            props.restartGame()
         }
         return true
     }
