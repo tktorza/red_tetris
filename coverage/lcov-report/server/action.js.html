@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.35% </span>
+        <span class="strong">83.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/17</span>
+        <span class='fraction'>15/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">52.5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>18/36</span>
+        <span class='fraction'>21/40</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">70.97% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>22/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">82.35% </span>
+        <span class="strong">83.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>14/17</span>
+        <span class='fraction'>15/18</span>
       </div>
     </div>
   </div>
@@ -336,18 +336,8 @@
 291
 292
 293
-294</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+294
+295</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -489,6 +479,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -589,6 +586,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -632,21 +634,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Game = require('./Class/Game.Class.js')
 const cache = require('memory-cache')
 import {getPersonneById} from './utils'
-// let RoomId = []
 &nbsp;
 exports.default = (socket) =&gt; {
-	// socket.on("GET_CURRENT_ROOMS", data =&gt; {
-	// 	let rooms = []
-	// 	RoomId.forEach( (element) =&gt; {
-	// 		rooms.push(cache.get(element))
-	// 	});
-	// 	io.to(socket.id).emit('action', {
-	// 		type : 'GET_CURRENT_ROOMS',
-	// 		payload : rooms
-	// 	})
-	// })
+&nbsp;
 	socket.on("RESTART_GAME", data =&gt; {
-		//vider le pice du game
 		let currentGame = cache.get(data.gameId)
 		let piece = []
 		currentGame.game.piece = []
@@ -775,12 +766,19 @@ exports.default = (socket) =&gt; {
 				})
 		<span class="missing-if-branch" title="else path not taken" >E</span>if (j == 0){
 			if (typeof(currentGame.Game.player[0]) != 'undefined'){
+				let visitor = currentGame.Game.player[0].player.isVisitor
 				currentGame.Game.player[0].player.isVisitor = false
 				cache.put(data.gameId, currentGame)
-				
 				io.to(currentGame.Game.player[0].player.socketId).emit('action',{
-					type : "REFRESH_USER_FIRST"
+					type : "REFRESH_USER_FIRST",
+					payload : {name : currentGame.Game.player[0].player.playerName, id : currentGame.Game.player[0].player.id, isVisitor : false, isWinner : false, isLooser: false}
 				})
+				<span class="missing-if-branch" title="if path not taken" >I</span>if (currentGame.Game.player.length == 1 &amp;&amp; visitor == true){
+					currentGame.Game.start = false
+					io.to(data.gameId).emit('action',{
+						type : "START_GAME"
+					})
+				}
 			}
 			else{
 				cache.del(data.gameId)
@@ -916,9 +914,14 @@ const refreshGamePiece = (socket, data) =&gt; {
 	currentGame.addPiece()
 	currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
-		});	
-	io.to(data.payload).emit('action' , {
+		});
+	// au socket id les nouvel iece au autre une auatre actoin qui ajoute les piece
+	io.to(socket.id).emit('action' , {
 		type : 'GET_NEXT_PIECE',
+		payload : piece
+	})
+	socket.broadcast.to(data.payload).emit('action', {
+		type : "ADD_PIECE",
 		payload : piece
 	})
 }
@@ -928,7 +931,7 @@ const refreshGamePiece = (socket, data) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 10 2018 14:57:32 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Oct 11 2018 14:02:05 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

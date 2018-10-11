@@ -282,8 +282,13 @@ const refreshGamePiece = (socket, data) => {
 	currentGame.Game.piece.forEach( function(element, index) {
 			piece.push(element.piece)
 		});
-	io.to(data.payload).emit('action' , {
+	// au socket id les nouvel iece au autre une auatre actoin qui ajoute les piece
+	io.to(socket.id).emit('action' , {
 		type : 'GET_NEXT_PIECE',
+		payload : piece
+	})
+	socket.broadcast.to(data.payload).emit('action', {
+		type : "ADD_PIECE",
 		payload : piece
 	})
 }

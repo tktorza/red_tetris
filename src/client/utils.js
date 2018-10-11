@@ -101,7 +101,6 @@ export const getNewEndLine = (table, dispatch, gameId, malus) => {
         if (tmptab.length == 10){
             maluslength += 1
             if (maluslength > 1){
-                console.log("malus === ", maluslength)
                 dispatch(sendMalus(gameId))
             }
             dispatch(upScore())
@@ -242,6 +241,7 @@ export const isPossible = (piece, move, endLine) => {
 
 export const getNewPiece = (gameId, nextPiece, dispatch) => {
     let newPiece = nextPiece.shift()
+
     if (nextPiece.length == 0){
         dispatch(getMorePiece(gameId))
     }

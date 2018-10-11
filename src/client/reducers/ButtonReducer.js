@@ -31,6 +31,8 @@ let addEnd = [
     { x : 9, y : 19}
 ]
 export default function (tab = init, action){
+        console.log("action", action)
+    
     switch (action.type) {
         case "CREATE_TAB_Y":
             return tab.update('line', List([]), line => line.push(Map(action.payload)))
@@ -53,6 +55,8 @@ export default function (tab = init, action){
             return tab.update('gameStart', gameStart => gameStart = !gameStart)
         case "GET_NEXT_PIECE" :
             return tab.update('nextPiece', List([]), nextPiece => nextPiece = action.payload)
+        case "ADD_PIECE" :
+            return tab.update('nextPiece', List([]), nextPiece => nextPiece.concat(action.payload))
         case "MALUS" :
             return tab.update('endLine', List([]), endLine => {
                 return endLine.map(e => {

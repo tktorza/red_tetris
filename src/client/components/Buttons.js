@@ -52,7 +52,6 @@ const Button = (props) => {
             let infoParti = window.location.href.split('/')
             if (infoParti.length == 4){
                 let info = infoParti[3].replace('#', '').replace(/]/gi, '[').split('[')
-                console.log(info.length)
                 if (info.length == 3 && info[2] === ""){
                     props.joinGame(info[0], info[1], 1)
                 }else if (info.length == 3 && info[2] === "!"){
