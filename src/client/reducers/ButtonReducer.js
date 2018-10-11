@@ -31,8 +31,6 @@ let addEnd = [
     { x : 9, y : 19}
 ]
 export default function (tab = init, action){
-        console.log("action", action)
-    
     switch (action.type) {
         case "CREATE_TAB_Y":
             return tab.update('line', List([]), line => line.push(Map(action.payload)))
